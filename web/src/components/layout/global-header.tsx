@@ -1,13 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Search, Menu, X, Globe } from 'lucide-react'
+import { Search, Menu, User, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { LanguageToggle } from './language-toggle'
 import { SearchBar } from '@/components/search/search-bar'
+import { createClient } from '@/lib/supabase/client'
+import { isSupabaseConfigured } from '@/lib/supabase/config'
 
 const categories = [
   { key: 'beauty', href: '/products?category=beauty' },
@@ -23,6 +25,28 @@ const categories = [
 export function GlobalHeader() {
   const t = useTranslations('nav')
   const [searchOpen, setSearchOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (!isSupabaseConfigured()) return
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user)
+    })
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleSignOut = async () => {
+    if (!isSupabaseConfigured()) return
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    setUser(null)
+    window.location.href = '/'
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-navy text-white">
@@ -52,14 +76,39 @@ export function GlobalHeader() {
               {t('forSellers')}
             </Button>
           </Link>
-          <Link href="/login">
-            <Button
-              size="sm"
-              className="bg-accent-red hover:bg-accent-red-dark text-white"
-            >
-              {t('login')}
-            </Button>
-          </Link>
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                <div className="h-7 w-7 rounded-full bg-accent-red flex items-center justify-center text-xs font-bold">
+                  {user.email?.[0]?.toUpperCase() || 'U'}
+                </div>
+                <span className="text-sm max-w-[120px] truncate">{user.user_metadata?.full_name || user.email?.split('@')[0]}</span>
+              </button>
+              {menuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white text-gray-800 rounded-xl shadow-lg border border-gray-100 overflow-hidden z-[60]">
+                  <div className="p-3 border-b border-gray-100">
+                    <p className="text-sm font-medium truncate">{user.email}</p>
+                    <p className="text-xs text-gray-500 capitalize">{user.user_metadata?.role || 'buyer'}</p>
+                  </div>
+                  <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm hover:bg-gray-50 transition-colors">
+                    <User className="h-4 w-4 text-gray-400" /> Dashboard
+                  </Link>
+                  <button onClick={handleSignOut} className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                    <LogOut className="h-4 w-4" /> Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/login">
+              <Button size="sm" className="bg-accent-red hover:bg-accent-red-dark text-white">
+                {t('login')}
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile actions */}
@@ -76,6 +125,19 @@ export function GlobalHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72 bg-navy text-white border-navy-light">
               <nav className="flex flex-col gap-1 mt-8">
+                {user && (
+                  <div className="px-4 py-3 mb-2 border-b border-white/10">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-accent-red flex items-center justify-center text-sm font-bold">
+                        {user.email?.[0]?.toUpperCase() || 'U'}
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium truncate">{user.user_metadata?.full_name || user.email?.split('@')[0]}</p>
+                        <p className="text-xs text-white/50">{user.email}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 {categories.map((cat) => (
                   <Link
                     key={cat.key}
@@ -86,18 +148,17 @@ export function GlobalHeader() {
                   </Link>
                 ))}
                 <div className="my-4 border-t border-white/10" />
-                <Link
-                  href="/sellers"
-                  className="px-4 py-3 text-sm font-medium text-accent-red hover:bg-white/10 rounded-lg"
-                >
+                <Link href="/sellers" className="px-4 py-3 text-sm font-medium text-accent-red hover:bg-white/10 rounded-lg">
                   {t('forSellers')}
                 </Link>
-                <Link
-                  href="/login"
-                  className="px-4 py-3 text-sm hover:bg-white/10 rounded-lg"
-                >
-                  {t('login')}
-                </Link>
+                {user ? (
+                  <>
+                    <Link href="/dashboard" className="px-4 py-3 text-sm hover:bg-white/10 rounded-lg">Dashboard</Link>
+                    <button onClick={handleSignOut} className="px-4 py-3 text-sm text-left text-red-400 hover:bg-white/10 rounded-lg">Sign Out</button>
+                  </>
+                ) : (
+                  <Link href="/login" className="px-4 py-3 text-sm hover:bg-white/10 rounded-lg">{t('login')}</Link>
+                )}
                 <div className="px-4 py-3">
                   <LanguageToggle />
                 </div>

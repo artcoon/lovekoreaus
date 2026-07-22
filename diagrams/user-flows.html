@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoveKorea.Us - User Flow Diagrams</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f6fa;
+    color: #1a1a2e;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #0B2E59;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 48px;
+  }
+  .flow-section {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .flow-section h2 {
+    font-size: 22px;
+    color: #0B2E59;
+    margin: 0;
+  }
+  .flow-section .desc {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .mermaid { display: flex; justify-content: center; }
+  .legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+    color: #555;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #0B2E59;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .download-btn:hover { background: #163d6e; }
+  .download-btn:active { background: #091e3a; }
+  .download-btn svg { width: 16px; height: 16px; fill: currentColor; }
+  .download-btn.saving {
+    background: #aaa;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>LoveKorea.Us User Flow Diagrams</h1>
+<p class="subtitle">셀러 온보딩 플로우 &amp; 바이어 탐색 플로우 &mdash; v1.0</p>
+
+<!-- ============ SELLER ONBOARDING ============ -->
+<div class="flow-section" id="seller-section">
+  <div class="section-header">
+    <h2>1. 셀러 온보딩 플로우 (Seller Onboarding)</h2>
+    <button class="download-btn" onclick="downloadDiagram('seller-section', 'seller-onboarding-flow')">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      PNG 다운로드
+    </button>
+  </div>
+  <p class="desc">
+    한국 기업/소상공인이 가입 후 프로필을 완성하고 상품을 등록해 해외 노출되기까지의 전체 여정.<br>
+    핵심 목표: 가입 &rarr; 프로필 완성 &rarr; 첫 상품 등록 &rarr; 노출 시작까지 <strong>30분 이내</strong> 완료.
+  </p>
+  <pre class="mermaid">
+flowchart TD
+    classDef start fill:#0B2E59,stroke:#0B2E59,color:#fff,font-weight:bold
+    classDef action fill:#E8F0FE,stroke:#0B2E59,color:#0B2E59
+    classDef decision fill:#FFF3E0,stroke:#E65100,color:#E65100
+    classDef success fill:#E8F5E9,stroke:#2E7D32,color:#2E7D32,font-weight:bold
+    classDef system fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2
+    classDef upgrade fill:#FCE4EC,stroke:#C8202F,color:#C8202F
+
+    A["랜딩: For Sellers 페이지"]:::start
+    A --> B["무료 등록하기 CTA 클릭"]:::action
+    B --> C{"회원가입 방식 선택"}:::decision
+    C -->|"이메일"| D["이메일 가입 + 인증"]:::action
+    C -->|"소셜"| E["Google / Kakao SSO"]:::action
+    D --> F["기본 정보 입력"]:::action
+    E --> F
+
+    F --> G["업체 유형 선택\n(브랜드 / 제조 / 유통 / 소상공인)"]:::action
+    G --> H["사업자등록증 업로드\n(선택, 인증배지용)"]:::action
+    H --> I["타깃 시장 선택\n(US / JP / CN / Global)"]:::action
+    I --> J["카테고리 선택\n(Beauty / Food / Fashion 등)"]:::action
+
+    J --> K{{"셀러 대시보드 진입"}}:::system
+    K --> L["프로필 작성 가이드\n(진행률 바 0%)"]:::action
+
+    L --> M["회사 소개 작성\n(영문 + 국문)"]:::action
+    M --> N["로고 · 대표 이미지 업로드"]:::action
+    N --> O["유튜브 영상 URL 등록\n(회사소개/제품리뷰)"]:::action
+    O --> P["첫 상품 등록\n(이미지, 스펙, 가격/MOQ)"]:::action
+
+    P --> Q{"프로필 완성도 ≥ 80%?"}:::decision
+    Q -->|"아니오"| R["미완성 항목 알림\n+ 가이드 팝업"]:::system
+    R --> M
+    Q -->|"예"| S{{"운영팀 검수\n(자동 + 수동)"}}:::system
+
+    S --> T{"검수 통과?"}:::decision
+    T -->|"보완 필요"| U["보완 요청 이메일\n+ 대시보드 알림"]:::system
+    U --> M
+    T -->|"통과"| V["프로필 공개\n+ 검색 노출 시작"]:::success
+
+    V --> W{"유료 전환 유도"}:::decision
+    W -->|"Free 유지"| X["기본 노출 유지\n(상품 5개, 영상 1개)"]:::action
+    W -->|"Pro 업그레이드"| Y["Pro 결제\n(상품 무제한, 리드 수집)"]:::upgrade
+    W -->|"Premium"| Z["Premium 결제\n(브랜드관, 상단 노출)"]:::upgrade
+
+    X --> AA["성과 리포트 수신\n(조회수, 문의수)"]:::system
+    Y --> AA
+    Z --> AA
+    AA --> AB["지속 운영\n(상품 추가, 영상 갱신, 문의 응대)"]:::success
+  </pre>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#0B2E59"></span> 시작점 / 사용자 액션</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E8F0FE;border:1px solid #0B2E59"></span> 사용자 입력 단계</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FFF3E0;border:1px solid #E65100"></span> 분기 / 판단</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#F3E5F5;border:1px solid #7B1FA2"></span> 시스템 자동 처리</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E8F5E9;border:1px solid #2E7D32"></span> 완료 / 성공</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FCE4EC;border:1px solid #C8202F"></span> 유료 전환</div>
+  </div>
+</div>
+
+<!-- ============ BUYER EXPLORATION ============ -->
+<div class="flow-section" id="buyer-section">
+  <div class="section-header">
+    <h2>2. 바이어 탐색 플로우 (Buyer Exploration)</h2>
+    <button class="download-btn" onclick="downloadDiagram('buyer-section', 'buyer-exploration-flow')">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      PNG 다운로드
+    </button>
+  </div>
+  <p class="desc">
+    해외 바이어/소비자가 한국 상품·업체를 발견하고 신뢰를 확인한 뒤 문의·구매로 전환하는 여정.<br>
+    핵심 프레임: <strong>DISCOVER &rarr; TRUST &rarr; ACT</strong> (컨셉 삼각형 기반)
+  </p>
+  <pre class="mermaid">
+flowchart TD
+    classDef entry fill:#0B2E59,stroke:#0B2E59,color:#fff,font-weight:bold
+    classDef discover fill:#E3F2FD,stroke:#1565C0,color:#1565C0
+    classDef trust fill:#FFF8E1,stroke:#F9A825,color:#B8860B
+    classDef act fill:#FCE4EC,stroke:#C8202F,color:#C8202F,font-weight:bold
+    classDef decision fill:#FFF3E0,stroke:#E65100,color:#E65100
+    classDef loop fill:#F3E5F5,stroke:#7B1FA2,color:#7B1FA2
+
+    %% Entry Points
+    E1["Google 검색\n'Korean skincare wholesale'"]:::entry
+    E2["SNS / YouTube\n영상에서 유입"]:::entry
+    E3["직접 방문\nlovekorea.us"]:::entry
+    E4["뉴스레터 /\n지인 추천"]:::entry
+
+    E1 --> HOME
+    E2 --> HOME
+    E3 --> HOME
+    E4 --> HOME
+
+    HOME["홈페이지 도착"]:::discover
+
+    %% DISCOVER Phase
+    HOME --> D1{"탐색 방식 선택"}:::decision
+    D1 -->|"검색"| D2["통합 검색\n(키워드 입력)"]:::discover
+    D1 -->|"카테고리"| D3["카테고리 탐색\n(Beauty, Food 등)"]:::discover
+    D1 -->|"영상"| D4["Watch 섹션\n(영상 브라우징)"]:::discover
+    D1 -->|"추천"| D5["홈 추천 상품\n캐러셀 클릭"]:::discover
+
+    D2 --> D6["검색 결과 + 필터\n(시장/유형/인증/가격)"]:::discover
+    D3 --> D6
+    D4 --> T1
+    D5 --> T3
+
+    D6 --> D7{"결과 유형"}:::decision
+    D7 -->|"업체"| T1["업체 상세 페이지"]:::trust
+    D7 -->|"상품"| T3["상품 상세 페이지"]:::trust
+
+    %% TRUST Phase
+    T1 --> T2["영상 시청\n(회사소개/공장실사)"]:::trust
+    T1 --> T2b["인증 배지 확인\n(FDA/HACCP 등)"]:::trust
+    T1 --> T2c["리뷰 확인"]:::trust
+    T2 --> T4{"신뢰 판단"}:::decision
+    T2b --> T4
+    T2c --> T4
+
+    T3 --> T3a["상품 영상 시청\n(리뷰/언박싱)"]:::trust
+    T3 --> T3b["스펙 · 인증 · 가격\n확인"]:::trust
+    T3a --> T5{"구매 의향"}:::decision
+    T3b --> T5
+
+    %% ACT Phase - Business
+    T4 -->|"신뢰함"| A1{"바이어 유형"}:::decision
+    T4 -->|"더 탐색"| D1
+
+    A1 -->|"B2B 바이어"| A2["견적 요청\n(폼 작성)"]:::act
+    A1 -->|"B2B 바이어"| A3["카탈로그\n다운로드"]:::act
+    A1 -->|"일반 문의"| A4["문의하기\n(이메일/폼)"]:::act
+
+    A2 --> A7["리드 접수\n→ 셀러에게 알림"]:::act
+    A3 --> A7
+    A4 --> A7
+
+    %% ACT Phase - Product
+    T5 -->|"구매 의향 있음"| A5{"구매 경로"}:::decision
+    T5 -->|"더 탐색"| D1
+
+    A5 -->|"직접 구매"| A6["제휴몰 이동\n(Amazon/Coupang Global 등)"]:::act
+    A5 -->|"문의/견적"| A2
+    A5 -->|"위시리스트"| A8["저장 후\n나중에 구매"]:::loop
+
+    A6 --> A9["구매 완료"]:::act
+    A7 --> A10["셀러 응답 대기\n→ 거래 협의"]:::act
+
+    A8 --> A11["리마케팅 이메일\n할인/신상품 알림"]:::loop
+    A11 --> HOME
+  </pre>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#0B2E59"></span> 유입 경로 (Entry)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#E3F2FD;border:1px solid #1565C0"></span> DISCOVER 단계</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FFF8E1;border:1px solid #F9A825"></span> TRUST 단계</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FCE4EC;border:1px solid #C8202F"></span> ACT 단계 (전환)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FFF3E0;border:1px solid #E65100"></span> 분기 / 판단</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#F3E5F5;border:1px solid #7B1FA2"></span> 리텐션 루프</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#E8F0FE',
+      primaryTextColor: '#0B2E59',
+      primaryBorderColor: '#0B2E59',
+      lineColor: '#90A4AE',
+      fontSize: '13px',
+      fontFamily: 'Inter, -apple-system, sans-serif'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16,
+      nodeSpacing: 30,
+      rankSpacing: 40,
+      htmlLabels: true,
+      useMaxWidth: true
+    }
+  });
+
+  async function downloadDiagram(sectionId, filename) {
+    const section = document.getElementById(sectionId);
+    const btn = section.querySelector('.download-btn');
+    const originalText = btn.innerHTML;
+    btn.classList.add('saving');
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg> 저장 중...';
+
+    try {
+      const svg = section.querySelector('svg');
+      if (!svg) { alert('다이어그램이 아직 로딩 중입니다.'); return; }
+
+      // Clone SVG and prepare for export
+      const clone = svg.cloneNode(true);
+      const bbox = svg.getBoundingClientRect();
+
+      // Get legend HTML
+      const legend = section.querySelector('.legend');
+      const title = section.querySelector('h2').textContent;
+      const desc = section.querySelector('.desc').textContent;
+
+      // Scale for high-res output (2x)
+      const scale = 2;
+      const padding = 60;
+      const headerHeight = 100;
+      const legendHeight = legend ? 60 : 0;
+      const canvasW = Math.max(bbox.width * scale + padding * 2, 800 * scale);
+      const canvasH = bbox.height * scale + padding * 2 + headerHeight * scale + legendHeight * scale;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = canvasW;
+      canvas.height = canvasH;
+      const ctx = canvas.getContext('2d');
+
+      // White background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvasW, canvasH);
+
+      // Draw title
+      ctx.fillStyle = '#0B2E59';
+      ctx.font = `bold ${22 * scale}px Inter, -apple-system, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText(title, canvasW / 2, padding + 30 * scale);
+
+      // Draw description (truncated)
+      ctx.fillStyle = '#666666';
+      ctx.font = `${12 * scale}px Inter, -apple-system, sans-serif`;
+      const shortDesc = desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
+      ctx.fillText(shortDesc, canvasW / 2, padding + 55 * scale);
+
+      // Convert SVG to image
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        // Draw diagram centered
+        const drawW = bbox.width * scale;
+        const drawH = bbox.height * scale;
+        const offsetX = (canvasW - drawW) / 2;
+        const offsetY = headerHeight * scale + padding;
+        ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
+        URL.revokeObjectURL(url);
+
+        // Draw legend
+        if (legend) {
+          const items = legend.querySelectorAll('.legend-item');
+          const legendY = offsetY + drawH + 20 * scale;
+          ctx.font = `${11 * scale}px Inter, -apple-system, sans-serif`;
+          ctx.textAlign = 'left';
+          let lx = padding;
+          items.forEach(item => {
+            const dot = item.querySelector('.legend-dot');
+            const bg = dot.style.background || dot.style.backgroundColor;
+            const border = dot.style.border;
+            const label = item.textContent.trim();
+
+            // Draw dot
+            ctx.fillStyle = bg;
+            ctx.fillRect(lx, legendY, 12 * scale, 12 * scale);
+            if (border) {
+              ctx.strokeStyle = '#999';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(lx, legendY, 12 * scale, 12 * scale);
+            }
+
+            // Draw label
+            ctx.fillStyle = '#555';
+            ctx.fillText(label, lx + 16 * scale, legendY + 10 * scale);
+            lx += ctx.measureText(label).width + 40 * scale;
+          });
+        }
+
+        // Watermark
+        ctx.fillStyle = '#ccc';
+        ctx.font = `${10 * scale}px Inter, sans-serif`;
+        ctx.textAlign = 'right';
+        ctx.fillText('LoveKorea.Us Planning v1.0', canvasW - padding, canvasH - padding / 2);
+
+        // Download
+        canvas.toBlob(function(blob) {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = filename + '.png';
+          a.click();
+          URL.revokeObjectURL(a.href);
+
+          btn.classList.remove('saving');
+          btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg> 저장 완료!';
+          setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+        }, 'image/png');
+      };
+
+      img.onerror = function() {
+        // Fallback: use foreignObject approach
+        URL.revokeObjectURL(url);
+        fallbackDownload(section, filename, btn, originalText);
+      };
+
+      img.src = url;
+    } catch(e) {
+      console.error(e);
+      btn.classList.remove('saving');
+      btn.innerHTML = originalText;
+      alert('다운로드 중 오류가 발생했습니다: ' + e.message);
+    }
+  }
+
+  function fallbackDownload(section, filename, btn, originalText) {
+    // Fallback: render SVG directly as PNG via inline data URI
+    const svg = section.querySelector('svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const encoded = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+
+    const img = new Image();
+    img.onload = function() {
+      const scale = 2;
+      const pad = 40;
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale + pad * 2;
+      canvas.height = img.height * scale + pad * 2;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, pad, pad, img.width * scale, img.height * scale);
+
+      canvas.toBlob(function(blob) {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename + '.png';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        btn.classList.remove('saving');
+        btn.innerHTML = originalText;
+      }, 'image/png');
+    };
+    img.src = encoded;
+  }
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@ import { Search, Menu, X, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { LanguageToggle } from './language-toggle'
+import { SearchBar } from '@/components/search/search-bar'
 
 const categories = [
   { key: 'beauty', href: '/products?category=beauty' },
@@ -36,14 +37,7 @@ export function GlobalHeader() {
 
         {/* Desktop search */}
         <div className="hidden md:flex flex-1 max-w-lg mx-8">
-          <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" />
-            <input
-              type="text"
-              placeholder={t('searchPlaceholder')}
-              className="w-full rounded-full bg-white/10 border border-white/20 py-2 pl-10 pr-4 text-sm text-white placeholder:text-white/50 focus:bg-white/15 focus:outline-none focus:ring-2 focus:ring-accent-red/50 transition-colors"
-            />
-          </div>
+          <SearchBar variant="header" />
         </div>
 
         {/* Desktop actions */}
@@ -131,21 +125,7 @@ export function GlobalHeader() {
       {/* Mobile search (expandable) */}
       {searchOpen && (
         <div className="md:hidden border-t border-white/10 p-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" />
-            <input
-              type="text"
-              placeholder={t('searchPlaceholder')}
-              autoFocus
-              className="w-full rounded-full bg-white/10 border border-white/20 py-2 pl-10 pr-10 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-accent-red/50"
-            />
-            <button
-              onClick={() => setSearchOpen(false)}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
-            >
-              <X className="h-4 w-4 text-white/50" />
-            </button>
-          </div>
+          <SearchBar variant="header" />
         </div>
       )}
     </header>

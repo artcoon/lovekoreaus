@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Search } from 'lucide-react'
+import { SearchBar } from '@/components/search/search-bar'
 
 export function HeroSection() {
   const t = useTranslations('hero')
@@ -26,12 +27,7 @@ export function HeroSection() {
 
           {/* Search bar */}
           <div className="mt-8 relative max-w-lg">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder={nav('searchPlaceholder')}
-              className="w-full rounded-xl bg-white py-4 pl-12 pr-4 text-base text-gray-900 placeholder:text-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-red"
-            />
+            <SearchBar variant="hero" />
           </div>
 
           {/* Market selector */}

@@ -5,7 +5,7 @@ import { mockSellers, mockProducts, mockVideos, mockCategories, mockReviews, moc
 async function getSupabase() {
   if (!isSupabaseConfigured()) return null
   const { createClient } = await import('@/lib/supabase/server')
-  return createClient()
+  return await createClient()
 }
 
 // ── Sellers ───────────────────────────────────────────────
@@ -13,10 +13,11 @@ async function getSupabase() {
 export async function getSellers(options?: { category?: string; market?: string; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = (await supabase).from('seller_profiles').select('*').eq('status', 'approved')
+    let query = supabase.from('seller_profiles').select('*').eq('status', 'approved')
     if (options?.category) query = query.eq('category_id', options.category)
     if (options?.limit) query = query.limit(options.limit)
-    const { data } = await query
+    const { data, error } = await query
+    if (error) console.error('getSellers error:', error)
     return data ?? []
   }
   let sellers = mockSellers
@@ -27,7 +28,7 @@ export async function getSellers(options?: { category?: string; market?: string;
 export async function getSellerBySlug(slug: string) {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data } = await (await supabase).from('seller_profiles').select('*').eq('slug', slug).single()
+    const { data } = await supabase.from('seller_profiles').select('*').eq('slug', slug).single()
     return data
   }
   return mockSellers.find((s) => s.slug === slug) ?? null
@@ -38,11 +39,12 @@ export async function getSellerBySlug(slug: string) {
 export async function getProducts(options?: { category?: string; sellerId?: string; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = (await supabase).from('products').select('*').eq('status', 'active')
+    let query = supabase.from('products').select('*').eq('status', 'active')
     if (options?.category) query = query.eq('category_id', options.category)
     if (options?.sellerId) query = query.eq('seller_id', options.sellerId)
     if (options?.limit) query = query.limit(options.limit)
-    const { data } = await query
+    const { data, error } = await query
+    if (error) console.error('getProducts error:', error)
     return data ?? []
   }
   let products = mockProducts
@@ -54,7 +56,7 @@ export async function getProducts(options?: { category?: string; sellerId?: stri
 export async function getProductBySlug(slug: string) {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data } = await (await supabase).from('products').select('*').eq('slug', slug).single()
+    const { data } = await supabase.from('products').select('*').eq('slug', slug).single()
     return data
   }
   return mockProducts.find((p) => p.slug === slug) ?? null
@@ -65,10 +67,11 @@ export async function getProductBySlug(slug: string) {
 export async function getVideos(options?: { category?: string; featured?: boolean; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = (await supabase).from('videos').select('*')
+    let query = supabase.from('videos').select('*')
     if (options?.featured) query = query.eq('is_featured', true)
     if (options?.limit) query = query.limit(options.limit)
-    const { data } = await query
+    const { data, error } = await query
+    if (error) console.error('getVideos error:', error)
     return data ?? []
   }
   let videos = mockVideos
@@ -83,7 +86,7 @@ export async function getVideos(options?: { category?: string; featured?: boolea
 export async function getCategories() {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data } = await (await supabase).from('categories').select('*').order('sort_order')
+    const { data } = await supabase.from('categories').select('*').order('sort_order')
     return data ?? []
   }
   return mockCategories
@@ -94,7 +97,7 @@ export async function getCategories() {
 export async function getReviews(options: { productId?: string; sellerId?: string }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = (await supabase).from('reviews').select('*').eq('status', 'active')
+    let query = supabase.from('reviews').select('*').eq('status', 'active')
     if (options.productId) query = query.eq('product_id', options.productId)
     if (options.sellerId) query = query.eq('seller_id', options.sellerId)
     const { data } = await query
@@ -110,11 +113,12 @@ export async function getReviews(options: { productId?: string; sellerId?: strin
 export async function getActiveDeals() {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data } = await (await supabase)
+    const { data, error } = await supabase
       .from('deals')
       .select('*')
       .eq('is_active', true)
       .gte('ends_at', new Date().toISOString())
+    if (error) console.error('getActiveDeals error:', error)
     return data ?? []
   }
   return mockDeals

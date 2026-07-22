@@ -10,7 +10,10 @@ export const metadata: Metadata = {
   description: 'Browse verified Korean businesses, manufacturers, and brands. Filter by category, market, and certification.',
 }
 
-export default function DirectoryPage() {
+export default async function DirectoryPage() {
+  const { getSellers } = await import('@/lib/queries')
+  const sellers = await getSellers()
+
   return (
     <>
       <GlobalHeader />
@@ -19,7 +22,7 @@ export default function DirectoryPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
           <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8">
             <DirectoryFilters />
-            <DirectoryGrid />
+            <DirectoryGrid sellers={sellers as any} />
           </div>
         </div>
       </main>

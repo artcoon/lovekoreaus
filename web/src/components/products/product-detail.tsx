@@ -36,16 +36,33 @@ const mockReviews = [
   { user: 'Emily K.', country: 'US', rating: 5, text: 'Repurchased 3 times already. The snail mucin is a game changer for texture improvement.', date: '2026-05-10' },
 ]
 
-export function ProductDetail({ slug }: { slug: string }) {
+export function ProductDetail({ slug, product }: { slug: string; product?: any }) {
+  const data = product
+    ? {
+        ...mockProduct,
+        name: product.name_en || mockProduct.name,
+        price: product.price_min ? `$${product.price_min.toFixed(2)}` : mockProduct.price,
+        rating: product.rating_avg ?? mockProduct.rating,
+        reviewCount: product.review_count ?? mockProduct.reviewCount,
+        description: product.description_en || mockProduct.description,
+        specs: (product.specs && Object.keys(product.specs).length > 0) ? product.specs : mockProduct.specs,
+        certs: product.certs?.length ? product.certs : mockProduct.certs,
+        markets: product.available_markets?.length ? product.available_markets : mockProduct.markets,
+        brand: product.brand || mockProduct.brand,
+        brandSlug: product.brandSlug || mockProduct.brandSlug,
+        moq: product.moq ? `${product.moq} ${product.unit || 'units'}` : mockProduct.moq,
+      }
+    : mockProduct
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href="/products" className="hover:text-navy">Products</Link>
         <ChevronRight className="h-3 w-3" />
-        <span className="text-navy">{mockProduct.category}</span>
+        <span className="text-navy">{data.category}</span>
         <ChevronRight className="h-3 w-3" />
-        <span className="text-gray-400 truncate">{mockProduct.name}</span>
+        <span className="text-gray-400 truncate">{data.name}</span>
       </nav>
 
       <div className="lg:grid lg:grid-cols-[1fr_420px] lg:gap-10">
@@ -53,10 +70,10 @@ export function ProductDetail({ slug }: { slug: string }) {
         <div>
           <div className="bg-white rounded-2xl overflow-hidden border border-gray-100">
             <div className="aspect-square bg-gray-100 flex items-center justify-center">
-              <span className="text-6xl font-bold text-gray-300">{mockProduct.name[0]}</span>
+              <span className="text-6xl font-bold text-gray-300">{data.name[0]}</span>
             </div>
           </div>
-          {mockProduct.hasVideo && (
+          {data.hasVideo && (
             <div className="mt-4 bg-white rounded-2xl overflow-hidden border border-gray-100">
               <div className="aspect-video bg-gray-200 flex items-center justify-center">
                 <div className="w-16 h-16 rounded-full bg-black/60 flex items-center justify-center">
@@ -74,21 +91,21 @@ export function ProductDetail({ slug }: { slug: string }) {
         {/* Right: Info + Actions */}
         <div>
           <div className="bg-white rounded-2xl border border-gray-100 p-6">
-            <Link href={`/brands/${mockProduct.brandSlug}`} className="text-sm text-accent-red font-medium hover:underline">
-              {mockProduct.brand}
+            <Link href={`/brands/${data.brandSlug}`} className="text-sm text-accent-red font-medium hover:underline">
+              {data.brand}
             </Link>
-            <h1 className="mt-2 text-2xl font-bold text-navy leading-snug">{mockProduct.name}</h1>
+            <h1 className="mt-2 text-2xl font-bold text-navy leading-snug">{data.name}</h1>
 
             <div className="mt-3 flex items-center gap-3">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
                 <span className="text-sm font-semibold text-navy">{mockProduct.rating}</span>
-                <span className="text-sm text-gray-400">({mockProduct.reviewCount} reviews)</span>
+                <span className="text-sm text-gray-400">({data.reviewCount} reviews)</span>
               </div>
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              {mockProduct.certs.map((c) => (
+              {data.certs.map((c: string) => (
                 <Badge key={c} variant="secondary" className="text-xs">
                   <ShieldCheck className="h-3 w-3 mr-1" />
                   {c}
@@ -97,8 +114,8 @@ export function ProductDetail({ slug }: { slug: string }) {
             </div>
 
             <div className="mt-6 border-t border-gray-100 pt-6">
-              <div className="text-3xl font-bold text-navy">{mockProduct.price}</div>
-              <p className="text-sm text-gray-500 mt-1">MOQ: {mockProduct.moq}</p>
+              <div className="text-3xl font-bold text-navy">{data.price}</div>
+              <p className="text-sm text-gray-500 mt-1">MOQ: {data.moq}</p>
             </div>
 
             <div className="mt-6 flex flex-col gap-3">
@@ -125,7 +142,7 @@ export function ProductDetail({ slug }: { slug: string }) {
             <div className="mt-6 border-t border-gray-100 pt-6">
               <h3 className="text-sm font-semibold text-navy mb-3">Available Markets</h3>
               <div className="flex gap-2 flex-wrap">
-                {mockProduct.markets.map((m) => (
+                {data.markets.map((m: string) => (
                   <Badge key={m} variant="outline" className="text-xs">
                     <Globe className="h-3 w-3 mr-1" />
                     {m}
@@ -141,12 +158,12 @@ export function ProductDetail({ slug }: { slug: string }) {
       <div className="mt-8 grid lg:grid-cols-2 gap-8">
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-navy mb-4">Description</h2>
-          <p className="text-sm text-gray-600 leading-relaxed">{mockProduct.description}</p>
+          <p className="text-sm text-gray-600 leading-relaxed">{data.description}</p>
         </div>
         <div className="bg-white rounded-2xl border border-gray-100 p-6">
           <h2 className="text-lg font-bold text-navy mb-4">Specifications</h2>
           <dl className="space-y-3">
-            {Object.entries(mockProduct.specs).map(([key, val]) => (
+            {Object.entries(data.specs).map(([key, val]: [string, any]) => (
               <div key={key} className="flex justify-between text-sm">
                 <dt className="text-gray-500">{key}</dt>
                 <dd className="font-medium text-navy">{val}</dd>

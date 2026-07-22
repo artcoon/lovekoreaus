@@ -23,8 +23,16 @@ function useCountdown(hours: number) {
   return { h, m, s }
 }
 
-export function FlashSale() {
+export function FlashSale({ deals }: { deals?: any[] }) {
   const { h, m, s } = useCountdown(6)
+  const items = deals?.length ? deals.map((d: any) => ({
+    slug: d.slug || d.product_slug || '',
+    name: d.name || d.title || '',
+    brand: d.brand || '',
+    original: d.original || `$${d.original_price ?? 0}`,
+    deal: d.deal || `$${d.deal_price ?? 0}`,
+    discount: d.discount ?? d.discount_percent ?? 0,
+  })) : flashSaleItems
 
   return (
     <section className="py-12">
@@ -52,7 +60,7 @@ export function FlashSale() {
         </div>
 
         <div className="grid sm:grid-cols-3 gap-6">
-          {flashSaleItems.map((item) => (
+          {items.map((item) => (
             <Link key={item.slug} href={`/products/${item.slug}`}>
               <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative">
                 <Badge className="absolute top-3 left-3 bg-accent-red text-white z-10">

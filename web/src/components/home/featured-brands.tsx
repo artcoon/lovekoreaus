@@ -11,8 +11,17 @@ const mockBrands = [
   { id: '4', slug: 'samsung', name: 'Samsung', type: 'Manufacturer', rating: 4.5, products: 120, verified: true },
 ]
 
-export function FeaturedBrands() {
+export function FeaturedBrands({ brands }: { brands?: any[] }) {
   const t = useTranslations()
+  const items = brands?.length ? brands.map((b: any) => ({
+    id: b.id || b.slug,
+    slug: b.slug,
+    name: b.name,
+    type: b.type || 'Brand',
+    rating: b.rating ?? 0,
+    products: b.products ?? b.productCount ?? 0,
+    verified: b.verified ?? false,
+  })) : mockBrands
 
   return (
     <section className="py-16 bg-muted/20">
@@ -30,7 +39,7 @@ export function FeaturedBrands() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {mockBrands.map((brand) => (
+          {items.map((brand) => (
             <Link key={brand.id} href={`/brands/${brand.slug}`}>
               <Card className="group hover:shadow-lg transition-all border-border/40 h-full">
                 <CardContent className="p-6 text-center">

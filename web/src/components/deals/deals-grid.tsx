@@ -13,7 +13,14 @@ const sponsoredProducts = [
   { slug: 'hanbok-modern-dress', name: 'Modern Hanbok Wrap Dress', brand: 'K-Style Fashion', price: '$89.00', rating: 4.5 },
 ]
 
-export function DealsGrid() {
+export function DealsGrid({ products }: { products?: any[] }) {
+  const items = products?.length ? products.map((p: any) => ({
+    slug: p.slug || '',
+    name: p.name || '',
+    brand: p.brand || p.seller_name || '',
+    price: p.price || `$${p.price_min ?? 0}`,
+    rating: p.rating ?? 0,
+  })) : sponsoredProducts
   return (
     <section className="py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -23,7 +30,7 @@ export function DealsGrid() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sponsoredProducts.map((p) => (
+          {items.map((p) => (
             <Link key={p.slug} href={`/products/${p.slug}`}>
               <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100">
                 <div className="relative aspect-[4/3] bg-gray-100 flex items-center justify-center text-4xl font-bold text-gray-300">

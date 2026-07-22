@@ -10,14 +10,20 @@ export const metadata: Metadata = {
   description: 'Discover flash sales, sponsored products, and exclusive deals on Korean goods.',
 }
 
-export default function DealsPage() {
+export default async function DealsPage() {
+  const { getActiveDeals, getProducts } = await import('@/lib/queries')
+  const [deals, products] = await Promise.all([
+    getActiveDeals(),
+    getProducts({ limit: 6 }),
+  ])
+
   return (
     <>
       <GlobalHeader />
       <main className="flex-1 bg-gray-50">
         <DealsHero />
-        <FlashSale />
-        <DealsGrid />
+        <FlashSale deals={deals as any} />
+        <DealsGrid products={products as any} />
       </main>
       <GlobalFooter />
     </>

@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl'
 import { GlobalHeader } from '@/components/layout/global-header'
 import { GlobalFooter } from '@/components/layout/global-footer'
 import { HeroSection } from '@/components/home/hero-section'
@@ -9,8 +8,15 @@ import { FeaturedProducts } from '@/components/home/featured-products'
 import { WatchPreview } from '@/components/home/watch-preview'
 import { FeaturedBrands } from '@/components/home/featured-brands'
 import { SellerCta } from '@/components/home/seller-cta'
+import { getFeaturedProducts, getFeaturedSellers, getFeaturedVideos } from '@/lib/queries'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [products, sellers, videos] = await Promise.all([
+    getFeaturedProducts(4),
+    getFeaturedSellers(4),
+    getFeaturedVideos(4),
+  ])
+
   return (
     <>
       <GlobalHeader />
@@ -19,9 +25,9 @@ export default function HomePage() {
         <TrustBar />
         <HowItWorks />
         <CategoryGrid />
-        <FeaturedProducts />
-        <WatchPreview />
-        <FeaturedBrands />
+        <FeaturedProducts products={products as any} />
+        <WatchPreview videos={videos as any} />
+        <FeaturedBrands brands={sellers as any} />
         <SellerCta />
       </main>
       <GlobalFooter />

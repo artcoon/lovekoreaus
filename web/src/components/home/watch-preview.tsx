@@ -38,8 +38,16 @@ const mockVideos = [
   },
 ]
 
-export function WatchPreview() {
+export function WatchPreview({ videos }: { videos?: any[] }) {
   const t = useTranslations()
+  const items = videos?.length ? videos.map((v: any) => ({
+    id: v.id,
+    title: v.title,
+    channel: v.channel,
+    views: v.views,
+    thumbnail: v.thumbnail || null,
+    duration: v.duration,
+  })) : mockVideos
 
   return (
     <section className="py-16">
@@ -60,7 +68,7 @@ export function WatchPreview() {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {mockVideos.map((video) => (
+          {items.map((video) => (
             <Link key={video.id} href={`/watch/${video.id}`}>
               <Card className="group overflow-hidden hover:shadow-lg transition-all border-border/40">
                 <div className="relative aspect-video bg-navy/5">

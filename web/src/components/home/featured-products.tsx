@@ -60,8 +60,20 @@ const mockProducts = [
   },
 ]
 
-export function FeaturedProducts() {
+export function FeaturedProducts({ products }: { products?: any[] }) {
   const t = useTranslations()
+  const items = products?.length ? products.map((p: any) => ({
+    id: p.id || p.slug,
+    slug: p.slug,
+    name: p.name,
+    brand: p.brand || p.seller_name || '',
+    priceMin: p.priceMin ?? p.price_min ?? 0,
+    priceMax: p.priceMax ?? p.price_max ?? 0,
+    rating: p.rating ?? 0,
+    reviewCount: p.reviewCount ?? p.review_count ?? 0,
+    category: p.category || '',
+    isSponsored: p.isSponsored ?? p.is_sponsored ?? false,
+  })) : mockProducts
 
   return (
     <section className="py-16 bg-muted/20">
@@ -79,7 +91,7 @@ export function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {mockProducts.map((product) => (
+          {items.map((product) => (
             <Link key={product.id} href={`/products/${product.slug}`}>
               <Card className="group overflow-hidden hover:shadow-lg transition-all border-border/40 h-full">
                 <div className="relative aspect-[4/3] bg-muted">

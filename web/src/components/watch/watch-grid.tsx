@@ -6,104 +6,24 @@ import { Badge } from '@/components/ui/badge'
 
 const categories = ['All', 'Beauty', 'Food', 'Fashion', 'K-Culture', 'Unboxing', 'Factory Tour']
 
-const mockVideos = [
-  {
-    id: 'v1',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Top 10 Korean Skincare Products You Need to Try in 2026',
-    channel: 'BeautyGuru',
-    category: 'Beauty',
-    views: '1.2M',
-    duration: '12:45',
-    thumbnail: null,
-  },
-  {
-    id: 'v2',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Korean Instant Noodle Taste Test — 15 Brands Compared',
-    channel: 'FoodieExplorer',
-    category: 'Food',
-    views: '890K',
-    duration: '18:30',
-    thumbnail: null,
-  },
-  {
-    id: 'v3',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Inside a Korean Cosmetics Factory — How K-Beauty is Made',
-    channel: 'FactoryTourKR',
-    category: 'Factory Tour',
-    views: '650K',
-    duration: '22:10',
-    thumbnail: null,
-  },
-  {
-    id: 'v4',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Korean Street Fashion Haul 2026 — Dongdaemun Edition',
-    channel: 'StyleKorea',
-    category: 'Fashion',
-    views: '430K',
-    duration: '15:20',
-    thumbnail: null,
-  },
-  {
-    id: 'v5',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'K-Pop Merch Unboxing — BTS & BLACKPINK Collectibles',
-    channel: 'HallyuFan',
-    category: 'K-Culture',
-    views: '2.1M',
-    duration: '8:55',
-    thumbnail: null,
-  },
-  {
-    id: 'v6',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Korean Red Ginseng — Health Benefits & Best Brands',
-    channel: 'HealthKR',
-    category: 'Food',
-    views: '340K',
-    duration: '14:00',
-    thumbnail: null,
-  },
-  {
-    id: 'v7',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Traditional Korean Ceramics — Artisan Workshop Visit',
-    channel: 'CraftKorea',
-    category: 'K-Culture',
-    views: '210K',
-    duration: '20:15',
-    thumbnail: null,
-  },
-  {
-    id: 'v8',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Best Korean Sunscreens Ranked — Dermatologist Review',
-    channel: 'DermDoc',
-    category: 'Beauty',
-    views: '1.5M',
-    duration: '16:40',
-    thumbnail: null,
-  },
-  {
-    id: 'v9',
-    youtubeId: 'dQw4w9WgXcQ',
-    title: 'Korean Snack Box Unboxing — 20 Items from Korea',
-    channel: 'UnboxJoy',
-    category: 'Unboxing',
-    views: '780K',
-    duration: '11:25',
-    thumbnail: null,
-  },
-]
+interface Video {
+  id: string
+  youtube_id?: string
+  youtubeId?: string
+  title: string
+  channel: string
+  category: string
+  views: string
+  duration: string
+  thumbnail?: string | null
+}
 
-export function WatchGrid() {
+export function WatchGrid({ videos }: { videos?: Video[] }) {
+  const allVideos = videos ?? []
   const [activeCategory, setActiveCategory] = useState('All')
   const filtered = activeCategory === 'All'
-    ? mockVideos
-    : mockVideos.filter((v) => v.category === activeCategory)
+    ? allVideos
+    : allVideos.filter((v) => v.category === activeCategory)
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
@@ -127,7 +47,7 @@ export function WatchGrid() {
         {filtered.map((video) => (
           <a
             key={video.id}
-            href={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
+            href={`https://www.youtube-nocookie.com/embed/${video.youtube_id || video.youtubeId}`}
             target="_blank"
             rel="noopener noreferrer"
             className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"

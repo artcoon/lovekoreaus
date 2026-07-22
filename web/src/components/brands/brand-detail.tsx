@@ -41,7 +41,27 @@ const mockVideos = [
   { title: 'Snail Mucin Essence Honest Review', channel: 'BeautyGuru', views: '1.2M' },
 ]
 
-export function BrandDetail({ slug }: { slug: string }) {
+export function BrandDetail({ slug, seller }: { slug: string; seller?: any }) {
+  const brand = seller ? {
+    name: seller.name || mockBrand.name,
+    slug: seller.slug || slug,
+    category: seller.category || mockBrand.category,
+    type: seller.type || mockBrand.type,
+    location: seller.location || mockBrand.location,
+    description: seller.description || mockBrand.description,
+    rating: seller.rating ?? mockBrand.rating,
+    reviewCount: seller.reviewCount ?? mockBrand.reviewCount,
+    productCount: seller.productCount ?? mockBrand.productCount,
+    yearFounded: seller.yearFounded ?? mockBrand.yearFounded,
+    employees: seller.employees || mockBrand.employees,
+    markets: seller.markets || mockBrand.markets,
+    certs: seller.certs || mockBrand.certs,
+    verified: seller.verified ?? mockBrand.verified,
+    website: seller.website || mockBrand.website,
+    email: seller.email || mockBrand.email,
+    phone: seller.phone || mockBrand.phone,
+    govtSupport: seller.govtSupport ?? mockBrand.govtSupport,
+  } : mockBrand
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}

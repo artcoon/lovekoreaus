@@ -9,13 +9,16 @@ export const metadata: Metadata = {
   description: 'Watch curated video reviews of Korean products. Discover beauty, food, fashion, and culture through YouTube creators.',
 }
 
-export default function WatchPage() {
+export default async function WatchPage() {
+  const { getVideos } = await import('@/lib/queries')
+  const videos = await getVideos()
+
   return (
     <>
       <GlobalHeader />
       <main className="flex-1 bg-gray-50">
         <WatchHero />
-        <WatchGrid />
+        <WatchGrid videos={videos as any} />
       </main>
       <GlobalFooter />
     </>

@@ -63,10 +63,10 @@ export function CategoryGrid() {
               className="group relative overflow-hidden flex flex-col items-center gap-3 rounded-xl border border-border/40 bg-white p-5 hover:shadow-md hover:border-navy/20 transition-all"
             >
               <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-0 group-hover:opacity-25 transition-opacity duration-500"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15 group-hover:opacity-25 transition-opacity duration-500"
                 style={{ backgroundImage: `url('${CATEGORY_IMAGES[cat.key]}')` }}
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-white/60 group-hover:from-white/70 group-hover:to-white/50 transition-colors" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/85 to-white/70 group-hover:from-white/75 group-hover:to-white/60 transition-colors" />
               <div
                 className={`relative z-10 flex items-center justify-center w-12 h-12 rounded-xl ${cat.color} group-hover:scale-110 transition-transform`}
               >

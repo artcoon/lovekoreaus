@@ -60,9 +60,13 @@ const CATEGORIES: Record<string, string> = {
   'c0000003-0000-4000-8000-000000000003': 'Fashion & Apparel',
   'c0000004-0000-4000-8000-000000000004': 'K-Pop & Entertainment',
   'c0000005-0000-4000-8000-000000000005': 'Health & Wellness',
-  'c0000006-0000-4000-8000-000000000006': 'Technology',
+  'c0000006-0000-4000-8000-000000000006': 'Technology & Electronics',
   'c0000007-0000-4000-8000-000000000007': 'Home & Living',
   'c0000008-0000-4000-8000-000000000008': 'Stationery & Gifts',
+  'c0000009-0000-4000-8000-000000000009': 'Baby & Kids',
+  'c0000010-0000-4000-8000-000000000010': 'Pets',
+  'c0000011-0000-4000-8000-000000000011': 'Traditional & Artisan',
+  'c0000012-0000-4000-8000-000000000012': 'Automotive & Industrial',
 }
 
 const STATUS_COLORS: Record<string, string> = {

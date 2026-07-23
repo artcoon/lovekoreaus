@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
+import { ImageUpload } from '@/components/ui/image-upload'
 
 // ─── Types ────────────────────────────────────────────
 type Product = {
@@ -179,9 +180,12 @@ function ProductFormModal({ product, onClose, onSaved }: {
           </div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">MOQ</label><Input type="number" value={form.moq} onChange={(e) => setForm({ ...form, moq: e.target.value })} placeholder="100" className="rounded-xl" /></div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-            <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} placeholder="https://example.com/image.jpg" className="rounded-xl" />
-            {form.image_url && <div className="mt-2 w-20 h-20 rounded-lg border overflow-hidden bg-gray-50"><img src={form.image_url} alt="Preview" className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} /></div>}
+            <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
+            <ImageUpload
+              value={form.image_url}
+              onChange={(url) => setForm({ ...form, image_url: url })}
+              bucket="images"
+            />
           </div>
           <div><label className="block text-sm font-medium text-gray-700 mb-1">Status</label><select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm bg-white"><option value="active">Active</option><option value="draft">Draft</option><option value="paused">Paused</option></select></div>
           <div className="flex gap-3 pt-2">

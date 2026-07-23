@@ -1,6 +1,7 @@
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { mockSellers, mockProducts, mockVideos, mockCategories, mockReviews, mockDeals } from '@/lib/data/mock-data'
 import { getProductImage, getBrandImage } from '@/lib/image-map'
+import { VIDEO_OVERRIDES } from '@/lib/video-map'
 
 // Dynamically import Supabase server client only when configured
 async function getSupabase() {
@@ -81,7 +82,10 @@ export async function getVideos(options?: { category?: string; featured?: boolea
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
     if (error) console.error('getVideos error:', error)
-    return data ?? []
+    return (data ?? []).map((v: any) => {
+      const override = VIDEO_OVERRIDES[v.id]
+      return override ? { ...v, ...override } : v
+    })
   }
   let videos = mockVideos
   if (options?.category) videos = videos.filter((v) => v.category === options.category)

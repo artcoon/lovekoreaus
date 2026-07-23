@@ -9,6 +9,16 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
+const BRAND_IMAGES: Record<string, string> = {
+  'hana-cosmetics': '/images/brands/hana-cosmetics.jpg',
+  'kimchi-world': '/images/brands/kimchi-world.jpg',
+  'k-style-fashion': '/images/brands/k-style-fashion.jpg',
+  'seoul-tech': '/images/brands/seoul-tech.jpg',
+  'green-tea-farm': '/images/brands/green-tea-farm.jpg',
+  'hallyu-goods': '/images/brands/hallyu-goods.jpg',
+  'cosrx': '/images/brands/hana-cosmetics.jpg',
+}
+
 interface SellerItem {
   slug: string
   company_name_en?: string
@@ -57,7 +67,7 @@ export function DirectoryPageClient({ sellers }: { sellers: SellerItem[] }) {
     verified: s.is_verified ?? false,
     certs: s.certs || [],
     description: s.description_en || '',
-    logoUrl: s.logo_url || null,
+    logoUrl: s.logo_url || BRAND_IMAGES[s.slug] || null,
   })), [sellers])
 
   const filtered = useMemo(() => {

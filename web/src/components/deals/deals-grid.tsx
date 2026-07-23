@@ -37,10 +37,10 @@ const sponsoredProducts = [
 export function DealsGrid({ products }: { products?: any[] }) {
   const items = products?.length ? products.map((p: any) => ({
     slug: p.slug || '',
-    name: p.name || '',
+    name: p.name_en || p.name || '',
     brand: p.brand || p.seller_name || '',
     price: p.price || `$${p.price_min ?? 0}`,
-    rating: p.rating ?? 0,
+    rating: p.rating_avg ?? p.rating ?? 0,
     discount: p.discount || '',
     image: p.image_url || PRODUCT_IMAGES[p.slug] || null,
   })) : sponsoredProducts.map(p => ({ ...p, image: PRODUCT_IMAGES[p.slug] || null }))

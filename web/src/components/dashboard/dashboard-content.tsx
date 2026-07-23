@@ -7,7 +7,8 @@ import {
   Plus, Settings, BarChart3, FileText, ChevronRight, Loader2,
   Pencil, Trash2, ExternalLink, AlertCircle, X, ImageIcon,
   Clock, Mail, Globe, CheckCircle2, ArrowUpRight, ArrowDownRight,
-  Inbox, Filter, Reply, XCircle, ShoppingBag
+  Inbox, Filter, Reply, XCircle, ShoppingBag,
+  Download, Upload, FileSpreadsheet, CircleCheck, CircleX, Info
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -301,6 +302,297 @@ function LeadDetailModal({ lead, onClose, onStatusChange }: {
   )
 }
 
+// ─── CSV Helpers ──────────────────────────────────────
+const CSV_COLUMNS = ['name_en', 'description_en', 'category_id', 'price_min', 'price_max', 'currency', 'moq', 'image_url', 'status', 'certifications'] as const
+
+function productsToCSV(products: Product[]): string {
+  const header = CSV_COLUMNS.join(',')
+  const rows = products.map(p => CSV_COLUMNS.map(col => {
+    let val = ''
+    if (col === 'certifications') val = (p.certifications || []).join('|')
+    else val = String((p as any)[col] ?? '')
+    // Escape commas & quotes
+    if (val.includes(',') || val.includes('"') || val.includes('\n')) {
+      val = '"' + val.replace(/"/g, '""') + '"'
+    }
+    return val
+  }).join(','))
+  return [header, ...rows].join('\n')
+}
+
+function parseCSV(text: string): Record<string, string>[] {
+  const lines = text.split(/\r?\n/).filter(l => l.trim())
+  if (lines.length < 2) return []
+
+  // Parse header
+  const headers = parseCSVLine(lines[0])
+
+  return lines.slice(1).map(line => {
+    const vals = parseCSVLine(line)
+    const obj: Record<string, string> = {}
+    headers.forEach((h, i) => { obj[h.trim()] = (vals[i] || '').trim() })
+    return obj
+  })
+}
+
+function parseCSVLine(line: string): string[] {
+  const result: string[] = []
+  let current = ''
+  let inQuotes = false
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i]
+    if (inQuotes) {
+      if (ch === '"' && line[i + 1] === '"') { current += '"'; i++ }
+      else if (ch === '"') { inQuotes = false }
+      else { current += ch }
+    } else {
+      if (ch === '"') { inQuotes = true }
+      else if (ch === ',') { result.push(current); current = '' }
+      else { current += ch }
+    }
+  }
+  result.push(current)
+  return result
+}
+
+// ─── CSV Import Modal ────────────────────────────────
+function CSVImportModal({ onClose, onImported }: { onClose: () => void; onImported: () => void }) {
+  const [step, setStep] = useState<'upload' | 'preview' | 'importing' | 'done'>('upload')
+  const [rows, setRows] = useState<Record<string, string>[]>([])
+  const [error, setError] = useState('')
+  const [results, setResults] = useState<{ total: number; success: number; failed: number; results: any[] } | null>(null)
+  const [fileName, setFileName] = useState('')
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setFileName(file.name)
+    setError('')
+
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      try {
+        const text = ev.target?.result as string
+        const parsed = parseCSV(text)
+        if (parsed.length === 0) {
+          setError('CSV file is empty or invalid. Make sure it has a header row.')
+          return
+        }
+        // Validate: must have name_en or name or product_name
+        const hasName = parsed.every(r => r.name_en || r.name || r.product_name)
+        if (!hasName) {
+          setError('Every row must have a "name_en" (or "name") column.')
+          return
+        }
+        if (parsed.length > 500) {
+          setError('Maximum 500 products per import. Your file has ' + parsed.length + ' rows.')
+          return
+        }
+        setRows(parsed)
+        setStep('preview')
+      } catch {
+        setError('Failed to parse CSV file.')
+      }
+    }
+    reader.readAsText(file)
+  }
+
+  const handleImport = async () => {
+    setStep('importing')
+    try {
+      const res = await fetch('/api/seller/products/bulk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rows }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Import failed')
+      setResults(data)
+      setStep('done')
+      onImported()
+    } catch (err: any) {
+      setError(err.message)
+      setStep('preview')
+    }
+  }
+
+  const downloadTemplate = () => {
+    const csv = CSV_COLUMNS.join(',') + '\n' +
+      'Sample Product,A great product description,,,19.99,,USD,100,,,FDA|HACCP\n'
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url; a.download = 'product_import_template.csv'; a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 rounded-t-2xl flex items-center justify-between z-10">
+          <div className="flex items-center gap-3">
+            <FileSpreadsheet className="h-5 w-5 text-navy" />
+            <h2 className="text-lg font-bold text-navy">
+              {step === 'upload' && 'Import Products from CSV'}
+              {step === 'preview' && `Preview (${rows.length} products)`}
+              {step === 'importing' && 'Importing...'}
+              {step === 'done' && 'Import Complete'}
+            </h2>
+          </div>
+          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-lg"><X className="h-5 w-5 text-gray-400" /></button>
+        </div>
+
+        <div className="p-6">
+          {error && (
+            <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-xl text-sm mb-4">
+              <AlertCircle className="h-4 w-4 shrink-0" />{error}
+            </div>
+          )}
+
+          {/* Upload step */}
+          {step === 'upload' && (
+            <div className="space-y-6">
+              <div className="border-2 border-dashed border-gray-200 rounded-2xl p-8 text-center hover:border-accent-red/40 transition-colors">
+                <Upload className="h-10 w-10 mx-auto mb-3 text-gray-300" />
+                <p className="text-sm text-gray-600 mb-1">Drag & drop your CSV file here, or click to browse</p>
+                <p className="text-xs text-gray-400 mb-4">Max 500 products per file. UTF-8 encoded.</p>
+                <label className="inline-block">
+                  <input type="file" accept=".csv,.tsv,text/csv" onChange={handleFile} className="hidden" />
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-accent-red text-white text-sm font-medium rounded-xl cursor-pointer hover:bg-accent-red-dark transition-colors">
+                    <Upload className="h-4 w-4" /> Choose File
+                  </span>
+                </label>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                <div className="flex items-start gap-2">
+                  <Info className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
+                  <div className="text-sm text-blue-700">
+                    <p className="font-medium mb-1">CSV Format</p>
+                    <p className="text-xs text-blue-600 mb-2">Required column: <code className="bg-blue-100 px-1 rounded">name_en</code></p>
+                    <p className="text-xs text-blue-600 mb-3">
+                      Optional: <code className="bg-blue-100 px-1 rounded">description_en</code>, <code className="bg-blue-100 px-1 rounded">category_id</code>, <code className="bg-blue-100 px-1 rounded">price_min</code>, <code className="bg-blue-100 px-1 rounded">price_max</code>, <code className="bg-blue-100 px-1 rounded">currency</code>, <code className="bg-blue-100 px-1 rounded">moq</code>, <code className="bg-blue-100 px-1 rounded">image_url</code>, <code className="bg-blue-100 px-1 rounded">status</code>, <code className="bg-blue-100 px-1 rounded">certifications</code> (pipe-separated)
+                    </p>
+                    <button onClick={downloadTemplate} className="inline-flex items-center gap-1 text-xs text-blue-700 font-medium hover:underline">
+                      <Download className="h-3 w-3" /> Download template CSV
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Preview step */}
+          {step === 'preview' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-500">
+                  <span className="font-semibold text-navy">{rows.length}</span> products ready to import from <span className="font-medium">{fileName}</span>
+                </p>
+                <Button variant="outline" size="sm" onClick={() => { setStep('upload'); setRows([]); setError('') }} className="rounded-xl text-xs">
+                  Choose Different File
+                </Button>
+              </div>
+
+              <div className="border border-gray-100 rounded-xl overflow-hidden">
+                <div className="overflow-x-auto max-h-[300px] overflow-y-auto">
+                  <table className="w-full text-sm">
+                    <thead className="bg-gray-50 sticky top-0">
+                      <tr>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">#</th>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Name</th>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Price</th>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">MOQ</th>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-50">
+                      {rows.slice(0, 50).map((row, i) => (
+                        <tr key={i} className="hover:bg-gray-50/50">
+                          <td className="px-3 py-2 text-xs text-gray-400">{i + 1}</td>
+                          <td className="px-3 py-2 text-navy font-medium truncate max-w-[200px]">{row.name_en || row.name || row.product_name || '—'}</td>
+                          <td className="px-3 py-2 text-gray-600">{row.price_min ? `$${row.price_min}` : '—'}</td>
+                          <td className="px-3 py-2 text-gray-600">{row.moq || '—'}</td>
+                          <td className="px-3 py-2"><Badge className={`text-[10px] ${STATUS_COLORS[row.status || 'active'] || 'bg-green-100 text-green-800'}`}>{row.status || 'active'}</Badge></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {rows.length > 50 && (
+                  <div className="px-3 py-2 bg-gray-50 text-xs text-gray-400 text-center">
+                    Showing first 50 of {rows.length} rows
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-3 pt-2">
+                <Button variant="outline" onClick={onClose} className="flex-1 rounded-xl">Cancel</Button>
+                <Button onClick={handleImport} className="flex-1 bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">
+                  <Upload className="h-4 w-4 mr-2" /> Import {rows.length} Products
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Importing step */}
+          {step === 'importing' && (
+            <div className="text-center py-12">
+              <Loader2 className="h-10 w-10 animate-spin text-accent-red mx-auto mb-4" />
+              <p className="text-lg font-medium text-navy">Importing {rows.length} products...</p>
+              <p className="text-sm text-gray-400 mt-1">This may take a moment.</p>
+            </div>
+          )}
+
+          {/* Done step */}
+          {step === 'done' && results && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto mb-3" />
+                <p className="text-xl font-bold text-navy">Import Complete</p>
+                <div className="flex items-center justify-center gap-6 mt-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-600">{results.success}</p>
+                    <p className="text-xs text-gray-500">Imported</p>
+                  </div>
+                  {results.failed > 0 && (
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-red-500">{results.failed}</p>
+                      <p className="text-xs text-gray-500">Failed</p>
+                    </div>
+                  )}
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-navy">{results.total}</p>
+                    <p className="text-xs text-gray-500">Total</p>
+                  </div>
+                </div>
+              </div>
+
+              {results.failed > 0 && (
+                <div className="border border-red-100 rounded-xl overflow-hidden">
+                  <div className="bg-red-50 px-4 py-2 text-xs font-medium text-red-700">Failed Items</div>
+                  <div className="divide-y divide-red-50 max-h-[200px] overflow-y-auto">
+                    {results.results.filter(r => !r.success).map((r, i) => (
+                      <div key={i} className="flex items-center gap-2 px-4 py-2">
+                        <CircleX className="h-3.5 w-3.5 text-red-400 shrink-0" />
+                        <span className="text-sm text-gray-700 truncate">{r.name || `Row ${r.index + 1}`}</span>
+                        <span className="text-xs text-red-500 ml-auto shrink-0">{r.error}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <Button onClick={onClose} className="w-full bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">Close</Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Main Dashboard ───────────────────────────────────
 export function DashboardContent() {
   const [tab, setTab] = useState<'overview' | 'products' | 'orders' | 'analytics' | 'profile'>('overview')
@@ -320,6 +612,7 @@ export function DashboardContent() {
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null)
   const [deleting, setDeleting] = useState(false)
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
+  const [showCSVImport, setShowCSVImport] = useState(false)
 
   // Profile edit
   const [profileEditing, setProfileEditing] = useState(false)
@@ -670,11 +963,35 @@ export function DashboardContent() {
       {/* ─── PRODUCTS TAB ──────────────────────────── */}
       {tab === 'products' && (
         <div className="bg-white rounded-2xl border border-gray-100">
-          <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+          <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <h2 className="text-lg font-bold text-navy">Your Products</h2>
-            <Button onClick={() => { setEditProduct(null); setShowProductForm(true) }} size="sm" className="bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">
-              <Plus className="h-4 w-4 mr-1" /> Add Product
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline" size="sm"
+                onClick={() => {
+                  const csv = productsToCSV(products)
+                  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url; a.download = `products_export_${new Date().toISOString().slice(0, 10)}.csv`; a.click()
+                  URL.revokeObjectURL(url)
+                }}
+                disabled={products.length === 0}
+                className="rounded-xl text-xs"
+              >
+                <Download className="h-3.5 w-3.5 mr-1" /> Export CSV
+              </Button>
+              <Button
+                variant="outline" size="sm"
+                onClick={() => setShowCSVImport(true)}
+                className="rounded-xl text-xs"
+              >
+                <Upload className="h-3.5 w-3.5 mr-1" /> Import CSV
+              </Button>
+              <Button onClick={() => { setEditProduct(null); setShowProductForm(true) }} size="sm" className="bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">
+                <Plus className="h-4 w-4 mr-1" /> Add Product
+              </Button>
+            </div>
           </div>
           {productsLoading ? (
             <div className="flex items-center justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-gray-400" /></div>
@@ -791,6 +1108,9 @@ export function DashboardContent() {
       )}
       {selectedLead && (
         <LeadDetailModal lead={selectedLead} onClose={() => setSelectedLead(null)} onStatusChange={handleLeadStatusChange} />
+      )}
+      {showCSVImport && (
+        <CSVImportModal onClose={() => setShowCSVImport(false)} onImported={fetchProducts} />
       )}
     </div>
   )

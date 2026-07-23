@@ -71,6 +71,21 @@ export async function signInWithGoogle() {
   if (data.url) redirect(data.url)
 }
 
+export async function signInWithKakao() {
+  if (!isSupabaseConfigured()) return { error: 'Database not configured' }
+
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
+    },
+  })
+
+  if (error) return { error: error.message }
+  if (data.url) redirect(data.url)
+}
+
 export async function getSession() {
   if (!isSupabaseConfigured()) return null
   const supabase = await createClient()

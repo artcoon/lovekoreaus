@@ -12,9 +12,14 @@ export function HeroSection() {
 
   return (
     <section className="relative bg-navy overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-90" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(200,32,47,0.15),transparent_50%)]" />
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/brands/hana-cosmetics.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/60" />
+      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(200,32,47,0.2),transparent_50%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
         <div className="max-w-2xl">

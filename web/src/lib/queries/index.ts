@@ -149,7 +149,6 @@ export async function getActiveDeals() {
       .from('deals')
       .select('*, products(slug, name_en, price_min), seller_profiles(company_name_en)')
       .eq('is_active', true)
-      .gte('ends_at', new Date().toISOString())
     if (error) console.error('getActiveDeals error:', error)
     return (data ?? []).map((d: any) => {
       const product = d.products as any

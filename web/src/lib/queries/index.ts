@@ -1,5 +1,6 @@
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { mockSellers, mockProducts, mockVideos, mockCategories, mockReviews, mockDeals } from '@/lib/data/mock-data'
+import { getProductImage, getBrandImage } from '@/lib/image-map'
 
 // Dynamically import Supabase server client only when configured
 async function getSupabase() {
@@ -18,7 +19,11 @@ export async function getSellers(options?: { category?: string; market?: string;
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
     if (error) console.error('getSellers error:', error)
-    return data ?? []
+    return (data ?? []).map((s: any) => ({
+      ...s,
+      logo_url: s.logo_url || getBrandImage(s.slug),
+      cover_image_url: s.cover_image_url || getBrandImage(s.slug),
+    }))
   }
   let sellers = mockSellers
   if (options?.limit) sellers = sellers.slice(0, options.limit)
@@ -29,7 +34,9 @@ export async function getSellerBySlug(slug: string) {
   const supabase = await getSupabase()
   if (supabase) {
     const { data } = await supabase.from('seller_profiles').select('*').eq('slug', slug).single()
-    return data
+    if (!data) return null
+    const d = data as any
+    return { ...d, logo_url: d.logo_url || getBrandImage(slug), cover_image_url: d.cover_image_url || getBrandImage(slug) }
   }
   return mockSellers.find((s) => s.slug === slug) ?? null
 }
@@ -45,7 +52,7 @@ export async function getProducts(options?: { category?: string; sellerId?: stri
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
     if (error) console.error('getProducts error:', error)
-    return data ?? []
+    return (data ?? []).map((p: any) => ({ ...p, image_url: p.image_url || getProductImage(p.slug) }))
   }
   let products = mockProducts
   if (options?.sellerId) products = products.filter((p) => p.seller_id === options.sellerId)
@@ -57,7 +64,9 @@ export async function getProductBySlug(slug: string) {
   const supabase = await getSupabase()
   if (supabase) {
     const { data } = await supabase.from('products').select('*').eq('slug', slug).single()
-    return data
+    if (!data) return null
+    const d = data as any
+    return { ...d, image_url: d.image_url || getProductImage(slug) }
   }
   return mockProducts.find((p) => p.slug === slug) ?? null
 }

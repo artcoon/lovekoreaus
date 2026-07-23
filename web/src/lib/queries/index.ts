@@ -147,11 +147,23 @@ export async function getActiveDeals() {
   if (supabase) {
     const { data, error } = await supabase
       .from('deals')
-      .select('*')
+      .select('*, products(slug, name_en, price_min), seller_profiles(company_name_en)')
       .eq('is_active', true)
       .gte('ends_at', new Date().toISOString())
     if (error) console.error('getActiveDeals error:', error)
-    return data ?? []
+    return (data ?? []).map((d: any) => {
+      const product = d.products as any
+      const seller = d.seller_profiles as any
+      return {
+        ...d,
+        slug: product?.slug || '',
+        name_en: product?.name_en || d.title || '',
+        brand: seller?.company_name_en || d.brand || '',
+        original_price: d.original_price ?? product?.price_min ?? 0,
+        deal_price: d.deal_price ?? d.original_price ?? product?.price_min ?? 0,
+        discount_percent: d.discount_percent ?? 0,
+      }
+    })
   }
   return mockDeals
 }

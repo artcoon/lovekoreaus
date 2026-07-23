@@ -2,63 +2,30 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Star } from 'lucide-react'
+import { Star, ImageIcon } from 'lucide-react'
+import Image from 'next/image'
 
-// Mock data - will be replaced by Supabase query
-const mockProducts = [
-  {
-    id: '1',
-    slug: 'cosrx-snail-mucin',
-    name: 'COSRX Snail Mucin 96% Essence',
-    brand: 'COSRX',
-    image: '/placeholder-product.jpg',
-    priceMin: 12.99,
-    priceMax: 15.99,
-    rating: 4.8,
-    reviewCount: 1240,
-    category: 'K-Beauty',
-    isSponsored: true,
-  },
-  {
-    id: '2',
-    slug: 'bibigo-mandu',
-    name: 'Bibigo Mandu Dumplings',
-    brand: 'CJ Bibigo',
-    image: '/placeholder-product.jpg',
-    priceMin: 8.99,
-    priceMax: 12.99,
-    rating: 4.6,
-    reviewCount: 890,
-    category: 'K-Food',
-    isSponsored: false,
-  },
-  {
-    id: '3',
-    slug: 'innisfree-green-tea',
-    name: 'Innisfree Green Tea Seed Serum',
-    brand: 'Innisfree',
-    image: '/placeholder-product.jpg',
-    priceMin: 18.0,
-    priceMax: 22.0,
-    rating: 4.7,
-    reviewCount: 650,
-    category: 'K-Beauty',
-    isSponsored: true,
-  },
-  {
-    id: '4',
-    slug: 'samsung-galaxy-buds',
-    name: 'Samsung Galaxy Buds3 Pro',
-    brand: 'Samsung',
-    image: '/placeholder-product.jpg',
-    priceMin: 199.99,
-    priceMax: 249.99,
-    rating: 4.5,
-    reviewCount: 2100,
-    category: 'Electronics',
-    isSponsored: false,
-  },
-]
+// Image map for mock products
+const PRODUCT_IMAGES: Record<string, string> = {
+  'snail-mucin-essence': '/images/products/snail-mucin-essence.jpg',
+  'bibigo-mandu': '/images/products/bibigo-mandu.jpg',
+  'jeju-green-tea-serum': '/images/products/jeju-green-tea-serum.jpg',
+  'galaxy-buds3-pro': '/images/products/galaxy-buds3-pro.jpg',
+  'hanbok-modern-dress': '/images/products/hanbok-modern-dress.jpg',
+  'red-ginseng-extract': '/images/products/red-ginseng-extract.jpg',
+  'tteokbokki-kit': '/images/products/tteokbokki-kit.jpg',
+  'bt21-plush': '/images/products/bt21-plush.jpg',
+  'soju-glasses-set': '/images/products/soju-glasses-set.jpg',
+  'vitamin-c-megadose': '/images/products/vitamin-c-megadose.jpg',
+  'locknlock-container-set': '/images/products/locknlock-container-set.jpg',
+  'monami-pluspen-36': '/images/products/monami-pluspen-36.jpg',
+  'goongbe-baby-lotion': '/images/products/goongbe-baby-lotion.jpg',
+  'bowwow-dental-chew': '/images/products/bowwow-dental-chew.jpg',
+  'celadon-tea-cup-set': '/images/products/celadon-tea-cup-set.jpg',
+  'ceramic-car-coating': '/images/products/ceramic-car-coating.jpg',
+  'mediheal-nmf-mask': '/images/products/mediheal-nmf-mask.jpg',
+  'shin-ramyun-black': '/images/products/shin-ramyun-black.jpg',
+}
 
 export function FeaturedProducts({ products }: { products?: any[] }) {
   const t = useTranslations()
@@ -73,7 +40,13 @@ export function FeaturedProducts({ products }: { products?: any[] }) {
     reviewCount: p.reviewCount ?? p.review_count ?? 0,
     category: p.category || '',
     isSponsored: p.isSponsored ?? p.is_sponsored ?? false,
-  })) : mockProducts
+    image: p.image_url || PRODUCT_IMAGES[p.slug] || null,
+  })) : [
+    { id: '1', slug: 'snail-mucin-essence', name: 'COSRX Snail Mucin 96% Essence', brand: 'COSRX', image: '/images/products/snail-mucin-essence.jpg', priceMin: 12.99, priceMax: 15.99, rating: 4.8, reviewCount: 1240, category: 'K-Beauty', isSponsored: true },
+    { id: '2', slug: 'bibigo-mandu', name: 'Bibigo Mandu Dumplings', brand: 'CJ Bibigo', image: '/images/products/bibigo-mandu.jpg', priceMin: 8.99, priceMax: 12.99, rating: 4.6, reviewCount: 890, category: 'K-Food', isSponsored: false },
+    { id: '3', slug: 'jeju-green-tea-serum', name: 'Innisfree Green Tea Seed Serum', brand: 'Innisfree', image: '/images/products/jeju-green-tea-serum.jpg', priceMin: 18.0, priceMax: 22.0, rating: 4.7, reviewCount: 650, category: 'K-Beauty', isSponsored: true },
+    { id: '4', slug: 'galaxy-buds3-pro', name: 'Samsung Galaxy Buds3 Pro', brand: 'Samsung', image: '/images/products/galaxy-buds3-pro.jpg', priceMin: 199.99, priceMax: 249.99, rating: 4.5, reviewCount: 2100, category: 'Electronics', isSponsored: false },
+  ]
 
   return (
     <section className="py-16 bg-muted/20">
@@ -94,10 +67,18 @@ export function FeaturedProducts({ products }: { products?: any[] }) {
           {items.map((product) => (
             <Link key={product.id} href={`/products/${product.slug}`}>
               <Card className="group overflow-hidden hover:shadow-lg transition-all border-border/40 h-full">
-                <div className="relative aspect-[4/3] bg-muted">
-                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground text-sm">
-                    {product.category}
-                  </div>
+                <div className="relative aspect-[4/3] bg-muted overflow-hidden">
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
+                      <ImageIcon className="h-8 w-8 text-gray-200" />
+                    </div>
+                  )}
                   {product.isSponsored && (
                     <Badge className="absolute top-2 left-2 bg-accent-red/90 text-white text-xs">
                       {t('featured.sponsored')}

@@ -101,6 +101,7 @@ export interface Product {
   rating_avg: number;
   review_count: number;
   view_count: number;
+  image_url?: string | null;
   created_at: string;
   updated_at: string;
 }

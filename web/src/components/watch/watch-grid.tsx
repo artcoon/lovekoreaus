@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Play, Eye, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
-const categories = ['All', 'Beauty', 'Food', 'Fashion', 'K-Culture', 'Unboxing', 'Factory Tour']
+const categories = ['All', 'Beauty', 'Food', 'Fashion', 'K-Pop', 'Health', 'Tech']
 
 interface Video {
   id: string
@@ -43,42 +43,58 @@ export function WatchGrid({ videos }: { videos?: Video[] }) {
         ))}
       </div>
 
+      {filtered.length === 0 && (
+        <div className="py-20 text-center text-gray-400">
+          <p className="text-lg">No videos in this category yet</p>
+        </div>
+      )}
+
       <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filtered.map((video) => (
-          <a
-            key={video.id}
-            href={`https://www.youtube-nocookie.com/embed/${video.youtube_id || video.youtubeId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100"
-          >
-            <div className="relative aspect-video bg-gray-200">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-accent-red transition-colors">
-                  <Play className="h-6 w-6 text-white fill-white ml-0.5" />
+        {filtered.map((video) => {
+          const ytId = video.youtube_id || video.youtubeId || ''
+          const thumb = video.thumbnail || `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`
+          return (
+            <a
+              key={video.id}
+              href={`https://www.youtube.com/watch?v=${ytId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
+            >
+              <div className="relative aspect-video bg-gray-200 overflow-hidden">
+                <img
+                  src={thumb}
+                  alt={video.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                  <div className="w-14 h-14 rounded-full bg-accent-red flex items-center justify-center shadow-lg">
+                    <Play className="h-6 w-6 text-white fill-white ml-0.5" />
+                  </div>
+                </div>
+                <div className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2 py-0.5 rounded font-mono">
+                  {video.duration}
                 </div>
               </div>
-              <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-0.5 rounded">
-                {video.duration}
+              <div className="p-4">
+                <h3 className="text-sm font-semibold text-navy line-clamp-2 group-hover:text-accent-red transition-colors">
+                  {video.title}
+                </h3>
+                <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
+                  <span className="font-medium">{video.channel}</span>
+                  <span className="flex items-center gap-1">
+                    <Eye className="h-3 w-3" />
+                    {video.views}
+                  </span>
+                </div>
+                <Badge variant="secondary" className="mt-2 text-xs">
+                  {video.category}
+                </Badge>
               </div>
-            </div>
-            <div className="p-4">
-              <h3 className="text-sm font-semibold text-navy line-clamp-2 group-hover:text-accent-red transition-colors">
-                {video.title}
-              </h3>
-              <div className="mt-2 flex items-center gap-3 text-xs text-gray-500">
-                <span className="font-medium">{video.channel}</span>
-                <span className="flex items-center gap-1">
-                  <Eye className="h-3 w-3" />
-                  {video.views}
-                </span>
-              </div>
-              <Badge variant="secondary" className="mt-2 text-xs">
-                {video.category}
-              </Badge>
-            </div>
-          </a>
-        ))}
+            </a>
+          )
+        })}
       </div>
     </div>
   )

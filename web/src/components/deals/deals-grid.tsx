@@ -3,6 +3,7 @@
 import { Link } from '@/i18n/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Star, Sparkles, ImageIcon } from 'lucide-react'
+import { getProductImage } from '@/lib/image-map'
 
 const PRODUCT_IMAGES: Record<string, string> = {
   'snail-mucin-essence': '/images/products/snail-mucin-essence.jpg',
@@ -42,8 +43,8 @@ export function DealsGrid({ products }: { products?: any[] }) {
     price: p.price || `$${p.price_min ?? 0}`,
     rating: p.rating_avg ?? p.rating ?? 0,
     discount: p.discount || '',
-    image: p.image_url || PRODUCT_IMAGES[p.slug] || null,
-  })) : sponsoredProducts.map(p => ({ ...p, image: PRODUCT_IMAGES[p.slug] || null }))
+    image: p.image_url || getProductImage(p.slug) || null,
+  })) : sponsoredProducts.map(p => ({ ...p, image: getProductImage(p.slug) || null }))
 
   return (
     <section className="py-12">

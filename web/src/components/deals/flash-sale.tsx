@@ -2,14 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { Link } from '@/i18n/navigation'
-import { Clock, Zap, ImageIcon } from 'lucide-react'
+import { Clock, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-
-const PRODUCT_IMAGES: Record<string, string> = {
-  'snail-mucin-essence': '/images/products/snail-mucin-essence.jpg',
-  'red-ginseng-extract': '/images/products/red-ginseng-extract.jpg',
-  'bibigo-mandu': '/images/products/bibigo-mandu.jpg',
-}
+import { getProductImage } from '@/lib/image-map'
 
 const flashSaleItems = [
   { slug: 'snail-mucin-essence', name: 'Snail Mucin 96% Essence', brand: 'COSRX', original: '$15.99', deal: '$9.99', discount: 37 },
@@ -38,8 +33,8 @@ export function FlashSale({ deals }: { deals?: any[] }) {
     original: d.original || `$${d.original_price ?? 0}`,
     deal: d.deal || `$${d.deal_price ?? 0}`,
     discount: d.discount ?? d.discount_percent ?? 0,
-    image: d.image_url || PRODUCT_IMAGES[d.slug] || PRODUCT_IMAGES[d.product_slug] || null,
-  })) : flashSaleItems.map((item) => ({ ...item, image: PRODUCT_IMAGES[item.slug] || null }))
+    image: d.image_url || getProductImage(d.slug) || getProductImage(d.product_slug) || null,
+  })) : flashSaleItems.map((item) => ({ ...item, image: getProductImage(item.slug) || null }))
 
   return (
     <section className="py-12">

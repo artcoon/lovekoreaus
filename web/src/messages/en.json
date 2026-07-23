@@ -5,11 +5,13 @@
     "description": "Korea's Gateway to the U.S., Japan & China — Discover verified Korean products, brands, and businesses with video reviews."
   },
   "nav": {
-    "beauty": "Beauty & Cosmetics",
-    "food": "Food & Health",
-    "fashion": "Fashion & Lifestyle",
-    "culture": "Culture & Goods",
-    "b2b": "Business & Trade",
+    "beauty": "Beauty",
+    "food": "Food",
+    "fashion": "Fashion",
+    "kpop": "K-Pop",
+    "health": "Health",
+    "tech": "Tech",
+    "home": "Home",
     "directory": "Directory",
     "watch": "Watch",
     "deals": "Deals",

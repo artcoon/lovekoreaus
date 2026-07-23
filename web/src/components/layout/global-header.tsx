@@ -12,14 +12,16 @@ import { createClient } from '@/lib/supabase/client'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 
 const categories = [
-  { key: 'beauty', href: '/products?category=beauty' },
-  { key: 'food', href: '/products?category=food' },
-  { key: 'fashion', href: '/products?category=fashion' },
-  { key: 'culture', href: '/products?category=culture' },
-  { key: 'b2b', href: '/products?category=b2b' },
-  { key: 'directory', href: '/directory' },
-  { key: 'watch', href: '/watch' },
-  { key: 'deals', href: '/deals' },
+  { key: 'beauty', href: '/products?category=beauty', label: 'Beauty' },
+  { key: 'food', href: '/products?category=food', label: 'Food' },
+  { key: 'fashion', href: '/products?category=fashion', label: 'Fashion' },
+  { key: 'kpop', href: '/products?category=kpop', label: 'K-Pop' },
+  { key: 'health', href: '/products?category=health', label: 'Health' },
+  { key: 'tech', href: '/products?category=tech', label: 'Tech' },
+  { key: 'home', href: '/products?category=home', label: 'Home' },
+  { key: 'directory', href: '/directory', label: 'Directory' },
+  { key: 'watch', href: '/watch', label: 'Watch' },
+  { key: 'deals', href: '/deals', label: 'Deals' },
 ] as const
 
 export function GlobalHeader() {

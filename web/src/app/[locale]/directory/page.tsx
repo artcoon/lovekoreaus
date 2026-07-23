@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
 import { GlobalHeader } from '@/components/layout/global-header'
 import { GlobalFooter } from '@/components/layout/global-footer'
-import { DirectoryHero } from '@/components/directory/directory-hero'
-import { DirectoryFilters } from '@/components/directory/directory-filters'
-import { DirectoryGrid } from '@/components/directory/directory-grid'
+import { DirectoryPageClient } from '@/components/directory/directory-page-client'
 
 export const metadata: Metadata = {
   title: 'Directory — Korean Business Directory',
@@ -17,14 +15,8 @@ export default async function DirectoryPage() {
   return (
     <>
       <GlobalHeader />
-      <main className="flex-1">
-        <DirectoryHero />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-8">
-            <DirectoryFilters />
-            <DirectoryGrid sellers={sellers as any} />
-          </div>
-        </div>
+      <main className="flex-1 bg-gray-50">
+        <DirectoryPageClient sellers={sellers as any} />
       </main>
       <GlobalFooter />
     </>

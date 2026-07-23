@@ -5,11 +5,13 @@
     "description": "通往美国、日本和中国市场的韩国门户——通过视频评测发现经过验证的韩国产品、品牌和企业。"
   },
   "nav": {
-    "beauty": "美妆·护肤",
-    "food": "食品·健康",
-    "fashion": "时尚·生活",
-    "culture": "文化·好物",
-    "b2b": "商务·贸易",
+    "beauty": "美妆",
+    "food": "食品",
+    "fashion": "时尚",
+    "kpop": "K-POP",
+    "health": "健康",
+    "tech": "科技",
+    "home": "家居",
     "directory": "企业目录",
     "watch": "视频",
     "deals": "优惠",

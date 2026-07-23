@@ -5,8 +5,9 @@ const footerCategories = [
   { key: 'beauty', href: '/products?category=beauty' },
   { key: 'food', href: '/products?category=food' },
   { key: 'fashion', href: '/products?category=fashion' },
-  { key: 'culture', href: '/products?category=culture' },
-  { key: 'b2b', href: '/products?category=b2b' },
+  { key: 'kpop', href: '/products?category=kpop' },
+  { key: 'health', href: '/products?category=health' },
+  { key: 'tech', href: '/products?category=tech' },
 ] as const
 
 const footerLinks = [

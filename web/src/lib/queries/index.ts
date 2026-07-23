@@ -47,13 +47,24 @@ export async function getSellerBySlug(slug: string) {
 export async function getProducts(options?: { category?: string; sellerId?: string; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = supabase.from('products').select('*').eq('status', 'active')
+    let query = supabase.from('products').select('*, seller_profiles(company_name_en, slug)')
+      .eq('status', 'active')
     if (options?.category) query = query.eq('category_id', options.category)
     if (options?.sellerId) query = query.eq('seller_id', options.sellerId)
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
     if (error) console.error('getProducts error:', error)
-    return (data ?? []).map((p: any) => ({ ...p, image_url: p.image_url || getProductImage(p.slug) }))
+    return (data ?? []).map((p: any) => {
+      const seller = p.seller_profiles as any
+      return {
+        ...p,
+        brand: seller?.company_name_en || p.name_en?.split(' ')[0] || 'Korean Brand',
+        brandSlug: seller?.slug || '',
+        hasVideo: false,
+        certs: [] as string[],
+        image_url: p.image_url || getProductImage(p.slug),
+      }
+    })
   }
   let products = mockProducts
   if (options?.sellerId) products = products.filter((p) => p.seller_id === options.sellerId)
@@ -64,10 +75,18 @@ export async function getProducts(options?: { category?: string; sellerId?: stri
 export async function getProductBySlug(slug: string) {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data } = await supabase.from('products').select('*').eq('slug', slug).single()
+    const { data } = await supabase.from('products').select('*, seller_profiles(company_name_en, slug)').eq('slug', slug).single()
     if (!data) return null
     const d = data as any
-    return { ...d, image_url: d.image_url || getProductImage(slug) }
+    const seller = d.seller_profiles as any
+    return {
+      ...d,
+      brand: seller?.company_name_en || d.name_en?.split(' ')[0] || 'Korean Brand',
+      brandSlug: seller?.slug || '',
+      hasVideo: false,
+      certs: [] as string[],
+      image_url: d.image_url || getProductImage(slug),
+    }
   }
   return mockProducts.find((p) => p.slug === slug) ?? null
 }

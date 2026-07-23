@@ -42,11 +42,11 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
   const t = useTranslations()
   const items = videos?.length ? videos.map((v: any) => ({
     id: v.id,
-    title: v.title,
-    channel: v.channel,
-    views: v.views,
-    thumbnail: v.thumbnail || null,
-    duration: v.duration,
+    title: v.title_en || v.title || 'Video',
+    channel: v.channel_name || v.channel || '',
+    views: v.view_count || v.views || '0',
+    thumbnail: v.thumbnail_url || v.thumbnail || null,
+    duration: v.duration || '',
   })) : mockVideos
 
   return (

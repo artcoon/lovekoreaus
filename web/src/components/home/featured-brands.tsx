@@ -16,11 +16,11 @@ export function FeaturedBrands({ brands }: { brands?: any[] }) {
   const items = brands?.length ? brands.map((b: any) => ({
     id: b.id || b.slug,
     slug: b.slug,
-    name: b.name,
-    type: b.type || 'Brand',
-    rating: b.rating ?? 0,
-    products: b.products ?? b.productCount ?? 0,
-    verified: b.verified ?? false,
+    name: b.company_name_en || b.company_name || b.name || 'Unknown',
+    type: b.seller_type || b.type || 'Brand',
+    rating: b.rating_avg ?? b.rating ?? 0,
+    products: b.product_count ?? b.products ?? b.productCount ?? 0,
+    verified: b.is_verified ?? b.verified ?? false,
   })) : mockBrands
 
   return (

@@ -65,11 +65,11 @@ export function FeaturedProducts({ products }: { products?: any[] }) {
   const items = products?.length ? products.map((p: any) => ({
     id: p.id || p.slug,
     slug: p.slug,
-    name: p.name,
+    name: p.name_en || p.name || 'Product',
     brand: p.brand || p.seller_name || '',
     priceMin: p.priceMin ?? p.price_min ?? 0,
     priceMax: p.priceMax ?? p.price_max ?? 0,
-    rating: p.rating ?? 0,
+    rating: p.rating_avg ?? p.rating ?? 0,
     reviewCount: p.reviewCount ?? p.review_count ?? 0,
     category: p.category || '',
     isSponsored: p.isSponsored ?? p.is_sponsored ?? false,

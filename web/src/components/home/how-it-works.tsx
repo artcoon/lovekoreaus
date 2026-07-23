@@ -14,10 +14,10 @@ export function HowItWorks() {
     <section className="relative py-16 overflow-hidden">
       {/* Background image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
         style={{ backgroundImage: "url('/images/products/snail-mucin-essence.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/85 to-white/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/75 to-white/60" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-navy">

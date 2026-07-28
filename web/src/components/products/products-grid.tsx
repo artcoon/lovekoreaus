@@ -358,7 +358,7 @@ export function ProductsGrid({ products, initialCategory }: { products: ProductI
           </Button>
         </div>
       ) : viewMode === 'grid' ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filtered.map((product) => (
             <ProductCard key={product.slug} product={product} />
           ))}
@@ -382,7 +382,7 @@ function ProductCard({ product }: { product: ProductItem }) {
     <Link href={`/products/${product.slug}`}>
       <div className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 h-full flex flex-col">
         {/* Image */}
-        <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+        <div className="relative aspect-[4/5] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
           {product.image_url ? (
             <img
               src={product.image_url}
@@ -438,24 +438,24 @@ function ProductCard({ product }: { product: ProductItem }) {
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col flex-1">
-          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">{product.brand}</p>
-          <h3 className="mt-1 text-sm font-semibold text-navy line-clamp-2 group-hover:text-accent-red transition-colors leading-snug">
+        <div className="p-2.5 sm:p-4 flex flex-col flex-1">
+          <p className="text-[10px] sm:text-xs text-gray-500 font-medium uppercase tracking-wider truncate">{product.brand}</p>
+          <h3 className="mt-0.5 text-xs sm:text-sm font-semibold text-navy line-clamp-2 group-hover:text-accent-red transition-colors leading-snug">
             {product.name_en}
           </h3>
 
           {product.description_en && (
-            <p className="mt-1.5 text-xs text-gray-400 line-clamp-2 leading-relaxed">{product.description_en}</p>
+            <p className="mt-1 text-[10px] sm:text-xs text-gray-400 line-clamp-2 leading-relaxed hidden sm:block">{product.description_en}</p>
           )}
 
-          <div className="mt-auto pt-3">
+          <div className="mt-auto pt-2 sm:pt-3">
             {/* Price */}
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-lg font-bold text-navy">
+            <div className="flex items-baseline gap-1">
+              <span className="text-sm sm:text-base font-bold text-navy">
                 {product.price_min ? `$${product.price_min.toFixed(2)}` : 'Contact for price'}
               </span>
               {product.price_max && product.price_max !== product.price_min && (
-                <span className="text-xs text-gray-400">— ${product.price_max.toFixed(2)}</span>
+                <span className="text-[10px] text-gray-400">— ${product.price_max.toFixed(2)}</span>
               )}
             </div>
 
@@ -465,18 +465,18 @@ function ProductCard({ product }: { product: ProductItem }) {
             )}
 
             {/* Rating */}
-            <div className="mt-2 flex items-center justify-between">
-              <div className="flex items-center gap-1">
+            <div className="mt-1.5 sm:mt-2 flex items-center justify-between">
+              <div className="flex items-center gap-0.5">
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map(s => (
                     <Star
                       key={s}
-                      className={`h-3 w-3 ${s <= Math.round(product.rating_avg) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`}
+                      className={`h-2.5 w-2.5 sm:h-3 sm:w-3 ${s <= Math.round(product.rating_avg) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`}
                     />
                   ))}
                 </div>
-                <span className="text-xs font-medium text-navy ml-1">{product.rating_avg.toFixed(1)}</span>
-                <span className="text-[10px] text-gray-400">({product.review_count.toLocaleString()})</span>
+                <span className="text-[10px] sm:text-xs font-medium text-navy ml-1">{product.rating_avg.toFixed(1)}</span>
+                <span className="text-[9px] sm:text-[10px] text-gray-400">({product.review_count.toLocaleString()})</span>
               </div>
             </div>
           </div>

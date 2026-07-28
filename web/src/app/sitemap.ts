@@ -1,38 +1,94 @@
 import type { MetadataRoute } from 'next'
+import { getProducts, getSellers, getCategories } from '@/lib/queries'
 
-const BASE_URL = 'https://lovekorea.us'
+const SITE_URL = 'https://lovekorea.us'
+const LOCALES = ['en', 'ko', 'ja', 'zh']
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = [
-    '',
-    '/sellers',
-    '/directory',
-    '/watch',
-    '/products',
-    '/deals',
-    '/login',
-    '/signup',
-  ]
+const STATIC_PATHS = [
+  '',
+  '/products',
+  '/directory',
+  '/watch',
+  '/sellers',
+  '/deals',
+  '/about',
+  '/contact',
+  '/faq',
+  '/terms',
+  '/privacy',
+  '/login',
+  '/signup',
+  '/seller-onboarding',
+  '/search',
+]
 
-  const locales = ['en', 'ko']
-
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []
 
-  for (const page of staticPages) {
-    for (const locale of locales) {
-      const url = locale === 'en' ? `${BASE_URL}${page}` : `${BASE_URL}/${locale}${page}`
+  // Static pages for all locales
+  for (const locale of LOCALES) {
+    for (const path of STATIC_PATHS) {
       entries.push({
-        url,
+        url: `${SITE_URL}/${locale}${path}`,
         lastModified: new Date(),
-        changeFrequency: page === '' ? 'daily' : 'weekly',
-        priority: page === '' ? 1 : 0.8,
+        changeFrequency: path === '' ? 'daily' : 'weekly',
+        priority: path === '' ? 1.0 : 0.7,
       })
     }
   }
 
-  // In production, dynamically add product/brand pages from DB
-  // const products = await getProducts()
-  // products.forEach(p => entries.push({ url: `${BASE_URL}/products/${p.slug}`, ... }))
+  // Categories
+  try {
+    const categories = await getCategories()
+    for (const locale of LOCALES) {
+      for (const category of categories) {
+        const slug = (category as any).slug || (category as any).id
+        entries.push({
+          url: `${SITE_URL}/${locale}/categories/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        })
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  // Products
+  try {
+    const products = await getProducts()
+    for (const locale of LOCALES) {
+      for (const product of products) {
+        entries.push({
+          url: `${SITE_URL}/${locale}/products/${product.slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        })
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  // Sellers / Brands
+  try {
+    const sellers = await getSellers()
+    for (const locale of LOCALES) {
+      for (const seller of sellers) {
+        const slug = (seller as any).slug || (seller as any).id
+        entries.push({
+          url: `${SITE_URL}/${locale}/brands/${slug}`,
+          lastModified: new Date(),
+          changeFrequency: 'weekly',
+          priority: 0.8,
+        })
+      }
+    }
+  } catch {
+    // ignore
+  }
 
   return entries
 }

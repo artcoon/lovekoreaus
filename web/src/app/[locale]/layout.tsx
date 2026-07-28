@@ -21,24 +21,77 @@ const notoSansKR = Noto_Sans_KR({
   weight: ['400', '500', '600', '700'],
 })
 
+const SITE_URL = 'https://lovekorea.us'
+const SITE_NAME = 'LoveKorea.Us'
+const DEFAULT_DESCRIPTION =
+  "Korea's Gateway to the U.S., Japan & China — Discover verified Korean products, brands, and businesses with video reviews."
+
 export const metadata: Metadata = {
   title: {
-    default: 'LoveKorea.Us — Discover the Best of Korea',
+    default: `${SITE_NAME} — Discover the Best of Korea`,
     template: '%s | LoveKorea.Us',
   },
-  description:
-    "Korea's Gateway to the U.S., Japan & China — Discover verified Korean products, brands, and businesses with video reviews.",
-  metadataBase: new URL('https://lovekorea.us'),
+  description: DEFAULT_DESCRIPTION,
+  metadataBase: new URL(SITE_URL),
+  keywords: [
+    'Korean products',
+    'K-beauty',
+    'K-food',
+    'K-pop',
+    'Korean brands',
+    'Korean exporters',
+    'Korean manufacturers',
+    'Korean B2B',
+  ],
+  authors: [{ name: 'LoveKorea.Us' }],
+  creator: 'LoveKorea.Us',
+  publisher: 'LoveKorea.Us',
+  openGraph: {
+    siteName: SITE_NAME,
+    type: 'website',
+    locale: 'en_US',
+    url: SITE_URL,
+    title: `${SITE_NAME} — Discover the Best of Korea`,
+    description: DEFAULT_DESCRIPTION,
+    images: [
+      {
+        url: '/images/og/lovekorea-og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'LoveKorea.Us — Discover the Best of Korea',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} — Discover the Best of Korea`,
+    description: DEFAULT_DESCRIPTION,
+    images: ['/images/og/lovekorea-og.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en': `${SITE_URL}/en`,
+      'ko': `${SITE_URL}/ko`,
+      'ja': `${SITE_URL}/ja`,
+      'zh': `${SITE_URL}/zh`,
+    },
+  },
   viewport: {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
-  },
-  openGraph: {
-    siteName: 'LoveKorea.Us',
-    type: 'website',
-    locale: 'en_US',
   },
 }
 

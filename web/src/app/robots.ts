@@ -6,9 +6,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/dashboard/', '/admin/', '/api/'],
+        disallow: ['/dashboard/', '/admin/', '/api/', '/_next/', '/404'],
       },
     ],
     sitemap: 'https://lovekorea.us/sitemap.xml',
+    host: 'https://lovekorea.us',
   }
 }

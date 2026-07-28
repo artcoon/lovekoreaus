@@ -2,11 +2,13 @@ import type { Metadata } from 'next'
 import { GlobalHeader } from '@/components/layout/global-header'
 import { GlobalFooter } from '@/components/layout/global-footer'
 import { DirectoryPageClient } from '@/components/directory/directory-page-client'
+import { createMetadata } from '@/lib/seo/metadata'
 
-export const metadata: Metadata = {
-  title: 'Directory — Korean Business Directory',
-  description: 'Browse verified Korean businesses, manufacturers, and brands. Filter by category, market, and certification.',
-}
+export const metadata: Metadata = createMetadata({
+  title: 'Korean Business Directory — Verified Manufacturers & Brands',
+  description: 'Browse verified Korean manufacturers, brands, and service providers. Filter by category, target market, and certification.',
+  path: '/directory',
+})
 
 export default async function DirectoryPage() {
   const { getSellers } = await import('@/lib/queries')

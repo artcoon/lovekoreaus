@@ -27,7 +27,7 @@ export function HowItWorks() {
           {steps.map((step) => (
             <div
               key={step.num}
-              className="relative bg-white/80 backdrop-blur-md rounded-xl p-8 text-center shadow-lg border border-white/60 hover:bg-white/90 hover:shadow-xl transition-all"
+              className="relative bg-white/50 backdrop-blur-md rounded-xl p-8 text-center shadow-lg border border-white/40 hover:bg-white/65 hover:shadow-xl transition-all"
             >
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-navy/5 mb-4">
                 <step.icon className="h-7 w-7 text-navy" />

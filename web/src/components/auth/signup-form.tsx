@@ -66,6 +66,10 @@ export function SignupForm() {
           </div>
         )}
 
+        <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-800 text-sm">
+          Social login (Google/Kakao) requires setup in Supabase. If it fails, please sign up with email or contact support.
+        </div>
+
         {/* Role Toggle */}
         <div className="flex rounded-xl bg-gray-100 p-1 mb-6">
           <button

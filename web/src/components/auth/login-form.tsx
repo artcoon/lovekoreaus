@@ -73,6 +73,10 @@ export function LoginForm() {
           </div>
         )}
 
+        <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-800 text-sm">
+          Social login (Google/Kakao) requires setup in Supabase. If it fails, please sign in with email or contact support.
+        </div>
+
         {/* Social Login */}
         <div className="space-y-3">
           <button

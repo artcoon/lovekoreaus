@@ -24,8 +24,32 @@ export async function GET(request: NextRequest) {
       }
     )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) return response
+    try {
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+      if (!error && data.user) {
+        // Ensure profile exists for OAuth sign-ins
+        const { data: existing } = await supabase
+          .from('profiles')
+          .select('id, role')
+          .eq('id', data.user.id)
+          .single()
+
+        if (!existing) {
+          const nextPath = next === '/seller-onboarding' ? '/seller-onboarding' : '/dashboard'
+          await supabase.from('profiles').insert({
+            id: data.user.id,
+            role: next === '/seller-onboarding' ? 'seller' : 'buyer',
+            display_name: data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email,
+            avatar_url: data.user.user_metadata?.avatar_url,
+          } as any)
+        }
+
+        return response
+      }
+      if (error) console.error('OAuth callback error:', error.message)
+    } catch (err) {
+      console.error('OAuth callback exception:', err)
+    }
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth`)

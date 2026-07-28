@@ -8,6 +8,19 @@ import { Mail, Lock, User, Eye, EyeOff, Building, Loader2, AlertCircle } from 'l
 import { signUp, signInWithGoogle } from '@/lib/auth/actions'
 import { trackSignUp } from '@/lib/analytics'
 
+function formatAuthError(error: string): string {
+  if (error.includes('provider is not enabled') || error.includes('Unsupported provider')) {
+    return 'Social login is not configured yet. Please sign up with email or contact support.'
+  }
+  if (error.includes('User already registered')) {
+    return 'An account with this email already exists. Please sign in instead.'
+  }
+  if (error.includes('popup_closed_by_user')) {
+    return 'Login popup was closed. Please try again.'
+  }
+  return error
+}
+
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [role, setRole] = useState<'buyer' | 'seller'>('buyer')
@@ -20,7 +33,7 @@ export function SignupForm() {
     formData.set('role', role)
     const result = await signUp(formData)
     if (result?.error) {
-      setError(result.error)
+      setError(formatAuthError(result.error))
       setLoading(false)
     } else {
       trackSignUp('email')
@@ -29,10 +42,11 @@ export function SignupForm() {
 
   async function handleGoogle() {
     setLoading(true)
+    setError(null)
     trackSignUp('google')
-    const result = await signInWithGoogle()
+    const result = await signInWithGoogle(role)
     if (result?.error) {
-      setError(result.error)
+      setError(formatAuthError(result.error))
       setLoading(false)
     }
   }
@@ -46,8 +60,8 @@ export function SignupForm() {
         </div>
 
         {error && (
-          <div className="mb-4 flex items-center gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm">
-            <AlertCircle className="h-4 w-4 shrink-0" />
+          <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}

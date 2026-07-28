@@ -56,14 +56,20 @@ export async function signOut() {
   redirect('/')
 }
 
-export async function signInWithGoogle() {
+export async function signInWithGoogle(role: 'buyer' | 'seller' = 'buyer') {
   if (!isSupabaseConfigured()) return { error: 'Database not configured' }
 
   const supabase = await createClient()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
+      redirectTo: `${siteUrl}/api/auth/callback?next=${role === 'seller' ? '/seller-onboarding' : '/dashboard'}`,
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+      },
+      scopes: 'email profile',
     },
   })
 
@@ -71,14 +77,15 @@ export async function signInWithGoogle() {
   if (data.url) redirect(data.url)
 }
 
-export async function signInWithKakao() {
+export async function signInWithKakao(role: 'buyer' | 'seller' = 'buyer') {
   if (!isSupabaseConfigured()) return { error: 'Database not configured' }
 
   const supabase = await createClient()
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'kakao',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
+      redirectTo: `${siteUrl}/api/auth/callback?next=${role === 'seller' ? '/seller-onboarding' : '/dashboard'}`,
     },
   })
 

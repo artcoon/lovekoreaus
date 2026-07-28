@@ -8,6 +8,19 @@ import { Input } from '@/components/ui/input'
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
 import { signIn, signInWithGoogle, signInWithKakao } from '@/lib/auth/actions'
 
+function formatAuthError(error: string): string {
+  if (error.includes('provider is not enabled') || error.includes('Unsupported provider')) {
+    return 'Social login is not configured yet. Please sign in with email or contact support.'
+  }
+  if (error.includes('popup_closed_by_user')) {
+    return 'Login popup was closed. Please try again.'
+  }
+  if (error.includes('access_denied')) {
+    return 'Access was denied. Please try again or use another method.'
+  }
+  return error
+}
+
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -27,18 +40,20 @@ export function LoginForm() {
 
   async function handleGoogle() {
     setLoading(true)
-    const result = await signInWithGoogle()
+    setError(null)
+    const result = await signInWithGoogle('buyer')
     if (result?.error) {
-      setError(result.error)
+      setError(formatAuthError(result.error))
       setLoading(false)
     }
   }
 
   async function handleKakao() {
     setLoading(true)
-    const result = await signInWithKakao()
+    setError(null)
+    const result = await signInWithKakao('buyer')
     if (result?.error) {
-      setError(result.error)
+      setError(formatAuthError(result.error))
       setLoading(false)
     }
   }
@@ -52,9 +67,9 @@ export function LoginForm() {
         </div>
 
         {(error || authError) && (
-          <div className="mb-4 flex items-center gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <span>{error || 'Authentication failed. Please try again.'}</span>
+          <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm">
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+            <span>{formatAuthError(error || '') || authError || 'Authentication failed. Please try again.'}</span>
           </div>
         )}
 

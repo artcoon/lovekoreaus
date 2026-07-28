@@ -4,7 +4,15 @@ import { useState } from 'react'
 import { Play, Eye, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 
-const categories = ['All', 'Beauty', 'Food', 'Fashion', 'K-Pop', 'Health', 'Tech']
+const categories = [
+  { value: 'All', label: 'All' },
+  { value: 'Beauty', label: 'K-Beauty' },
+  { value: 'Food', label: 'K-Food' },
+  { value: 'Fashion', label: 'K-Fashion' },
+  { value: 'K-Pop', label: 'K-Pop' },
+  { value: 'Health', label: 'K-Health' },
+  { value: 'Tech', label: 'K-Tech' },
+]
 
 interface Video {
   id: string
@@ -30,15 +38,15 @@ export function WatchGrid({ videos }: { videos?: Video[] }) {
       <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide">
         {categories.map((cat) => (
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
+            key={cat.value}
+            onClick={() => setActiveCategory(cat.value)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-              activeCategory === cat
+              activeCategory === cat.value
                 ? 'bg-navy text-white'
                 : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
             }`}
           >
-            {cat}
+            {cat.label}
           </button>
         ))}
       </div>

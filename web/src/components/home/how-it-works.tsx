@@ -15,7 +15,7 @@ export function HowItWorks() {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
-        style={{ backgroundImage: "url('/images/products/snail-mucin-essence.jpg')" }}
+        style={{ backgroundImage: "url('/images/products/bibigo-mandu.jpg')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/45 to-white/30" />
 

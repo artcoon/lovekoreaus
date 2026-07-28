@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Play, Eye, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { trackVideoPlay } from '@/lib/analytics'
 
 const categories = [
   { value: 'All', label: 'All' },
@@ -67,6 +68,7 @@ export function WatchGrid({ videos }: { videos?: Video[] }) {
               href={`https://www.youtube.com/watch?v=${ytId}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackVideoPlay(ytId, video.title, video.category)}
               className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
             >
               <div className="relative aspect-video bg-gray-200 overflow-hidden">

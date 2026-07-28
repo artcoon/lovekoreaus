@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Search, X, Package, Building2, Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { trackSearch } from '@/lib/analytics'
 
 interface SearchResult {
   products: Array<{
@@ -60,6 +61,7 @@ export function SearchBar({ variant = 'header' }: { variant?: 'header' | 'hero' 
       setResults(data)
       setIsOpen(true)
       setSelectedIndex(-1)
+      trackSearch(q, data.products.length + data.sellers.length)
     } catch {
       setResults(null)
     } finally {

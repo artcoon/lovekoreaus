@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
   Star, ShieldCheck, Play, Heart, Share2, MessageSquare,
-  FileText, Globe, Package, ChevronRight, ImageIcon,
+  FileText, Globe, ChevronRight, ImageIcon,
   Send, X, Loader2, CheckCircle2, AlertCircle, Copy, Check
 } from 'lucide-react'
+import { trackProductView, trackLeadSubmit } from '@/lib/analytics'
 
 export function ProductDetail({ slug, product, reviews }: { slug: string; product?: any; reviews?: any[] }) {
   const [showInquiry, setShowInquiry] = useState(false)
@@ -34,6 +35,16 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
     imageUrl: product?.image_url || null,
     isSponsor: product?.is_sponsored ?? false,
   }
+
+  useEffect(() => {
+    trackProductView({
+      id: slug,
+      name: data.name,
+      brand: data.brand,
+      category: data.category,
+      price: product?.price_min ?? undefined,
+    })
+  }, [slug, data.name, data.brand, data.category, product?.price_min])
 
   const handleShare = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : ''
@@ -292,6 +303,7 @@ function InquiryModal({ productName, brandName, type, onClose }: {
     setSending(true); setError('')
     try {
       await new Promise(r => setTimeout(r, 1000))
+      trackLeadSubmit({ type, product_id: slug })
       setSent(true)
     } catch {
       setError('Failed to send. Please try again.')

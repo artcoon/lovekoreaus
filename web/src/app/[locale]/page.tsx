@@ -8,14 +8,20 @@ import { FeaturedProducts } from '@/components/home/featured-products'
 import { WatchPreview } from '@/components/home/watch-preview'
 import { FeaturedBrands } from '@/components/home/featured-brands'
 import { SellerCta } from '@/components/home/seller-cta'
-import { getFeaturedProducts, getFeaturedSellers, getFeaturedVideos } from '@/lib/queries'
+import { getFeaturedProducts, getFeaturedSellers } from '@/lib/queries'
+import { mockVideos } from '@/lib/data/mock-data'
+
+export const revalidate = 0
 
 export default async function HomePage() {
-  const [products, sellers, videos] = await Promise.all([
+  const [products, sellers] = await Promise.all([
     getFeaturedProducts(4),
     getFeaturedSellers(4),
-    getFeaturedVideos(4),
   ])
+
+  const kpopVideos = mockVideos
+    .filter((v) => v.category === 'K-Pop' && v.is_featured)
+    .slice(0, 6)
 
   return (
     <>
@@ -26,7 +32,7 @@ export default async function HomePage() {
         <HowItWorks />
         <CategoryGrid />
         <FeaturedProducts products={products as any} />
-        <WatchPreview videos={videos as any} />
+        <WatchPreview videos={kpopVideos as any} title="Trending K-Pop" subtitle="From Gangnam Style to the latest hits — watch the K-Pop videos the world loves." />
         <FeaturedBrands brands={sellers as any} />
         <SellerCta />
       </main>

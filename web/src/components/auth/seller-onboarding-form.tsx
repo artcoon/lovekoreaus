@@ -8,6 +8,7 @@ import {
   ChevronRight, ChevronLeft, Loader2, AlertCircle, CheckCircle2
 } from 'lucide-react'
 import { submitSellerOnboarding } from '@/lib/auth/actions'
+import { trackSellerOnboardingStep } from '@/lib/analytics'
 
 const sellerTypes = [
   { value: 'brand', label: 'Brand Owner', desc: 'You own the brand and want to expand globally' },
@@ -33,6 +34,11 @@ export function SellerOnboardingForm() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
+  const goToStep = (nextStep: number) => {
+    setStep(nextStep)
+    trackSellerOnboardingStep(`step_${nextStep}`)
+  }
+
   // Form state
   const [sellerType, setSellerType] = useState('')
   const [companyName, setCompanyName] = useState('')
@@ -52,6 +58,7 @@ export function SellerOnboardingForm() {
   async function handleSubmit() {
     setLoading(true)
     setError(null)
+    trackSellerOnboardingStep('submit')
     const formData = new FormData()
     formData.set('companyName', companyName)
     formData.set('companyNameEn', companyNameEn)
@@ -242,14 +249,14 @@ export function SellerOnboardingForm() {
         {/* Navigation */}
         <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
           {step > 1 ? (
-            <Button variant="outline" onClick={() => setStep(step - 1)} className="gap-1.5">
+            <Button variant="outline" onClick={() => goToStep(step - 1)} className="gap-1.5">
               <ChevronLeft className="h-4 w-4" /> Back
             </Button>
           ) : <div />}
 
           {step < 3 ? (
             <Button
-              onClick={() => setStep(step + 1)}
+              onClick={() => goToStep(step + 1)}
               disabled={!canProceed()}
               className="bg-navy hover:bg-navy-light text-white gap-1.5"
             >

@@ -3,6 +3,9 @@ import { Inter, Noto_Sans_KR } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import { GoogleAnalytics } from '@/components/analytics/google-analytics'
 import { routing } from '@/i18n/routing'
 import '../globals.css'
 
@@ -65,6 +68,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

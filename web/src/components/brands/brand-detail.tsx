@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -9,6 +9,7 @@ import {
   ExternalLink, Mail, Phone, Package, Users, Award, ImageIcon,
   Send, Loader2, CheckCircle2, X, AlertCircle
 } from 'lucide-react'
+import { trackSellerView, trackLeadSubmit } from '@/lib/analytics'
 
 export function BrandDetail({ slug, seller, products, reviews }: {
   slug: string
@@ -40,6 +41,14 @@ export function BrandDetail({ slug, seller, products, reviews }: {
     coverUrl: seller?.cover_image_url || null,
     subscriptionTier: seller?.subscription_tier || 'free',
   }
+
+  useEffect(() => {
+    trackSellerView({
+      id: slug,
+      name: brand.name,
+      type: brand.type,
+    })
+  }, [slug, brand.name, brand.type])
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
@@ -295,6 +304,7 @@ function ContactModal({ sellerName, sellerEmail, onClose }: {
     try {
       // This would normally submit to the leads API
       await new Promise(r => setTimeout(r, 1000))
+      trackLeadSubmit({ type: form.type as 'inquiry' | 'quote', seller_id: slug })
       setSent(true)
     } catch {
       setError('Failed to send. Please try again.')

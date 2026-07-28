@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Mail, Lock, User, Eye, EyeOff, Building, Loader2, AlertCircle } from 'lucide-react'
 import { signUp, signInWithGoogle } from '@/lib/auth/actions'
+import { trackSignUp } from '@/lib/analytics'
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -21,11 +22,14 @@ export function SignupForm() {
     if (result?.error) {
       setError(result.error)
       setLoading(false)
+    } else {
+      trackSignUp('email')
     }
   }
 
   async function handleGoogle() {
     setLoading(true)
+    trackSignUp('google')
     const result = await signInWithGoogle()
     if (result?.error) {
       setError(result.error)

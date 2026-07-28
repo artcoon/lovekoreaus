@@ -4,30 +4,34 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Play, Eye, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { trackVideoPlay } from '@/lib/analytics'
 
-export function WatchPreview({ videos }: { videos?: any[] }) {
+export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; title?: string; subtitle?: string }) {
   const t = useTranslations()
-  const items = videos?.length ? videos.slice(0, 3).map((v: any) => ({
+  const items = videos?.length ? videos.slice(0, 6).map((v: any) => ({
     id: v.id,
     youtubeId: v.youtube_id || v.youtubeId || '',
     title: v.title || '',
     channel: v.channel_name || v.channel || '',
-    category: v.category || 'K-Beauty',
+    category: v.category || 'K-Pop',
     views: formatViews(v.view_count ?? v.views ?? 0),
     duration: formatDuration(v.duration ?? 0),
     thumbnail: v.thumbnail_url || v.thumbnail || `https://img.youtube.com/vi/${v.youtube_id || v.youtubeId}/maxresdefault.jpg`,
   })) : [
-    { id: 'v1', youtubeId: 'NVHHeGmTfPk', title: 'KOREAN SKINCARE HALL OF FAME 2025', channel: 'Liah Yoo', category: 'Beauty', views: '1.2M', duration: '12:45', thumbnail: 'https://img.youtube.com/vi/NVHHeGmTfPk/maxresdefault.jpg' },
-    { id: 'v5', youtubeId: 'p6pgPi27yxw', title: 'BLACKPINK World Tour Merch Unboxing', channel: 'HallyuFan', category: 'K-Pop', views: '2.1M', duration: '8:55', thumbnail: 'https://img.youtube.com/vi/p6pgPi27yxw/maxresdefault.jpg' },
-    { id: 'v7', youtubeId: '-lp2Kt6RJkQ', title: 'I Bought the CRAZIEST Tech from South Korea', channel: 'MrWhoseTheBoss', category: 'Tech', views: '5M', duration: '20:15', thumbnail: 'https://img.youtube.com/vi/-lp2Kt6RJkQ/maxresdefault.jpg' },
+    { id: 'v-kpop-1', youtubeId: '9bZkp7q19f0', title: 'PSY - GANGNAM STYLE', channel: 'officialpsy', category: 'K-Pop', views: '5.3B', duration: '4:12', thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg' },
+    { id: 'v-kpop-2', youtubeId: 'IHNzOHi8sJg', title: 'BLACKPINK - DDU-DU DDU-DU', channel: 'BLACKPINK', category: 'K-Pop', views: '2.2B', duration: '3:29', thumbnail: 'https://img.youtube.com/vi/IHNzOHi8sJg/maxresdefault.jpg' },
+    { id: 'v-kpop-3', youtubeId: 'gdZLi9oWNZg', title: 'BTS - Dynamite', channel: 'HYBE LABELS', category: 'K-Pop', views: '1.8B', duration: '3:43', thumbnail: 'https://img.youtube.com/vi/gdZLi9oWNZg/maxresdefault.jpg' },
+    { id: 'v-kpop-4', youtubeId: 'ioNng3aEcAA', title: 'BLACKPINK - How You Like That', channel: 'BLACKPINK', category: 'K-Pop', views: '1.3B', duration: '3:01', thumbnail: 'https://img.youtube.com/vi/ioNng3aEcAA/maxresdefault.jpg' },
+    { id: 'v-kpop-5', youtubeId: 'WMweEpGlu_U', title: 'BTS - Butter', channel: 'HYBE LABELS', category: 'K-Pop', views: '900M', duration: '3:23', thumbnail: 'https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg' },
+    { id: 'v-kpop-6', youtubeId: '11cta61wiQ8', title: 'NewJeans - Hype Boy', channel: 'HYBE LABELS', category: 'K-Pop', views: '250M', duration: '2:59', thumbnail: 'https://img.youtube.com/vi/11cta61wiQ8/maxresdefault.jpg' },
   ]
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gradient-to-b from-slate-50 to-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-navy">
-            {t('watch.sectionTitle')}
+            {title || t('watch.sectionTitle')}
           </h2>
           <Link
             href="/watch"
@@ -36,6 +40,11 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
             {t('common.viewAll')} →
           </Link>
         </div>
+        {subtitle ? (
+          <p className="text-sm sm:text-base text-gray-500 -mt-4 mb-8 max-w-2xl">
+            {subtitle}
+          </p>
+        ) : null}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((video) => (
@@ -44,6 +53,7 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
               href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackVideoPlay(video.youtubeId, video.title, video.category)}
               className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
             >
               <div className="relative aspect-video bg-gray-200 overflow-hidden">
@@ -57,7 +67,8 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
                     <Play className="h-6 w-6 text-white fill-white ml-0.5" />
                   </div>
                 </div>
-                <div className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2 py-0.5 rounded font-mono">
+                <div className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2 py-0.5 rounded font-mono flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
                   {video.duration}
                 </div>
               </div>
@@ -72,7 +83,7 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
                     {video.views}
                   </span>
                 </div>
-                <Badge variant="secondary" className="mt-2 text-xs">
+                <Badge variant="secondary" className="mt-2 text-xs bg-rose-50 text-rose-700 hover:bg-rose-100">
                   {video.category}
                 </Badge>
               </div>
@@ -86,8 +97,9 @@ export function WatchPreview({ videos }: { videos?: any[] }) {
 
 function formatViews(v: number | string): string {
   if (typeof v === 'string') return v
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1)}M`
-  if (v >= 1_000) return `${(v / 1_000).toFixed(0)}K`
+  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+  if (v >= 1_000) return `${Math.round(v / 1_000)}K`
   return String(v)
 }
 

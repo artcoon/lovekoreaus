@@ -15,7 +15,7 @@ export function HeroSection() {
       {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/brands/hana-cosmetics.jpg')" }}
+        style={{ backgroundImage: "url('/images/landscapes/hanok-village-1.jpg')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/60" />
       <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-60" />

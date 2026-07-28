@@ -18,7 +18,7 @@ export function SellerHero() {
     <section className="relative bg-navy overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
-        style={{ backgroundImage: "url('/images/brands/hallyu-goods.jpg')" }}
+        style={{ backgroundImage: "url('/images/landscapes/hanok-village-6.jpg')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-80" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(200,32,47,0.2),transparent_60%)]" />

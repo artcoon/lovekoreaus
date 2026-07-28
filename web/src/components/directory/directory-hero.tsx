@@ -4,8 +4,8 @@ export function DirectoryHero({ sellerCount }: { sellerCount: number }) {
   return (
     <section className="relative py-16 overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-        style={{ backgroundImage: "url('/images/brands/hallyu-goods.jpg')" }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
+        style={{ backgroundImage: "url('/images/landscapes/hanok-village-7.jpg')" }}
       />
       <div className="absolute inset-0 bg-navy/85" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

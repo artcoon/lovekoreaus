@@ -7,7 +7,7 @@ export function DealsHero() {
     <section className="relative py-16 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
-        style={{ backgroundImage: "url('/images/products/snail-mucin-essence.jpg')" }}
+        style={{ backgroundImage: "url('/images/landscapes/hanok-village-4.jpg')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-r from-accent-red/70 to-accent-red-dark/70" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">

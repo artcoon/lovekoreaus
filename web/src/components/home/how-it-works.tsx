@@ -12,7 +12,7 @@ export function HowItWorks() {
 
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-br from-navy via-navy to-navy-light">
-      <div className="absolute inset-0 bg-[url('/images/products/red-ginseng-extract.jpg')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-[url('/images/landscapes/hanok-village-2.jpg')] bg-cover bg-center opacity-20" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-white">

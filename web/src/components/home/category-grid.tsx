@@ -16,18 +16,18 @@ import {
 } from 'lucide-react'
 
 const CATEGORY_IMAGES: Record<string, string> = {
-  beauty: '/images/products/snail-mucin-essence.jpg',
-  food: '/images/products/bibigo-mandu.jpg',
-  fashion: '/images/products/hanbok-modern-dress.jpg',
-  kpop: '/images/products/bt21-plush.jpg',
-  health: '/images/products/red-ginseng-extract.jpg',
-  tech: '/images/products/galaxy-buds3-pro.jpg',
-  home: '/images/products/locknlock-container-set.jpg',
-  stationery: '/images/products/monami-pluspen-36.jpg',
-  baby: '/images/products/goongbe-baby-lotion.jpg',
-  pets: '/images/products/bowwow-dental-chew.jpg',
-  traditional: '/images/products/celadon-tea-cup-set.jpg',
-  automotive: '/images/products/ceramic-car-coating.jpg',
+  beauty: '/images/landscapes/hanok-village-1.jpg',
+  food: '/images/landscapes/hanok-village-2.jpg',
+  fashion: '/images/landscapes/hanok-village-3.jpg',
+  kpop: '/images/landscapes/hanok-village-4.jpg',
+  health: '/images/landscapes/hanok-village-5.jpg',
+  tech: '/images/landscapes/hanok-village-6.jpg',
+  home: '/images/landscapes/hanok-village-7.jpg',
+  stationery: '/images/landscapes/hanok-village-8.jpg',
+  baby: '/images/landscapes/hanok-village-9.jpg',
+  pets: '/images/landscapes/hanok-village-10.jpg',
+  traditional: '/images/landscapes/hanok-village-11.jpg',
+  automotive: '/images/landscapes/hanok-village-1.jpg',
 }
 
 const categories = [

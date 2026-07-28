@@ -27,6 +27,12 @@ export const metadata: Metadata = {
   description:
     "Korea's Gateway to the U.S., Japan & China — Discover verified Korean products, brands, and businesses with video reviews.",
   metadataBase: new URL('https://lovekorea.us'),
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   openGraph: {
     siteName: 'LoveKorea.Us',
     type: 'website',

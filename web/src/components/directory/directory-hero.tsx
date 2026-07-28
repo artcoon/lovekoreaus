@@ -1,8 +1,6 @@
 'use client'
 
-import { Search } from 'lucide-react'
-
-export function DirectoryHero() {
+export function DirectoryHero({ sellerCount }: { sellerCount: number }) {
   return (
     <section className="relative py-16 overflow-hidden">
       <div
@@ -15,16 +13,8 @@ export function DirectoryHero() {
           Korean Business Directory
         </h1>
         <p className="mt-3 text-center text-white/80 max-w-xl mx-auto drop-shadow-sm">
-          Discover verified Korean manufacturers, brands, and service providers
+          Discover {sellerCount} verified Korean manufacturers, brands, and service providers
         </p>
-        <div className="mt-8 max-w-lg mx-auto relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search businesses by name, category, or keyword..."
-            className="w-full rounded-xl bg-white/95 backdrop-blur-sm py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder:text-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-red"
-          />
-        </div>
       </div>
     </section>
   )

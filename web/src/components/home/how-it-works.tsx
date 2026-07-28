@@ -30,16 +30,16 @@ export function HowItWorks() {
           {steps.map((step) => (
             <div
               key={step.num}
-              className="relative bg-white/20 backdrop-blur-md rounded-2xl p-8 text-center shadow-xl border border-white/30 hover:bg-white/30 hover:shadow-2xl transition-all"
+              className="relative rounded-2xl p-8 text-center hover:scale-[1.02] transition-transform"
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/20 mb-4">
-                <step.icon className="h-7 w-7 text-white" />
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/90 mb-4 shadow-lg">
+                <step.icon className="h-7 w-7 text-navy" />
               </div>
-              <span className="absolute top-4 right-4 text-4xl font-bold text-white/20">
+              <span className="absolute top-4 right-4 text-4xl font-bold text-white/30">
                 {step.num}
               </span>
-              <h3 className="text-lg font-semibold text-white drop-shadow-sm">{step.title}</h3>
-              <p className="mt-2 text-sm text-white/90 leading-relaxed drop-shadow-sm">
+              <h3 className="text-lg font-semibold text-white drop-shadow-md">{step.title}</h3>
+              <p className="mt-2 text-sm text-white drop-shadow-md leading-relaxed">
                 {step.desc}
               </p>
             </div>

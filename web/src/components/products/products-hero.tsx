@@ -10,10 +10,15 @@ interface ProductsHeroProps {
 
 export function ProductsHero({ searchQuery, onSearchChange, totalCount }: ProductsHeroProps) {
   return (
-    <section className="bg-navy py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white">Korean Products</h1>
-        <p className="mt-3 text-white/60 max-w-xl mx-auto">
+    <section className="relative py-16 overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        style={{ backgroundImage: "url('/images/products/bibigo-mandu.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/70 to-navy/80" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md">Korean Products</h1>
+        <p className="mt-3 text-white/80 max-w-xl mx-auto drop-shadow-sm">
           Discover {totalCount.toLocaleString()} verified products from Korean manufacturers and brands
         </p>
         <div className="mt-6 max-w-lg mx-auto relative">
@@ -23,7 +28,7 @@ export function ProductsHero({ searchQuery, onSearchChange, totalCount }: Produc
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by product name, brand, or keyword..."
-            className="w-full rounded-xl bg-white py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder:text-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-red"
+            className="w-full rounded-xl bg-white/95 backdrop-blur-sm py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder:text-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-accent-red"
           />
         </div>
       </div>

@@ -7,9 +7,9 @@ export function DirectoryHero() {
     <section className="relative py-16 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style={{ backgroundImage: "url('/images/brands/seoul-tech.jpg')" }}
+        style={{ backgroundImage: "url('/images/brands/hallyu-goods.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-navy/20 to-navy/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-navy/40 to-navy/50" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-white text-center drop-shadow-md">
           Korean Business Directory

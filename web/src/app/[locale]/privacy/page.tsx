@@ -12,10 +12,15 @@ export default function PrivacyPage() {
     <>
       <GlobalHeader />
       <main className="flex-1 bg-gray-50">
-        <section className="bg-navy py-14">
-          <div className="mx-auto max-w-4xl px-4 text-center">
+        <section className="relative bg-navy py-14 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25"
+            style={{ backgroundImage: "url('/images/landscapes/hanok-village-8.jpg')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/90" />
+          <div className="relative mx-auto max-w-4xl px-4 text-center">
             <h1 className="text-3xl font-bold text-white">Privacy Policy</h1>
-            <p className="mt-2 text-white/60">Last updated: July 2026</p>
+            <p className="mt-2 text-white/80">Last updated: July 2026</p>
           </div>
         </section>
         <div className="mx-auto max-w-3xl px-4 py-12">

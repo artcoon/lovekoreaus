@@ -12,13 +12,13 @@ import { createClient } from '@/lib/supabase/client'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 
 const categories = [
-  { key: 'beauty', href: '/products?category=beauty', label: 'Beauty' },
-  { key: 'food', href: '/products?category=food', label: 'Food' },
-  { key: 'fashion', href: '/products?category=fashion', label: 'Fashion' },
-  { key: 'kpop', href: '/products?category=kpop', label: 'K-Pop' },
-  { key: 'health', href: '/products?category=health', label: 'Health' },
-  { key: 'tech', href: '/products?category=tech', label: 'Tech' },
-  { key: 'home', href: '/products?category=home', label: 'Home' },
+  { key: 'beauty', href: '/categories/k-beauty', label: 'Beauty' },
+  { key: 'food', href: '/categories/k-food', label: 'Food' },
+  { key: 'fashion', href: '/categories/k-fashion', label: 'Fashion' },
+  { key: 'kpop', href: '/categories/k-pop', label: 'K-Pop' },
+  { key: 'health', href: '/categories/k-health', label: 'Health' },
+  { key: 'tech', href: '/categories/k-tech', label: 'Tech' },
+  { key: 'home', href: '/categories/k-home', label: 'Home' },
   { key: 'directory', href: '/directory', label: 'Directory' },
   { key: 'watch', href: '/watch', label: 'Watch' },
   { key: 'deals', href: '/deals', label: 'Deals' },

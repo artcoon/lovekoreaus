@@ -48,6 +48,21 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+      {/* Korean cultural accent banner */}
+      <div className="mb-6 relative rounded-2xl overflow-hidden h-24 sm:h-32">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-40"
+          style={{ backgroundImage: "url('/images/landscapes/hanok-village-2.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/80 to-transparent" />
+        <div className="relative z-10 flex items-center h-full px-6 sm:px-8">
+          <div>
+            <p className="text-xs font-medium text-white/70 uppercase tracking-wider">Verified Korean Product</p>
+            <p className="text-sm sm:text-base text-white/90 mt-1">Discover quality products from trusted Korean sellers</p>
+          </div>
+        </div>
+      </div>
+
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
         <Link href="/products" className="hover:text-navy">Products</Link>

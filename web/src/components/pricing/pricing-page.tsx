@@ -68,6 +68,7 @@ export function PricingPage() {
   return (
     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center mb-12">
+        <p className="text-sm font-medium text-accent-red mb-2">{t('pricingSubtitle')}</p>
         <h1 className="text-3xl font-bold text-navy">{t('pricingTitle')}</h1>
         <p className="mt-3 text-gray-500">Choose the right plan for your business</p>
       </div>

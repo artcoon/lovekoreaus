@@ -282,8 +282,17 @@ export function AdminPanel() {
 
   const fetchLeads = useCallback(async () => {
     setLoading(true)
-    try { const res = await fetch('/api/admin/leads'); if (res.ok) setLeads(await res.json()) } catch {}
-    setLoading(false)
+    try {
+      const res = await fetch('/api/admin/leads')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      setLeads(Array.isArray(data) ? data : [])
+    } catch (err) {
+      console.error('fetchLeads error:', err)
+      setLeads([])
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   const fetchReviews = useCallback(async () => {

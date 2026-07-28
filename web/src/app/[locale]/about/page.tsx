@@ -13,10 +13,15 @@ export default function AboutPage() {
     <>
       <GlobalHeader />
       <main className="flex-1 bg-gray-50">
-        <section className="bg-navy py-16">
-          <div className="mx-auto max-w-4xl px-4 text-center">
+        <section className="relative bg-navy py-16 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+            style={{ backgroundImage: "url('/images/landscapes/hanok-village-8.jpg')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/60 to-navy/90" />
+          <div className="relative mx-auto max-w-4xl px-4 text-center">
             <h1 className="text-3xl sm:text-4xl font-bold text-white">About LoveKorea.us</h1>
-            <p className="mt-4 text-white/60 max-w-2xl mx-auto">
+            <p className="mt-4 text-white/80 max-w-2xl mx-auto">
               Your trusted gateway to Korean products, brands, and culture.
               We connect global buyers with verified Korean businesses.
             </p>
@@ -24,9 +29,13 @@ export default function AboutPage() {
         </section>
 
         <div className="mx-auto max-w-4xl px-4 py-16 space-y-16">
-          <section>
+          <section className="relative bg-white rounded-2xl border border-gray-100 p-8 overflow-hidden">
+            <div
+              className="absolute top-0 right-0 w-48 h-48 bg-cover bg-center opacity-10 rounded-bl-full"
+              style={{ backgroundImage: "url('/images/landscapes/hanok-village-9.jpg')" }}
+            />
             <h2 className="text-2xl font-bold text-navy mb-4">Our Mission</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 leading-relaxed relative z-10">
               LoveKorea.us is the premier B2B marketplace for Korean products, connecting manufacturers, brands,
               and distributors with buyers worldwide. We believe that Korean innovation in beauty, food, fashion,
               technology, and culture deserves a global stage, and we provide the platform to make it happen.
@@ -44,7 +53,7 @@ export default function AboutPage() {
                 { icon: Award, title: 'Quality Assurance', desc: 'FDA, HACCP, ISO, and other certification badges help buyers identify quality products.' },
                 { icon: Heart, title: 'Korean Culture', desc: 'From K-Beauty to K-Food to K-Pop, we celebrate and promote Korean culture globally.' },
               ].map(item => (
-                <div key={item.title} className="bg-white rounded-2xl border border-gray-100 p-6">
+                <div key={item.title} className="bg-white rounded-2xl border border-gray-100 p-6 hover:shadow-sm transition-shadow">
                   <item.icon className="h-8 w-8 text-accent-red mb-3" />
                   <h3 className="font-semibold text-navy mb-2">{item.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
@@ -53,7 +62,21 @@ export default function AboutPage() {
             </div>
           </section>
 
-          <section>
+          <section className="bg-gradient-to-br from-navy to-navy-light rounded-2xl p-8 text-center relative overflow-hidden">
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-20"
+              style={{ backgroundImage: "url('/images/landscapes/hanok-village-10.jpg')" }}
+            />
+            <div className="relative z-10">
+              <h2 className="text-2xl font-bold text-white mb-3">Connect with Korea</h2>
+              <p className="text-white/70 max-w-xl mx-auto">
+                Whether you are discovering K-Beauty, sourcing K-Food, or exporting the next Korean lifestyle brand,
+                LoveKorea.us is where global buyers meet verified Korean sellers.
+              </p>
+            </div>
+          </section>
+
+          <section className="bg-white rounded-2xl border border-gray-100 p-8">
             <h2 className="text-2xl font-bold text-navy mb-4">Contact Us</h2>
             <p className="text-gray-600 mb-2">Have questions or need assistance? Reach out to us:</p>
             <ul className="text-gray-600 space-y-1">

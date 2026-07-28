@@ -12,8 +12,15 @@ export default function SignupPage() {
   return (
     <>
       <GlobalHeader />
-      <main className="flex-1 bg-gray-50 flex items-center justify-center py-16">
-        <SignupForm />
+      <main className="relative flex-1 bg-gray-50 flex items-center justify-center py-16 overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-30"
+          style={{ backgroundImage: "url('/images/landscapes/hanok-village-6.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/40 to-navy/70" />
+        <div className="relative z-10 w-full flex justify-center">
+          <SignupForm />
+        </div>
       </main>
       <GlobalFooter />
     </>

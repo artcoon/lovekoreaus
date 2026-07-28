@@ -22,8 +22,12 @@ export function GlobalFooter() {
   const t = useTranslations()
 
   return (
-    <footer className="bg-navy text-white">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="relative bg-navy text-white overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none"
+        style={{ backgroundImage: "url('/images/landscapes/hanok-village-4.jpg')" }}
+      />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
@@ -32,6 +36,9 @@ export function GlobalFooter() {
             </Link>
             <p className="mt-3 text-sm text-white/60">
               {t('footer.tagline')}
+            </p>
+            <p className="mt-3 text-xs text-white/40 italic">
+              Connecting the world with Korean culture, products, and business.
             </p>
           </div>
 
@@ -111,6 +118,7 @@ export function GlobalFooter() {
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-white/40">{t('footer.copyright')}</p>
           <div className="flex items-center gap-4">
+            <span className="text-xs text-white/30 hidden sm:inline">Made with love for Korea</span>
             <a
               href="https://youtube.com/@lovekorea"
               target="_blank"

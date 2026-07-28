@@ -31,18 +31,18 @@ const CATEGORY_IMAGES: Record<string, string> = {
 }
 
 const categories = [
-  { key: 'beauty', icon: Sparkles, href: '/products?category=beauty', color: 'bg-pink-50 text-pink-600', label: 'K-Beauty & Skincare' },
-  { key: 'food', icon: UtensilsCrossed, href: '/products?category=food', color: 'bg-orange-50 text-orange-600', label: 'K-Food & Beverage' },
-  { key: 'fashion', icon: Shirt, href: '/products?category=fashion', color: 'bg-purple-50 text-purple-600', label: 'K-Fashion & Apparel' },
-  { key: 'kpop', icon: Music, href: '/products?category=kpop', color: 'bg-blue-50 text-blue-600', label: 'K-Pop & Entertainment' },
-  { key: 'health', icon: Heart, href: '/products?category=health', color: 'bg-emerald-50 text-emerald-600', label: 'K-Health & Wellness' },
-  { key: 'tech', icon: Cpu, href: '/products?category=tech', color: 'bg-cyan-50 text-cyan-600', label: 'K-Technology' },
-  { key: 'home', icon: Home, href: '/products?category=home', color: 'bg-amber-50 text-amber-600', label: 'K-Home & Living' },
-  { key: 'stationery', icon: Gift, href: '/products?category=stationery', color: 'bg-violet-50 text-violet-600', label: 'K-Stationery & Gifts' },
-  { key: 'baby', icon: Baby, href: '/products?category=baby', color: 'bg-rose-50 text-rose-600', label: 'K-Baby & Kids' },
-  { key: 'pets', icon: PawPrint, href: '/products?category=pets', color: 'bg-lime-50 text-lime-600', label: 'K-Pets' },
-  { key: 'traditional', icon: Amphora, href: '/products?category=traditional', color: 'bg-teal-50 text-teal-600', label: 'K-Traditional & Artisan' },
-  { key: 'automotive', icon: Car, href: '/products?category=automotive', color: 'bg-slate-50 text-slate-600', label: 'K-Automotive & Industrial' },
+  { key: 'beauty', icon: Sparkles, href: '/categories/k-beauty', color: 'bg-pink-50 text-pink-600', label: 'K-Beauty & Skincare' },
+  { key: 'food', icon: UtensilsCrossed, href: '/categories/k-food', color: 'bg-orange-50 text-orange-600', label: 'K-Food & Beverage' },
+  { key: 'fashion', icon: Shirt, href: '/categories/k-fashion', color: 'bg-purple-50 text-purple-600', label: 'K-Fashion & Apparel' },
+  { key: 'kpop', icon: Music, href: '/categories/k-pop', color: 'bg-blue-50 text-blue-600', label: 'K-Pop & Entertainment' },
+  { key: 'health', icon: Heart, href: '/categories/k-health', color: 'bg-emerald-50 text-emerald-600', label: 'K-Health & Wellness' },
+  { key: 'tech', icon: Cpu, href: '/categories/k-tech', color: 'bg-cyan-50 text-cyan-600', label: 'K-Technology' },
+  { key: 'home', icon: Home, href: '/categories/k-home', color: 'bg-amber-50 text-amber-600', label: 'K-Home & Living' },
+  { key: 'stationery', icon: Gift, href: '/categories/k-stationery', color: 'bg-violet-50 text-violet-600', label: 'K-Stationery & Gifts' },
+  { key: 'baby', icon: Baby, href: '/categories/k-baby', color: 'bg-rose-50 text-rose-600', label: 'K-Baby & Kids' },
+  { key: 'pets', icon: PawPrint, href: '/categories/k-pets', color: 'bg-lime-50 text-lime-600', label: 'K-Pets' },
+  { key: 'traditional', icon: Amphora, href: '/categories/k-traditional', color: 'bg-teal-50 text-teal-600', label: 'K-Traditional & Artisan' },
+  { key: 'automotive', icon: Car, href: '/categories/k-automotive', color: 'bg-slate-50 text-slate-600', label: 'K-Automotive & Industrial' },
 ]
 
 export function CategoryGrid() {

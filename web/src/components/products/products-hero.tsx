@@ -6,9 +6,10 @@ interface ProductsHeroProps {
   searchQuery: string
   onSearchChange: (q: string) => void
   totalCount: number
+  categoryTitle?: string
 }
 
-export function ProductsHero({ searchQuery, onSearchChange, totalCount }: ProductsHeroProps) {
+export function ProductsHero({ searchQuery, onSearchChange, totalCount, categoryTitle }: ProductsHeroProps) {
   return (
     <section className="relative py-16 overflow-hidden">
       <div
@@ -17,9 +18,11 @@ export function ProductsHero({ searchQuery, onSearchChange, totalCount }: Produc
       />
       <div className="absolute inset-0 bg-gradient-to-b from-navy/70 via-navy/60 to-navy/70" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md">Korean Products</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md">
+          {categoryTitle ? `${categoryTitle}` : 'Korean Products'}
+        </h1>
         <p className="mt-3 text-white/80 max-w-xl mx-auto drop-shadow-sm">
-          Discover {totalCount.toLocaleString()} verified products from Korean manufacturers and brands
+          Discover {totalCount.toLocaleString()} verified {categoryTitle ? categoryTitle.toLowerCase() : 'Korean products'} from manufacturers and brands
         </p>
         <div className="mt-6 max-w-lg mx-auto relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />

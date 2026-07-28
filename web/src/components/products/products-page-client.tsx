@@ -24,7 +24,12 @@ interface ProductItem {
   created_at?: string
 }
 
-export function ProductsPageClient({ products }: { products: ProductItem[] }) {
+interface ProductsPageClientProps {
+  products: ProductItem[]
+  categoryTitle?: string
+}
+
+export function ProductsPageClient({ products, categoryTitle }: ProductsPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
 
   // Filter by hero search
@@ -42,6 +47,7 @@ export function ProductsPageClient({ products }: { products: ProductItem[] }) {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         totalCount={products.length}
+        categoryTitle={categoryTitle}
       />
       <ProductsGrid products={filtered} />
     </>

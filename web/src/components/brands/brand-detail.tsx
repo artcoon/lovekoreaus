@@ -45,9 +45,14 @@ export function BrandDetail({ slug, seller, products, reviews }: {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
-        <div className="h-40 bg-gradient-to-r from-navy to-navy-light overflow-hidden">
+        <div className="h-48 sm:h-56 bg-gradient-to-r from-navy to-navy-light overflow-hidden relative">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30"
+            style={{ backgroundImage: "url('/images/landscapes/hanok-village-3.jpg')" }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy/80 via-navy/50 to-transparent" />
           {brand.coverUrl && (
-            <img src={brand.coverUrl} alt="" className="w-full h-full object-cover" />
+            <img src={brand.coverUrl} alt="" className="relative z-10 w-full h-full object-cover opacity-90" />
           )}
         </div>
         <div className="px-6 pb-6 -mt-12">

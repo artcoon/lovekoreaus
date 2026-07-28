@@ -5,41 +5,19 @@ import { routing } from './i18n/routing'
 
 const intlMiddleware = createIntlMiddleware(routing)
 
-const protectedPaths = ['/dashboard', '/seller-onboarding']
-
-const categorySlugs = [
-  'k-beauty', 'k-food', 'k-fashion', 'k-pop', 'k-health', 'k-tech', 'k-home',
-  'k-stationery', 'k-baby', 'k-pets', 'k-traditional', 'k-automotive',
-]
+const protectedPaths = ['/dashboard', '/seller-onboarding', '/admin']
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-
-  // Redirect root category paths like /k-beauty to /en/categories/k-beauty
-  const isRootCategory = categorySlugs.some((slug) =>
-    pathname === `/${slug}` || pathname.startsWith(`/${slug}/`)
-  )
-  if (isRootCategory) {
-    const newPath = pathname.replace(/^\/(k-[^/]+)/, '/en/categories/$1')
-    return NextResponse.redirect(new URL(newPath, request.url))
-  }
-
-  // Also handle /categories/k-beauty without locale prefix
-  const categoriesMatch = pathname.match(/^\/categories\/(k-[^/]+)/)
-  if (categoriesMatch) {
-    return NextResponse.redirect(new URL(`/en${pathname}`, request.url))
-  }
-
-  // Run next-intl middleware for locale routing
+  // Run intl middleware first
   const intlResponse = intlMiddleware(request)
-  const response = intlResponse || NextResponse.next({ request })
 
   // If Supabase is not configured, skip auth
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    return response
+    return intlResponse
   }
 
   // Refresh session via Supabase
+  const response = intlResponse || NextResponse.next({ request })
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
@@ -58,9 +36,15 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Check protected routes (admin temporarily bypassed for testing)
-  const isProtected = protectedPaths.some((p) => pathname.includes(p))
-  if (isProtected && !user) {
+  // Check protected routes
+  const pathname = request.nextUrl.pathname
+  const isProtected = protectedPaths.some((p) =>
+    pathname.includes(p)
+  )
+
+  // Temporarily bypass admin auth for testing
+  const isAdminPath = pathname.includes('/admin')
+  if (isProtected && !isAdminPath && !user) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(loginUrl)

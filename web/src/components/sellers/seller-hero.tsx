@@ -17,10 +17,10 @@ export function SellerHero() {
   return (
     <section className="relative bg-navy overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
         style={{ backgroundImage: "url('/images/brands/hallyu-goods.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-85" />
+      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-80" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(200,32,47,0.2),transparent_60%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">

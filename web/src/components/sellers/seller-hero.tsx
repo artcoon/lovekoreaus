@@ -16,6 +16,10 @@ export function SellerHero() {
 
   return (
     <section className="relative bg-navy overflow-hidden">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        style={{ backgroundImage: "url('/images/brands/seoul-tech.jpg')" }}
+      />
       <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-90" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(200,32,47,0.2),transparent_60%)]" />
 

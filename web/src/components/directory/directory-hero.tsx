@@ -6,10 +6,10 @@ export function DirectoryHero() {
   return (
     <section className="relative py-16 overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
         style={{ backgroundImage: "url('/images/brands/seoul-tech.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy/70 via-navy/60 to-navy/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/60 via-navy/50 to-navy/60" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-white text-center drop-shadow-md">
           Korean Business Directory

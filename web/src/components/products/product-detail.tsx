@@ -276,6 +276,7 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
         <InquiryModal
           productName={data.name}
           brandName={data.brand}
+          productSlug={slug}
           type={inquiryType}
           onClose={() => setShowInquiry(false)}
         />
@@ -284,8 +285,8 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
   )
 }
 
-function InquiryModal({ productName, brandName, type, onClose }: {
-  productName: string; brandName: string; type: 'inquiry' | 'quote'; onClose: () => void
+function InquiryModal({ productName, brandName, productSlug, type, onClose }: {
+  productName: string; brandName: string; productSlug: string; type: 'inquiry' | 'quote'; onClose: () => void
 }) {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
@@ -303,7 +304,7 @@ function InquiryModal({ productName, brandName, type, onClose }: {
     setSending(true); setError('')
     try {
       await new Promise(r => setTimeout(r, 1000))
-      trackLeadSubmit({ type, product_id: slug })
+      trackLeadSubmit({ type, product_id: productSlug })
       setSent(true)
     } catch {
       setError('Failed to send. Please try again.')

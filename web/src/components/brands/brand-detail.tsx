@@ -276,6 +276,7 @@ export function BrandDetail({ slug, seller, products, reviews }: {
         <ContactModal
           sellerName={brand.name}
           sellerEmail={brand.email}
+          sellerId={slug}
           onClose={() => setShowContact(false)}
         />
       )}
@@ -284,8 +285,8 @@ export function BrandDetail({ slug, seller, products, reviews }: {
 }
 
 // ── Contact Modal ─────────────────────────────────────────
-function ContactModal({ sellerName, sellerEmail, onClose }: {
-  sellerName: string; sellerEmail: string; onClose: () => void
+function ContactModal({ sellerName, sellerEmail, sellerId, onClose }: {
+  sellerName: string; sellerEmail: string; sellerId: string; onClose: () => void
 }) {
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
@@ -304,7 +305,7 @@ function ContactModal({ sellerName, sellerEmail, onClose }: {
     try {
       // This would normally submit to the leads API
       await new Promise(r => setTimeout(r, 1000))
-      trackLeadSubmit({ type: form.type as 'inquiry' | 'quote', seller_id: slug })
+      trackLeadSubmit({ type: form.type as 'inquiry' | 'quote', seller_id: sellerId })
       setSent(true)
     } catch {
       setError('Failed to send. Please try again.')

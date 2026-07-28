@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { signIn, signInWithGoogle, signInWithKakao } from '@/lib/auth/actions'
 
 function formatAuthError(error: string): string {
@@ -28,9 +28,12 @@ export function LoginForm() {
   const searchParams = useSearchParams()
   const authError = searchParams.get('error')
 
+  const [success, setSuccess] = useState<string | null>(null)
+
   async function handleSubmit(formData: FormData) {
     setLoading(true)
     setError(null)
+    setSuccess(null)
     const result = await signIn(formData)
     if (result?.error) {
       setError(result.error)
@@ -73,8 +76,15 @@ export function LoginForm() {
           </div>
         )}
 
+        {success && (
+          <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-green-50 text-green-700 text-sm">
+            <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" />
+            <span>{success}</span>
+          </div>
+        )}
+
         <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-800 text-sm">
-          Social login (Google/Kakao) requires setup in Supabase. If it fails, please sign in with email or contact support.
+          <span className="font-semibold">Google/Kakao is not yet connected.</span> Please sign in with email for now. Admin can enable social providers in Supabase later.
         </div>
 
         {/* Social Login */}
@@ -128,6 +138,9 @@ export function LoginForm() {
             {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
             Sign In
           </Button>
+          <div className="text-right">
+            <Link href="/forgot-password" className="text-xs text-accent-red hover:underline">Forgot password?</Link>
+          </div>
         </form>
 
         <p className="mt-6 text-center text-sm text-gray-500">

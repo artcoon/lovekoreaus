@@ -18,14 +18,28 @@ export async function signUp(formData: FormData) {
     password,
     options: {
       data: { full_name: fullName, role },
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
     },
   })
 
   if (error) return { error: error.message }
 
-  // Update profile role
+  // New users may need email confirmation; role/profile will be set by callback or existing trigger.
   if (data.user) {
-    await (supabase.from('profiles') as any).update({ role, display_name: fullName }).eq('id', data.user.id)
+    // For providers that auto-confirm, set role immediately. If unconfirmed, the profile
+    // will be created on first sign-in via the auth callback.
+    const { data: existing } = await (supabase.from('profiles') as any)
+      .select('id')
+      .eq('id', data.user.id)
+      .single()
+    if (existing) {
+      await (supabase.from('profiles') as any).update({ role, display_name: fullName }).eq('id', data.user.id)
+    }
+  }
+
+  // If email confirmation is required, stay on the login page and show a message instead of redirecting.
+  if (data.user && !data.session) {
+    return { success: true, message: 'Please check your email to confirm your account before signing in.' }
   }
 
   if (role === 'seller') {
@@ -47,6 +61,21 @@ export async function signIn(formData: FormData) {
   if (error) return { error: error.message }
 
   redirect('/dashboard')
+}
+
+export async function resetPassword(formData: FormData) {
+  if (!isSupabaseConfigured()) return { error: 'Database not configured' }
+
+  const supabase = await createClient()
+  const email = formData.get('email') as string
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${siteUrl}/api/auth/callback?next=/dashboard`,
+  })
+
+  if (error) return { error: error.message }
+  return { success: true }
 }
 
 export async function signOut() {

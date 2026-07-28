@@ -6,6 +6,7 @@ import { routing } from './i18n/routing'
 const intlMiddleware = createIntlMiddleware(routing)
 
 const protectedPaths = ['/dashboard', '/seller-onboarding']
+const adminPaths = ['/admin']
 
 const categorySlugs = [
   'k-beauty', 'k-food', 'k-fashion', 'k-pop', 'k-health', 'k-tech', 'k-home',
@@ -58,12 +59,31 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Check protected routes (admin temporarily bypassed for testing)
+  // Check protected routes
   const isProtected = protectedPaths.some((p) => pathname.includes(p))
   if (isProtected && !user) {
     const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('redirect', pathname)
     return NextResponse.redirect(loginUrl)
+  }
+
+  // Check admin routes
+  const isAdmin = adminPaths.some((p) => pathname.includes(p))
+  if (isAdmin && !user) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
+  if (isAdmin && user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+    if (profile?.role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
   }
 
   return response

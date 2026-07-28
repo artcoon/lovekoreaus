@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Mail, Lock, User, Eye, EyeOff, Building, Loader2, AlertCircle } from 'lucide-react'
+import { Mail, Lock, User, Eye, EyeOff, Building, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { signUp, signInWithGoogle } from '@/lib/auth/actions'
 import { trackSignUp } from '@/lib/analytics'
 
@@ -27,13 +27,19 @@ export function SignupForm() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
+  const [success, setSuccess] = useState<string | null>(null)
+
   async function handleSubmit(formData: FormData) {
     setLoading(true)
     setError(null)
+    setSuccess(null)
     formData.set('role', role)
     const result = await signUp(formData)
     if (result?.error) {
       setError(formatAuthError(result.error))
+      setLoading(false)
+    } else if (result?.success) {
+      setSuccess(result.message || 'Account created. Please check your email to confirm.')
       setLoading(false)
     } else {
       trackSignUp('email')
@@ -59,6 +65,13 @@ export function SignupForm() {
           <p className="mt-2 text-sm text-gray-500">Join LoveKorea.Us for free</p>
         </div>
 
+        {success && (
+          <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-green-50 text-green-700 text-sm">
+            <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5" />
+            <span>{success}</span>
+          </div>
+        )}
+
         {error && (
           <div className="mb-4 flex items-start gap-2 p-3 rounded-xl bg-red-50 text-red-600 text-sm">
             <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
@@ -67,7 +80,7 @@ export function SignupForm() {
         )}
 
         <div className="mb-4 p-3 rounded-xl bg-amber-50 text-amber-800 text-sm">
-          Social login (Google/Kakao) requires setup in Supabase. If it fails, please sign up with email or contact support.
+          <span className="font-semibold">Google/Kakao is not yet connected.</span> Please sign up with email for now. Admin can enable social providers in Supabase later.
         </div>
 
         {/* Role Toggle */}

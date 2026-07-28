@@ -7,7 +7,7 @@ export function DirectoryHero({ sellerCount }: { sellerCount: number }) {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100"
         style={{ backgroundImage: "url('/images/brands/hallyu-goods.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy/20 via-transparent to-navy/20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy/60 via-navy/50 to-navy/60" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-white text-center drop-shadow-md">
           Korean Business Directory

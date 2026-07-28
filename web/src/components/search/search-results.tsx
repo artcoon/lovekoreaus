@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Search, Package, Building2, Star, ExternalLink, Loader2 } from 'lucide-react'
+import { Search, Package, Building2, Star, ExternalLink, Loader2, ImageIcon } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { Badge } from '@/components/ui/badge'
+import { getProductImage, getBrandImage } from '@/lib/image-map'
 
 interface SearchResult {
   products: Array<{
@@ -86,22 +87,37 @@ export function SearchResults() {
                   <Link
                     key={p.id}
                     href={`/products/${p.slug}`}
-                    className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow group"
+                    className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group"
                   >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-navy group-hover:text-accent-red transition-colors">
-                          {p.name_en || p.name}
-                        </h3>
-                        <p className="text-sm text-gray-500 mt-1">
-                          ${p.price_min} - ${p.price_max}
-                        </p>
-                      </div>
-                      <ExternalLink className="h-4 w-4 text-gray-300 group-hover:text-accent-red shrink-0" />
+                    <div className="relative aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                      {getProductImage(p.slug) ? (
+                        <img
+                          src={getProductImage(p.slug)!}
+                          alt={p.name_en || p.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <ImageIcon className="h-10 w-10 text-gray-200" />
+                        </div>
+                      )}
                     </div>
-                    <div className="mt-3 flex items-center gap-2">
-                      <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-                      <span className="text-sm text-gray-600">{p.rating_avg} ({p.review_count})</span>
+                    <div className="p-5">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-navy group-hover:text-accent-red transition-colors">
+                            {p.name_en || p.name}
+                          </h3>
+                          <p className="text-sm text-gray-500 mt-1">
+                            ${p.price_min} - ${p.price_max}
+                          </p>
+                        </div>
+                        <ExternalLink className="h-4 w-4 text-gray-300 group-hover:text-accent-red shrink-0" />
+                      </div>
+                      <div className="mt-3 flex items-center gap-2">
+                        <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
+                        <span className="text-sm text-gray-600">{p.rating_avg} ({p.review_count})</span>
+                      </div>
                     </div>
                   </Link>
                 ))}
@@ -120,21 +136,36 @@ export function SearchResults() {
                   <Link
                     key={s.id}
                     href={`/brands/${s.slug}`}
-                    className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow group"
+                    className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group"
                   >
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-navy group-hover:text-accent-red transition-colors">
-                          {s.company_name_en || s.company_name}
-                          {s.is_verified && <span className="ml-1 text-blue-500">✓</span>}
-                        </h3>
-                        <Badge variant="outline" className="text-xs mt-1 capitalize">{s.seller_type}</Badge>
-                      </div>
-                      <ExternalLink className="h-4 w-4 text-gray-300 group-hover:text-accent-red shrink-0" />
+                    <div className="relative aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+                      {getBrandImage(s.slug) ? (
+                        <img
+                          src={getBrandImage(s.slug)!}
+                          alt={s.company_name_en || s.company_name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Building2 className="h-10 w-10 text-gray-200" />
+                        </div>
+                      )}
                     </div>
-                    <div className="mt-3 flex items-center gap-2">
-                      <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-                      <span className="text-sm text-gray-600">{s.rating_avg} ({s.review_count})</span>
+                    <div className="p-5">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-navy group-hover:text-accent-red transition-colors">
+                            {s.company_name_en || s.company_name}
+                            {s.is_verified && <span className="ml-1 text-blue-500">✓</span>}
+                          </h3>
+                          <Badge variant="outline" className="text-xs mt-1 capitalize">{s.seller_type}</Badge>
+                        </div>
+                        <ExternalLink className="h-4 w-4 text-gray-300 group-hover:text-accent-red shrink-0" />
+                      </div>
+                      <div className="mt-3 flex items-center gap-2">
+                        <Star className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
+                        <span className="text-sm text-gray-600">{s.rating_avg} ({s.review_count})</span>
+                      </div>
                     </div>
                   </Link>
                 ))}

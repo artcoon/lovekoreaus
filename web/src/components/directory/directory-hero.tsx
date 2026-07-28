@@ -7,7 +7,7 @@ export function DirectoryHero() {
     <section className="relative py-16 overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50"
-        style={{ backgroundImage: "url('/images/brands/kimchi-world.jpg')" }}
+        style={{ backgroundImage: "url('/images/brands/seoul-tech.jpg')" }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-navy/70 via-navy/60 to-navy/70" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

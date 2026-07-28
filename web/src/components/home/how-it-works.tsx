@@ -12,7 +12,7 @@ export function HowItWorks() {
 
   return (
     <section className="relative py-20 overflow-hidden bg-gradient-to-br from-navy via-navy to-navy-light">
-      <div className="absolute inset-0 bg-[url('/images/products/red-ginseng-extract.jpg')] bg-cover bg-center opacity-10" />
+      <div className="absolute inset-0 bg-[url('/images/products/red-ginseng-extract.jpg')] bg-cover bg-center opacity-20" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-white">
@@ -25,7 +25,7 @@ export function HowItWorks() {
           {steps.map((step, idx) => (
             <div
               key={step.num}
-              className="relative bg-white rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all"
+              className="relative bg-white/95 backdrop-blur-sm rounded-2xl p-8 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all"
             >
               <div className={`inline-flex items-center justify-center w-14 h-14 rounded-full mb-4 ${
                 idx === 0 ? 'bg-pink-100 text-pink-600' :

@@ -34,15 +34,19 @@ export function SignupForm() {
     setError(null)
     setSuccess(null)
     formData.set('role', role)
-    const result = await signUp(formData)
-    if (result?.error) {
-      setError(formatAuthError(result.error))
+    try {
+      const result = await signUp(formData)
+      if (result?.error) {
+        setError(formatAuthError(result.error))
+      } else if (result?.success) {
+        setSuccess(result.message || 'Account created. Please check your email to confirm.')
+      } else {
+        trackSignUp('email')
+      }
+    } catch (err: any) {
+      setError(err?.message || 'An unexpected error occurred. Please try again.')
+    } finally {
       setLoading(false)
-    } else if (result?.success) {
-      setSuccess(result.message || 'Account created. Please check your email to confirm.')
-      setLoading(false)
-    } else {
-      trackSignUp('email')
     }
   }
 

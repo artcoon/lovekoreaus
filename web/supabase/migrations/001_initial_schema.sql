@@ -47,7 +47,7 @@ CREATE TABLE categories (
 -- 3. seller_profiles
 CREATE TABLE seller_profiles (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid UNIQUE NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  user_id uuid UNIQUE NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   company_name text NOT NULL,
   company_name_en text NOT NULL,
   slug varchar(100) UNIQUE NOT NULL,
@@ -95,10 +95,13 @@ CREATE TABLE products (
   moq integer,
   unit varchar(20),
   specs jsonb DEFAULT '{}',
+  certifications text[] DEFAULT '{}',
+  currency varchar(3) DEFAULT 'USD',
   ingredients text,
   available_markets text[] DEFAULT '{}',
   shipping_info jsonb DEFAULT '{}',
   purchase_url text,
+  image_url text,
   is_sponsored boolean DEFAULT false,
   status product_status DEFAULT 'draft',
   rating_avg numeric(2,1) DEFAULT 0,

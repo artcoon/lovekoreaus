@@ -98,6 +98,12 @@ export async function getProductBySlug(slug: string) {
 export async function getVideos(options?: { category?: string; featured?: boolean; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
+    const { data: categories } = await supabase.from('categories').select('id,slug')
+    const categoryMap: Record<string, string> = {}
+    ;(categories ?? []).forEach((c: any) => {
+      categoryMap[c.id] = getCategoryDisplay(c.slug)
+    })
+
     let query = supabase.from('videos').select('*')
     if (options?.featured) query = query.eq('is_featured', true)
     if (options?.limit) query = query.limit(options.limit)
@@ -112,6 +118,7 @@ export async function getVideos(options?: { category?: string; featured?: boolea
         youtube_id: video.youtube_id || video.youtubeId,
         title: video.title,
         channel: video.channel_name || video.channel || '',
+        category: video.category || categoryMap[video.category_id] || '',
         views: formatViews(video.view_count ?? video.views ?? 0),
         duration: formatDuration(video.duration ?? 0),
       }
@@ -130,6 +137,23 @@ export async function getVideos(options?: { category?: string; featured?: boolea
     views: formatViews(video.view_count ?? (video as any).views ?? 0),
     duration: formatDuration(video.duration ?? 0),
   }))
+}
+
+function getCategoryDisplay(slug: string): string {
+  const map: Record<string, string> = {
+    beauty: 'Beauty',
+    food: 'Food',
+    fashion: 'Fashion',
+    'k-culture': 'K-Pop',
+    kpop: 'K-Pop',
+    health: 'Health',
+    stationery: 'Stationery',
+    baby: 'Baby',
+    pets: 'Pets',
+    traditional: 'Traditional',
+    automotive: 'Automotive',
+  }
+  return map[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
 }
 
 function formatViews(v: number | string): string {

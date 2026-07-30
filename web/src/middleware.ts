@@ -16,21 +16,15 @@ const categorySlugs = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Redirect root category paths like /k-beauty to /en/categories/k-beauty
+  // Redirect root category paths like /k-beauty to /categories/k-beauty
+  // Let next-intl handle the locale prefix (default -> /en/categories/...)
   const isRootCategory = categorySlugs.some((slug) =>
     pathname === `/${slug}` || pathname.startsWith(`/${slug}/`)
   )
   if (isRootCategory) {
-    const newPath = pathname.replace(/^\/(k-[^/]+)/, '/en/categories/$1')
+    const newPath = pathname.replace(/^\/(k-[^/]+)/, '/categories/$1')
     return NextResponse.redirect(new URL(newPath, request.url))
   }
-
-  // Also handle /categories/k-beauty without locale prefix
-  const categoriesMatch = pathname.match(/^\/categories\/(k-[^/]+)/)
-  if (categoriesMatch) {
-    return NextResponse.redirect(new URL(`/en${pathname}`, request.url))
-  }
-
   // Run next-intl middleware for locale routing
   const intlResponse = intlMiddleware(request)
   const response = intlResponse || NextResponse.next({ request })

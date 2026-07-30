@@ -145,7 +145,7 @@ function getCategoryDisplay(slug: string): string {
     stationery: 'Stationery',
     baby: 'Baby',
     pets: 'Pets',
-    traditional: 'Traditional',
+    traditional: 'K-Culture',
     automotive: 'Automotive',
   }
   return map[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)

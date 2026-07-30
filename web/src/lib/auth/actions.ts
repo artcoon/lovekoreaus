@@ -7,46 +7,51 @@ import { isSupabaseConfigured } from '@/lib/supabase/config'
 export async function signUp(formData: FormData) {
   if (!isSupabaseConfigured()) return { error: 'Database not configured' }
 
-  const supabase = await createClient()
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const fullName = formData.get('fullName') as string
-  const role = (formData.get('role') as string) || 'buyer'
+  try {
+    const supabase = await createClient()
+    const email = formData.get('email') as string
+    const password = formData.get('password') as string
+    const fullName = formData.get('fullName') as string
+    const role = (formData.get('role') as string) || 'buyer'
 
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { full_name: fullName, role },
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
-    },
-  })
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: fullName, role },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://lovekorea.us'}/api/auth/callback`,
+      },
+    })
 
-  if (error) return { error: error.message }
+    if (error) return { error: error.message }
 
-  // New users may need email confirmation; role/profile will be set by callback or existing trigger.
-  if (data.user) {
-    // For providers that auto-confirm, set role immediately. If unconfirmed, the profile
-    // will be created on first sign-in via the auth callback.
-    const { data: existing } = await (supabase.from('profiles') as any)
-      .select('id')
-      .eq('id', data.user.id)
-      .single()
-    if (existing) {
-      await (supabase.from('profiles') as any).update({ role, display_name: fullName }).eq('id', data.user.id)
+    // New users may need email confirmation; role/profile will be set by callback or existing trigger.
+    if (data.user) {
+      // For providers that auto-confirm, set role immediately. If unconfirmed, the profile
+      // will be created on first sign-in via the auth callback.
+      const { data: existing } = await (supabase.from('profiles') as any)
+        .select('id')
+        .eq('id', data.user.id)
+        .single()
+      if (existing) {
+        await (supabase.from('profiles') as any).update({ role, display_name: fullName }).eq('id', data.user.id)
+      }
     }
-  }
 
-  // If email confirmation is required, stay on the login page and show a message instead of redirecting.
-  if (data.user && !data.session) {
-    return { success: true, message: 'Please check your email to confirm your account before signing in.' }
-  }
+    // If email confirmation is required, stay on the login page and show a message instead of redirecting.
+    if (data.user && !data.session) {
+      return { success: true, message: 'Please check your email to confirm your account before signing in.' }
+    }
 
-  if (role === 'seller') {
-    redirect('/seller-onboarding')
-  }
+    if (role === 'seller') {
+      redirect('/seller-onboarding')
+    }
 
-  redirect('/dashboard')
+    redirect('/dashboard')
+  } catch (err: any) {
+    console.error('signUp error:', err)
+    return { error: err?.message || 'Account creation failed. Please try again or contact support.' }
+  }
 }
 
 export async function signIn(formData: FormData) {

@@ -17,9 +17,9 @@ const categories = [
   { key: 'fashion', href: '/categories/k-fashion', label: 'Fashion' },
   { key: 'kpop', href: '/categories/k-pop', label: 'K-Pop' },
   { key: 'health', href: '/categories/k-health', label: 'Health' },
-  { key: 'directory', href: '/directory', label: 'Directory' },
   { key: 'watch', href: '/k-contents', label: 'K-Contents' },
   { key: 'deals', href: '/sale', label: 'Sale' },
+  { key: 'directory', href: '/directory', label: 'Directory' },
 ] as const
 
 export function GlobalHeader() {

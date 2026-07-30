@@ -24,22 +24,27 @@ export async function signUp(formData: FormData) {
     })
 
     if (error) return { error: error.message }
+    if (!data.user) return { error: 'Account creation failed. Please try again.' }
 
-    // New users may need email confirmation; role/profile will be set by callback or existing trigger.
-    if (data.user) {
-      // For providers that auto-confirm, set role immediately. If unconfirmed, the profile
-      // will be created on first sign-in via the auth callback.
-      const { data: existing } = await (supabase.from('profiles') as any)
-        .select('id')
-        .eq('id', data.user.id)
-        .single()
-      if (existing) {
-        await (supabase.from('profiles') as any).update({ role, display_name: fullName }).eq('id', data.user.id)
-      }
+    // Create/update profile row explicitly. If the trigger already created it,
+    // ON CONFLICT will update it with the correct role/name.
+    const displayName = fullName || email.split('@')[0]
+    const { error: profileError } = await (supabase.from('profiles') as any)
+      .upsert({
+        id: data.user.id,
+        role,
+        display_name: displayName,
+        avatar_url: data.user.user_metadata?.avatar_url || null,
+        preferred_locale: 'en',
+      }, { onConflict: 'id' })
+
+    if (profileError) {
+      console.error('profile upsert error:', profileError)
+      // Don't fail signup if profile upsert fails; user can retry or it may be fixed later.
     }
 
     // If email confirmation is required, stay on the login page and show a message instead of redirecting.
-    if (data.user && !data.session) {
+    if (!data.session) {
       return { success: true, message: 'Please check your email to confirm your account before signing in.' }
     }
 

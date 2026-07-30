@@ -98,13 +98,7 @@ export async function getProductBySlug(slug: string) {
 export async function getVideos(options?: { category?: string; featured?: boolean; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    const { data: categories } = await supabase.from('categories').select('id,slug')
-    const categoryMap: Record<string, string> = {}
-    ;(categories ?? []).forEach((c: any) => {
-      categoryMap[c.id] = getCategoryDisplay(c.slug)
-    })
-
-    let query = supabase.from('videos').select('*')
+    let query = supabase.from('videos').select('*, categories!left(slug)')
     if (options?.featured) query = query.eq('is_featured', true)
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
@@ -112,13 +106,14 @@ export async function getVideos(options?: { category?: string; featured?: boolea
     return (data ?? []).map((v: any) => {
       const override = VIDEO_OVERRIDES[v.id]
       const video = override ? { ...v, ...override } : v
+      const categorySlug = video.categories?.slug || video.category_slug || ''
       return {
         ...video,
         id: video.id,
         youtube_id: video.youtube_id || video.youtubeId,
         title: video.title,
         channel: video.channel_name || video.channel || '',
-        category: video.category || categoryMap[video.category_id] || '',
+        category: video.category || getCategoryDisplay(categorySlug) || '',
         views: formatViews(video.view_count ?? video.views ?? 0),
         duration: formatDuration(video.duration ?? 0),
       }

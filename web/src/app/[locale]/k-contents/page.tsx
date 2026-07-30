@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
+import { unstable_noStore } from 'next/cache'
 import { GlobalHeader } from '@/components/layout/global-header'
 import { GlobalFooter } from '@/components/layout/global-footer'
 import { WatchHero } from '@/components/watch/watch-hero'
 import { WatchGrid } from '@/components/watch/watch-grid'
 import { createMetadata } from '@/lib/seo/metadata'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = createMetadata({
   title: 'K-Contents — Korean Product Video Reviews & Entertainment',
@@ -12,6 +15,7 @@ export const metadata: Metadata = createMetadata({
 })
 
 export default async function KContentsPage() {
+  unstable_noStore()
   const { getVideos } = await import('@/lib/queries')
   const videos = await getVideos()
 

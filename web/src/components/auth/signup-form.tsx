@@ -9,6 +9,9 @@ import { signUp, signInWithGoogle } from '@/lib/auth/actions'
 import { trackSignUp } from '@/lib/analytics'
 
 function formatAuthError(error: string): string {
+  if (!error || error === '{}' || error === '[object Object]') {
+    return 'Account creation failed. Please try again or contact support.'
+  }
   if (error.includes('provider is not enabled') || error.includes('Unsupported provider')) {
     return 'Social login is not configured yet. Please sign up with email or contact support.'
   }
@@ -37,7 +40,7 @@ export function SignupForm() {
     try {
       const result = await signUp(formData)
       if (result?.error) {
-        setError(formatAuthError(result.error))
+        setError(formatAuthError(String(result.error)))
       } else if (result?.success) {
         setSuccess(result.message || 'Account created. Please check your email to confirm.')
       } else {

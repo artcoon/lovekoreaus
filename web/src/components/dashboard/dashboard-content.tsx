@@ -727,16 +727,18 @@ export function DashboardContent() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-navy">Seller Dashboard</h1>
+          <h1 className="text-2xl font-bold text-navy">{seller ? 'Seller Dashboard' : 'Buyer Dashboard'}</h1>
           <p className="text-sm text-gray-500 mt-1">
             Welcome back, {seller?.company_name_en || userName}
             {seller?.status === 'pending' && <Badge className="ml-2 bg-yellow-100 text-yellow-800 text-[10px]">Pending Approval</Badge>}
             {seller?.status === 'approved' && <Badge className="ml-2 bg-green-100 text-green-800 text-[10px]">Approved</Badge>}
           </p>
         </div>
-        <Button onClick={() => { setEditProduct(null); setShowProductForm(true) }} className="bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">
-          <Plus className="h-4 w-4 mr-2" /> Add Product
-        </Button>
+        {seller && (
+          <Button onClick={() => { setEditProduct(null); setShowProductForm(true) }} className="bg-accent-red hover:bg-accent-red-dark text-white rounded-xl">
+            <Plus className="h-4 w-4 mr-2" /> Add Product
+          </Button>
+        )}
       </div>
 
       {/* Tabs */}

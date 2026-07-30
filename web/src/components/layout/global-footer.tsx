@@ -7,6 +7,7 @@ const footerCategories = [
   { key: 'fashion', href: '/products?category=fashion' },
   { key: 'kpop', href: '/products?category=kpop' },
   { key: 'health', href: '/products?category=health' },
+  { key: 'kculture', href: '/categories/k-traditional' },
   { key: 'directory', href: '/directory' },
 ] as const
 

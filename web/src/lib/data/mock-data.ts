@@ -343,7 +343,7 @@ export const mockCategories: Category[] = [
   { id: 'c6', parent_id: null, name: 'Stationery & Gifts', name_ko: '문구·선물', slug: 'stationery', icon: '🎁', sort_order: 6, depth: 0 },
   { id: 'c7', parent_id: null, name: 'Baby & Kids', name_ko: '유아·아동', slug: 'baby', icon: '👶', sort_order: 7, depth: 0 },
   { id: 'c8', parent_id: null, name: 'Pets', name_ko: '반려동물', slug: 'pets', icon: '🐾', sort_order: 8, depth: 0 },
-  { id: 'c9', parent_id: null, name: 'Traditional & Artisan', name_ko: '전통·공예', slug: 'traditional', icon: '🏺', sort_order: 9, depth: 0 },
+  { id: 'c9', parent_id: null, name: 'K-Culture & Heritage', name_ko: 'K-컬처·전통', slug: 'traditional', icon: '🏺', sort_order: 9, depth: 0 },
   { id: 'c10', parent_id: null, name: 'Automotive & Industrial', name_ko: '자동차·산업', slug: 'automotive', icon: '🚗', sort_order: 10, depth: 0 },
 ]
 

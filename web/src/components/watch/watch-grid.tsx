@@ -13,6 +13,7 @@ const categories = [
   { value: 'Fashion', label: 'K-Fashion' },
   { value: 'K-Pop', label: 'K-Pop' },
   { value: 'Health', label: 'K-Health' },
+  { value: 'traditional', label: 'K-Culture' },
 ]
 
 interface Video {

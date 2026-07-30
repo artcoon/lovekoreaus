@@ -21,7 +21,7 @@ const CATEGORY_MAP: Record<string, { label: string; icon: typeof Sparkles; slug:
   c6: { label: 'Stationery & Gifts', icon: Gift, slug: 'stationery' },
   c7: { label: 'Baby & Kids', icon: Baby, slug: 'baby' },
   c8: { label: 'Pets', icon: PawPrint, slug: 'pets' },
-  c9: { label: 'Traditional & Artisan', icon: Amphora, slug: 'traditional' },
+  c9: { label: 'K-Culture & Heritage', icon: Amphora, slug: 'traditional' },
   c10: { label: 'Automotive & Industrial', icon: Car, slug: 'automotive' },
 }
 

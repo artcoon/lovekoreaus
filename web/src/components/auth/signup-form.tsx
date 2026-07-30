@@ -8,20 +8,22 @@ import { Mail, Lock, User, Eye, EyeOff, Building, Loader2, AlertCircle, CheckCir
 import { signUp, signInWithGoogle } from '@/lib/auth/actions'
 import { trackSignUp } from '@/lib/analytics'
 
-function formatAuthError(error: string): string {
-  if (!error || error === '{}' || error === '[object Object]') {
+function formatAuthError(error: any): string {
+  if (error === null || error === undefined) return 'Account creation failed. Please try again or contact support.'
+  const message = typeof error === 'string' ? error : error.message || JSON.stringify(error)
+  if (!message || message === '{}' || message === '[object Object]') {
     return 'Account creation failed. Please try again or contact support.'
   }
-  if (error.includes('provider is not enabled') || error.includes('Unsupported provider')) {
+  if (message.includes('provider is not enabled') || message.includes('Unsupported provider')) {
     return 'Social login is not configured yet. Please sign up with email or contact support.'
   }
-  if (error.includes('User already registered')) {
+  if (message.includes('User already registered')) {
     return 'An account with this email already exists. Please sign in instead.'
   }
-  if (error.includes('popup_closed_by_user')) {
+  if (message.includes('popup_closed_by_user')) {
     return 'Login popup was closed. Please try again.'
   }
-  return error
+  return message
 }
 
 export function SignupForm() {
@@ -39,6 +41,7 @@ export function SignupForm() {
     formData.set('role', role)
     try {
       const result = await signUp(formData)
+      console.log('signUp result:', result)
       if (result?.error) {
         setError(formatAuthError(String(result.error)))
       } else if (result?.success) {

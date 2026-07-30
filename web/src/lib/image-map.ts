@@ -30,7 +30,7 @@ export const BRAND_IMAGES: Record<string, string> = {
   'seoul-tech': '/images/brands/seoul-tech.jpg',
   'green-tea-farm': '/images/brands/green-tea-farm.jpg',
   'hallyu-goods': '/images/brands/hallyu-goods.jpg',
-  'cosrx': '/images/brands/hana-cosmetics.jpg',
+  'cosrx': null as any,
   'cj-bibigo': '/images/brands/kimchi-world.jpg',
   'innisfree': '/images/brands/green-tea-farm.jpg',
   'seoul-fashion': '/images/brands/k-style-fashion.jpg',

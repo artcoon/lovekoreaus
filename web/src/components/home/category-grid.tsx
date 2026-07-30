@@ -7,10 +7,7 @@ import {
   Music,
   Heart,
   Gift,
-  Baby,
-  PawPrint,
   Amphora,
-  Car,
 } from 'lucide-react'
 
 const CATEGORY_IMAGES: Record<string, string> = {
@@ -20,10 +17,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   kpop: '/images/landscapes/hanok-village-4.jpg',
   health: '/images/landscapes/hanok-village-5.jpg',
   stationery: '/images/landscapes/hanok-village-6.jpg',
-  baby: '/images/landscapes/hanok-village-7.jpg',
-  pets: '/images/landscapes/hanok-village-8.jpg',
   traditional: '/images/landscapes/hanok-village-9.jpg',
-  automotive: '/images/landscapes/hanok-village-10.jpg',
 }
 
 const categories = [
@@ -33,10 +27,7 @@ const categories = [
   { key: 'kpop', icon: Music, href: '/categories/k-pop', color: 'bg-blue-200 text-blue-800 shadow-sm shadow-blue-300/50', label: 'K-Pop & Entertainment' },
   { key: 'health', icon: Heart, href: '/categories/k-health', color: 'bg-emerald-200 text-emerald-800 shadow-sm shadow-emerald-300/50', label: 'K-Health & Wellness' },
   { key: 'stationery', icon: Gift, href: '/categories/k-stationery', color: 'bg-violet-200 text-violet-800 shadow-sm shadow-violet-300/50', label: 'K-Stationery & Gifts' },
-  { key: 'baby', icon: Baby, href: '/categories/k-baby', color: 'bg-rose-200 text-rose-800 shadow-sm shadow-rose-300/50', label: 'K-Baby & Kids' },
-  { key: 'pets', icon: PawPrint, href: '/categories/k-pets', color: 'bg-lime-200 text-lime-800 shadow-sm shadow-lime-300/50', label: 'K-Pets' },
-  { key: 'traditional', icon: Amphora, href: '/categories/k-traditional', color: 'bg-teal-200 text-teal-800 shadow-sm shadow-teal-300/50', label: 'K-Traditional & Artisan' },
-  { key: 'automotive', icon: Car, href: '/categories/k-automotive', color: 'bg-slate-200 text-slate-800 shadow-sm shadow-slate-300/50', label: 'K-Automotive & Industrial' },
+  { key: 'traditional', icon: Amphora, href: '/categories/k-traditional', color: 'bg-teal-200 text-teal-800 shadow-sm shadow-teal-300/50', label: 'K-Culture & Heritage' },
 ]
 
 export function CategoryGrid() {
@@ -48,8 +39,8 @@ export function CategoryGrid() {
         <h2 className="text-2xl sm:text-3xl font-bold text-navy">
           {t('categories.title')}
         </h2>
-        <p className="mt-2 text-gray-500 text-sm">Browse products across 10 categories</p>
-        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+        <p className="mt-2 text-gray-500 text-sm">Browse products across 7 categories</p>
+        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
           {categories.map((cat) => (
             <Link
               key={cat.key}

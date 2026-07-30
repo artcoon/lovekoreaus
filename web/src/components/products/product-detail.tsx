@@ -5,11 +5,12 @@ import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
-  Star, ShieldCheck, Play, Heart, Share2, MessageSquare,
+  Star, ShieldCheck, Heart, Share2, MessageSquare,
   FileText, Globe, ChevronRight, ImageIcon,
   Send, X, Loader2, CheckCircle2, AlertCircle, Copy, Check
 } from 'lucide-react'
 import { trackProductView, trackLeadSubmit } from '@/lib/analytics'
+import { YouTubeEmbed } from '@/components/shared/youtube-embed'
 
 export function ProductDetail({ slug, product, reviews }: { slug: string; product?: any; reviews?: any[] }) {
   const [showInquiry, setShowInquiry] = useState(false)
@@ -32,6 +33,7 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
     category: product?.category || '',
     moq: product?.moq ? `${product.moq} ${product.unit || 'units'}` : null,
     hasVideo: product?.hasVideo ?? false,
+    youtubeId: product?.youtube_id || null,
     imageUrl: product?.image_url || null,
     isSponsor: product?.is_sponsored ?? false,
   }
@@ -102,16 +104,12 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
               )}
             </div>
           </div>
-          {data.hasVideo && (
+          {data.hasVideo && data.youtubeId && (
             <div className="mt-4 bg-white rounded-2xl overflow-hidden border border-gray-100">
-              <div className="aspect-video bg-gray-200 flex items-center justify-center cursor-pointer group">
-                <div className="w-16 h-16 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-accent-red transition-colors">
-                  <Play className="h-7 w-7 text-white fill-white ml-1" />
-                </div>
-              </div>
+              <YouTubeEmbed youtubeId={data.youtubeId} title={`${data.name} review`} />
               <div className="p-4">
                 <p className="text-sm font-medium text-navy">Product Review Video</p>
-                <p className="text-xs text-gray-500 mt-1">Watch a detailed review on YouTube</p>
+                <p className="text-xs text-gray-500 mt-1">Watch a detailed review on K-Contents</p>
               </div>
             </div>
           )}

@@ -12,9 +12,9 @@
     "health": "K-Health",
     "tech": "K-Tech",
     "home": "K-Home",
-    "directory": "Directory",
-    "watch": "Watch",
-    "deals": "Deals",
+    "directory": "Company Profiles",
+    "watch": "K-Contents",
+    "deals": "Sale",
     "forSellers": "For Sellers",
     "login": "Login",
     "signup": "Sign Up",
@@ -50,7 +50,7 @@
     "sponsored": "Sponsored"
   },
   "watchSection": {
-    "title": "Watch & Discover",
+    "title": "K-Contents",
     "subtitle": "Trending video reviews from YouTube",
     "viewAll": "See All Videos"
   },

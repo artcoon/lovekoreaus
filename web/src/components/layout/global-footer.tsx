@@ -7,7 +7,7 @@ const footerCategories = [
   { key: 'fashion', href: '/products?category=fashion' },
   { key: 'kpop', href: '/products?category=kpop' },
   { key: 'health', href: '/products?category=health' },
-  { key: 'tech', href: '/products?category=tech' },
+  { key: 'directory', href: '/directory' },
 ] as const
 
 const footerLinks = [
@@ -69,18 +69,18 @@ export function GlobalFooter() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/directory"
+                  href="/k-contents"
                   className="text-sm text-white/50 hover:text-white transition-colors"
                 >
-                  {t('nav.directory')}
+                  {t('nav.watch')}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/watch"
+                  href="/sale"
                   className="text-sm text-white/50 hover:text-white transition-colors"
                 >
-                  {t('nav.watch')}
+                  {t('nav.deals')}
                 </Link>
               </li>
               <li>

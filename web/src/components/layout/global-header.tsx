@@ -17,11 +17,9 @@ const categories = [
   { key: 'fashion', href: '/categories/k-fashion', label: 'Fashion' },
   { key: 'kpop', href: '/categories/k-pop', label: 'K-Pop' },
   { key: 'health', href: '/categories/k-health', label: 'Health' },
-  { key: 'tech', href: '/categories/k-tech', label: 'Tech' },
-  { key: 'home', href: '/categories/k-home', label: 'Home' },
   { key: 'directory', href: '/directory', label: 'Directory' },
-  { key: 'watch', href: '/watch', label: 'Watch' },
-  { key: 'deals', href: '/deals', label: 'Deals' },
+  { key: 'watch', href: '/k-contents', label: 'K-Contents' },
+  { key: 'deals', href: '/sale', label: 'Sale' },
 ] as const
 
 export function GlobalHeader() {

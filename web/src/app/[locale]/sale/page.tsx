@@ -6,11 +6,11 @@ import { FlashSale } from '@/components/deals/flash-sale'
 import { DealsGrid } from '@/components/deals/deals-grid'
 
 export const metadata: Metadata = {
-  title: 'Deals — Korean Product Deals & Promotions',
+  title: 'Sale — Korean Product Deals & Promotions',
   description: 'Discover flash sales, sponsored products, and exclusive deals on Korean goods.',
 }
 
-export default async function DealsPage() {
+export default async function SalePage() {
   const { getActiveDeals, getProducts } = await import('@/lib/queries')
   const [deals, products] = await Promise.all([
     getActiveDeals(),

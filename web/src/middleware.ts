@@ -9,7 +9,7 @@ const protectedPaths = ['/dashboard', '/seller-onboarding']
 const adminPaths = ['/admin']
 
 const categorySlugs = [
-  'k-beauty', 'k-food', 'k-fashion', 'k-pop', 'k-health', 'k-tech', 'k-home',
+  'k-beauty', 'k-food', 'k-fashion', 'k-pop', 'k-health',
   'k-stationery', 'k-baby', 'k-pets', 'k-traditional', 'k-automotive',
 ]
 

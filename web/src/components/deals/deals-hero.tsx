@@ -13,9 +13,9 @@ export function DealsHero() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-sm text-white font-medium mb-4 backdrop-blur-sm">
           <Zap className="h-3 w-3 fill-white" />
-          Hot Deals
+          Sale
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md">Deals & Promotions</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-md">Sale</h1>
         <p className="mt-3 text-white/90 max-w-xl mx-auto drop-shadow-sm">
           Exclusive discounts on Korean products. Limited-time flash sales and sponsored offers.
         </p>

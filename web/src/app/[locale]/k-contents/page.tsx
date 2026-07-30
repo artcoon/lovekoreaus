@@ -6,12 +6,12 @@ import { WatchGrid } from '@/components/watch/watch-grid'
 import { createMetadata } from '@/lib/seo/metadata'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Watch Korean Product Video Reviews — K-Beauty, K-Food, K-Pop',
+  title: 'K-Contents — Korean Product Video Reviews & Entertainment',
   description: 'Watch curated video reviews of Korean products. Discover beauty, food, fashion, K-pop, and culture through YouTube creators.',
-  path: '/watch',
+  path: '/k-contents',
 })
 
-export default async function WatchPage() {
+export default async function KContentsPage() {
   const { getVideos } = await import('@/lib/queries')
   const videos = await getVideos()
 

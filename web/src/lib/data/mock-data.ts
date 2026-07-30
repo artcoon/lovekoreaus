@@ -45,20 +45,6 @@ export const mockSellers: (SellerProfile & { certs: string[] })[] = [
     certs: [],
   },
   {
-    id: 's4', user_id: 'u4', company_name: '서울테크솔루션', company_name_en: 'Seoul Tech Solutions',
-    slug: 'seoul-tech', logo_url: '/images/brands/seoul-tech.jpg', cover_image_url: '/images/brands/seoul-tech.jpg',
-    description: '한국 시장 진출 및 현지화 전문 B2B 기술 서비스 기업입니다.',
-    description_en: 'B2B technology services provider specializing in Korean market entry and localization.',
-    seller_type: 'service', business_type: 'b2b', category_id: 'c5',
-    target_markets: ['Global'], website_url: null,
-    youtube_channel: null, contact_email: 'biz@seoultech.kr', contact_phone: null,
-    address: { city: 'Incheon', country: 'KR' }, export_history: null,
-    govt_support: true, status: 'approved', is_verified: true,
-    rating_avg: 4.9, review_count: 45, subscription_tier: 'pro',
-    created_at: '2025-01-01', updated_at: '2026-07-10',
-    certs: ['ISO'],
-  },
-  {
     id: 's5', user_id: 'u5', company_name: '제주녹차농장', company_name_en: 'Green Tea Farm Jeju',
     slug: 'green-tea-farm', logo_url: '/images/brands/green-tea-farm.jpg', cover_image_url: '/images/brands/green-tea-farm.jpg',
     description: '제주도 유기농 녹차 생산자. 프리미엄 말차와 잎차를 수출합니다.',
@@ -85,6 +71,20 @@ export const mockSellers: (SellerProfile & { certs: string[] })[] = [
     rating_avg: 4.4, review_count: 178, subscription_tier: 'free',
     created_at: '2025-02-01', updated_at: '2026-07-05',
     certs: [],
+  },
+  {
+    id: 's7', user_id: 'u7', company_name: '비원글로벌', company_name_en: 'BeOne Global',
+    slug: 'beone-global', logo_url: null, cover_image_url: null,
+    description: '한국 대표 헬스케어·웰니스 브랜드로 바이오힐링 패치와 천연 원료 기반 제품을 글로벌 시장에 공급합니다.',
+    description_en: 'Leading Korean health care and wellness brand supplying Bio Healing Patch and natural-ingredient products to global markets.',
+    seller_type: 'brand', business_type: 'both', category_id: 'c5',
+    target_markets: ['US', 'JP', 'CN', 'EU'], website_url: 'https://beone.you/',
+    youtube_channel: null, contact_email: 'global@beone.you', contact_phone: '+82-2-1234-9999',
+    address: { city: 'Seoul', country: 'KR' }, export_history: '5 years',
+    govt_support: true, status: 'approved', is_verified: true,
+    rating_avg: 4.8, review_count: 312, subscription_tier: 'pro',
+    created_at: '2024-05-01', updated_at: '2026-07-20',
+    certs: ['FDA', 'CE', 'GMP'],
   },
 ]
 
@@ -208,33 +208,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     brand: 'Korea Eundan', brandSlug: 'green-tea-farm', certs: ['GMP'], hasVideo: false,
   },
   {
-    id: 'p10', seller_id: 's4', category_id: 'c6', name: '삼성 갤럭시 버즈3 프로',
-    name_en: 'Samsung Galaxy Buds3 Pro', slug: 'galaxy-buds3-pro',
-    description: null, description_en: 'Premium wireless earbuds with intelligent ANC and Hi-Fi 360 Audio.',
-    price_min: 199.99, price_max: 199.99, moq: 10, unit: 'pcs',
-    specs: { Driver: '10.5mm + 6.1mm', ANC: 'Yes', Battery: '7h (30h w/ case)' },
-    ingredients: null, available_markets: ['US', 'JP', 'CN'],
-    shipping_info: {}, purchase_url: null, image_url: '/images/products/galaxy-buds3-pro.jpg',
-    is_sponsored: false,
-    status: 'active', rating_avg: 4.7, review_count: 2100, view_count: 32000,
-    created_at: '2025-03-01', updated_at: '2026-07-01',
-    brand: 'Samsung', brandSlug: 'seoul-tech', certs: [], hasVideo: true,
-  },
-  {
-    id: 'p11', seller_id: 's6', category_id: 'c7', name: '락앤락 인터락 밀폐용기 세트',
-    name_en: 'Lock & Lock Interlock Food Container Set', slug: 'locknlock-container-set',
-    description: null, description_en: 'Stackable airtight food storage containers, BPA-free, set of 8.',
-    price_min: 34.99, price_max: 34.99, moq: 50, unit: 'sets',
-    specs: { Pieces: '8', Material: 'Tritan', 'BPA Free': 'Yes' },
-    ingredients: null, available_markets: ['US', 'JP'],
-    shipping_info: {}, purchase_url: null, image_url: '/images/products/locknlock-container-set.jpg',
-    is_sponsored: false,
-    status: 'active', rating_avg: 4.5, review_count: 670, view_count: 7800,
-    created_at: '2025-04-01', updated_at: '2026-06-20',
-    brand: 'Lock & Lock', brandSlug: 'hallyu-goods', certs: ['FDA'], hasVideo: false,
-  },
-  {
-    id: 'p12', seller_id: 's6', category_id: 'c8', name: '모나미 플러스펜 3000 — 36색 세트',
+    id: 'p12', seller_id: 's6', category_id: 'c6', name: '모나미 플러스펜 3000 — 36색 세트',
     name_en: 'Monami Plus Pen 3000 — 36 Color Set', slug: 'monami-pluspen-36',
     description: null, description_en: 'Iconic Korean felt-tip pen set with 36 vibrant colors.',
     price_min: 15.99, price_max: 15.99, moq: 100, unit: 'sets',
@@ -247,7 +221,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     brand: 'Monami', brandSlug: 'hallyu-goods', certs: [], hasVideo: false,
   },
   {
-    id: 'p13', seller_id: 's1', category_id: 'c9', name: '곰비누 베이비 로션 300ml',
+    id: 'p13', seller_id: 's1', category_id: 'c7', name: '곰비누 베이비 로션 300ml',
     name_en: 'Goongbe Baby Lotion 300ml', slug: 'goongbe-baby-lotion',
     description: null, description_en: 'Gentle moisturizing baby lotion with Korean traditional herbal extracts.',
     price_min: 18.99, price_max: 18.99, moq: 100, unit: 'bottles',
@@ -260,7 +234,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     brand: 'Goongbe', brandSlug: 'hana-cosmetics', certs: ['EWG Verified'], hasVideo: false,
   },
   {
-    id: 'p14', seller_id: 's5', category_id: 'c10', name: '보나시보 반려견 치석제거 츄',
+    id: 'p14', seller_id: 's5', category_id: 'c8', name: '볼랩 반려견 치석제거 츄',
     name_en: 'Bow Wow Dental Chew Treats for Dogs', slug: 'bowwow-dental-chew',
     description: null, description_en: 'Natural dental chew treats that help reduce tartar and freshen breath.',
     price_min: 9.99, price_max: 9.99, moq: 200, unit: 'packs',
@@ -273,7 +247,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     brand: 'Bow Wow', brandSlug: 'green-tea-farm', certs: [], hasVideo: false,
   },
   {
-    id: 'p15', seller_id: 's6', category_id: 'c11', name: '경주 청자 찻잔 세트 — 4인용',
+    id: 'p15', seller_id: 's6', category_id: 'c9', name: '경주 청자 찻잔 세트 — 4인용',
     name_en: 'Gyeongju Celadon Tea Cup Set — 4 Pieces', slug: 'celadon-tea-cup-set',
     description: null, description_en: 'Handcrafted Korean celadon tea cups inspired by Goryeo dynasty designs.',
     price_min: 68.00, price_max: 68.00, moq: 20, unit: 'sets',
@@ -286,7 +260,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     brand: 'Korea Craft', brandSlug: 'hallyu-goods', certs: [], hasVideo: true,
   },
   {
-    id: 'p16', seller_id: 's4', category_id: 'c12', name: '한국산 자동차 코팅제 — 세라믹 프로',
+    id: 'p16', seller_id: 's6', category_id: 'c10', name: '한국산 자동차 코팅제 — 세라믹 프로',
     name_en: 'Korean Ceramic Pro Car Coating Kit', slug: 'ceramic-car-coating',
     description: null, description_en: 'Professional-grade ceramic coating kit for automotive paint protection.',
     price_min: 45.00, price_max: 45.00, moq: 50, unit: 'kits',
@@ -296,7 +270,7 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     is_sponsored: false,
     status: 'active', rating_avg: 4.3, review_count: 120, view_count: 2800,
     created_at: '2025-07-01', updated_at: '2026-07-15',
-    brand: 'Bullsone', brandSlug: 'seoul-tech', certs: [], hasVideo: true,
+    brand: 'Bullsone', brandSlug: 'hallyu-goods', certs: [], hasVideo: true,
   },
   {
     id: 'p17', seller_id: 's1', category_id: 'c1', name: '메디힐 N.M.F 아쿠아링 앰플 마스크',
@@ -324,6 +298,19 @@ export const mockProducts: (Product & { brand: string; brandSlug: string; certs:
     created_at: '2024-01-01', updated_at: '2026-06-20',
     brand: 'Nongshim', brandSlug: 'kimchi-world', certs: ['HACCP', 'Halal'], hasVideo: true,
   },
+  {
+    id: 'p19', seller_id: 's7', category_id: 'c5', name: '비원 바이오힐링 패치 — 기본 세트',
+    name_en: 'BeOne Bio Healing Patch — Basic Set', slug: 'beone-bio-healing-patch',
+    description: null, description_en: 'Korean natural-ingredient body patch for daily wellness and recovery. Made with BeOne Global\'s proprietary bio-formula.',
+    price_min: 29.99, price_max: 29.99, moq: 100, unit: 'sets',
+    specs: { Pieces: '30', 'Main Ingredient': 'Natural Bio Extracts', Origin: 'Korea' },
+    ingredients: null, available_markets: ['US', 'JP', 'CN', 'EU'],
+    shipping_info: {}, purchase_url: 'https://beone.you/', image_url: '/images/products/beone-patch.jpg',
+    is_sponsored: true,
+    status: 'active', rating_avg: 4.8, review_count: 620, view_count: 15400,
+    created_at: '2025-08-01', updated_at: '2026-07-20',
+    brand: 'BeOne Global', brandSlug: 'beone-global', certs: ['FDA', 'CE', 'GMP'], hasVideo: true,
+  },
 ]
 
 // ── Mock Videos ───────────────────────────────────────────
@@ -342,10 +329,8 @@ export const mockVideos: (Video & { category: string })[] = [
   { id: 'v2', youtube_id: 'irMP3tqFSGQ', title: 'Korean Home Meal — Marinated Raw Crabs, Fried Egg Recipe', thumbnail_url: 'https://img.youtube.com/vi/irMP3tqFSGQ/maxresdefault.jpg', channel_name: 'ASMR Mukbang', channel_id: null, duration: 1110, view_count: 1900000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c2', is_featured: false, published_at: '2026-04-20', created_at: '2026-06-01', category: 'Food' },
   { id: 'v3', youtube_id: 'pXbuEYG06rM', title: 'Korean Skincare — My Favourite Viral Products Deep Dive!', thumbnail_url: 'https://img.youtube.com/vi/pXbuEYG06rM/maxresdefault.jpg', channel_name: 'Lab Muffin Beauty Science', channel_id: null, duration: 1330, view_count: 650000, video_type: 'review', source: 'curated', seller_id: 's1', category_id: 'c1', is_featured: true, published_at: '2026-05-14', created_at: '2026-05-01', category: 'Beauty' },
   { id: 'v4', youtube_id: 'Mu91N69vvRQ', title: 'What Are People Wearing in Seoul? — Street Fashion 2024', thumbnail_url: 'https://img.youtube.com/vi/Mu91N69vvRQ/maxresdefault.jpg', channel_name: 'StyleKorea', channel_id: null, duration: 920, view_count: 430000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c3', is_featured: false, published_at: '2024-08-10', created_at: '2026-06-20', category: 'Fashion' },
-  { id: 'v6', youtube_id: '1zfwHWcR5vA', title: 'Korean Red Ginseng — Insane Health Benefits (2025 Review)', thumbnail_url: 'https://img.youtube.com/vi/1zfwHWcR5vA/maxresdefault.jpg', channel_name: 'HealthKR', channel_id: null, duration: 840, view_count: 340000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c5', is_featured: false, published_at: '2025-09-22', created_at: '2026-04-01', category: 'Beauty' },
-  { id: 'v7', youtube_id: '-lp2Kt6RJkQ', title: 'I Bought the CRAZIEST Tech from South Korea', thumbnail_url: 'https://img.youtube.com/vi/-lp2Kt6RJkQ/maxresdefault.jpg', channel_name: 'MrWhoseTheBoss', channel_id: null, duration: 1215, view_count: 5000000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c6', is_featured: false, published_at: '2024-06-20', created_at: '2026-03-01', category: 'Tech' },
+  { id: 'v6', youtube_id: '1zfwHWcR5vA', title: 'Korean Red Ginseng — Insane Health Benefits (2025 Review)', thumbnail_url: 'https://img.youtube.com/vi/1zfwHWcR5vA/maxresdefault.jpg', channel_name: 'HealthKR', channel_id: null, duration: 840, view_count: 340000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c5', is_featured: false, published_at: '2025-09-22', created_at: '2026-04-01', category: 'Health' },
   { id: 'v8', youtube_id: 'b33lk_PnUpk', title: 'KOREAN SKINCARE WORLD RANKINGS 2025', thumbnail_url: 'https://img.youtube.com/vi/b33lk_PnUpk/maxresdefault.jpg', channel_name: 'Beauty Within', channel_id: null, duration: 1000, view_count: 1500000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c1', is_featured: true, published_at: '2025-12-16', created_at: '2026-05-15', category: 'Beauty' },
-  { id: 'v9', youtube_id: 'tlGdNOtdVoU', title: 'I Tested Every New 2025 Samsung Product!', thumbnail_url: 'https://img.youtube.com/vi/tlGdNOtdVoU/maxresdefault.jpg', channel_name: 'MrWhoseTheBoss', channel_id: null, duration: 685, view_count: 2600000, video_type: 'review', source: 'curated', seller_id: null, category_id: 'c6', is_featured: false, published_at: '2025-07-09', created_at: '2026-07-01', category: 'Tech' },
 ]
 
 // ── Mock Categories ───────────────────────────────────────
@@ -355,13 +340,11 @@ export const mockCategories: Category[] = [
   { id: 'c3', parent_id: null, name: 'Fashion & Apparel', name_ko: '패션·의류', slug: 'fashion', icon: '👗', sort_order: 3, depth: 0 },
   { id: 'c4', parent_id: null, name: 'K-Pop & Entertainment', name_ko: 'K-POP·엔터', slug: 'kpop', icon: '🎵', sort_order: 4, depth: 0 },
   { id: 'c5', parent_id: null, name: 'Health & Wellness', name_ko: '건강·웰니스', slug: 'health', icon: '💊', sort_order: 5, depth: 0 },
-  { id: 'c6', parent_id: null, name: 'Technology & Electronics', name_ko: '기술·전자', slug: 'tech', icon: '📱', sort_order: 6, depth: 0 },
-  { id: 'c7', parent_id: null, name: 'Home & Living', name_ko: '홈·리빙', slug: 'home', icon: '🏠', sort_order: 7, depth: 0 },
-  { id: 'c8', parent_id: null, name: 'Stationery & Gifts', name_ko: '문구·선물', slug: 'stationery', icon: '🎁', sort_order: 8, depth: 0 },
-  { id: 'c9', parent_id: null, name: 'Baby & Kids', name_ko: '유아·아동', slug: 'baby', icon: '👶', sort_order: 9, depth: 0 },
-  { id: 'c10', parent_id: null, name: 'Pets', name_ko: '반려동물', slug: 'pets', icon: '🐾', sort_order: 10, depth: 0 },
-  { id: 'c11', parent_id: null, name: 'Traditional & Artisan', name_ko: '전통·공예', slug: 'traditional', icon: '🏺', sort_order: 11, depth: 0 },
-  { id: 'c12', parent_id: null, name: 'Automotive & Industrial', name_ko: '자동차·산업', slug: 'automotive', icon: '🚗', sort_order: 12, depth: 0 },
+  { id: 'c6', parent_id: null, name: 'Stationery & Gifts', name_ko: '문구·선물', slug: 'stationery', icon: '🎁', sort_order: 6, depth: 0 },
+  { id: 'c7', parent_id: null, name: 'Baby & Kids', name_ko: '유아·아동', slug: 'baby', icon: '👶', sort_order: 7, depth: 0 },
+  { id: 'c8', parent_id: null, name: 'Pets', name_ko: '반려동물', slug: 'pets', icon: '🐾', sort_order: 8, depth: 0 },
+  { id: 'c9', parent_id: null, name: 'Traditional & Artisan', name_ko: '전통·공예', slug: 'traditional', icon: '🏺', sort_order: 9, depth: 0 },
+  { id: 'c10', parent_id: null, name: 'Automotive & Industrial', name_ko: '자동차·산업', slug: 'automotive', icon: '🚗', sort_order: 10, depth: 0 },
 ]
 
 // ── Mock Reviews ──────────────────────────────────────────

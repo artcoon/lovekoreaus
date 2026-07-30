@@ -12,9 +12,9 @@
     "health": "K-健康",
     "tech": "K-科技",
     "home": "K-家居",
-    "directory": "企业目录",
-    "watch": "视频",
-    "deals": "优惠",
+    "directory": "企业介绍",
+    "watch": "K-内容",
+    "deals": "促销",
     "forSellers": "商家入驻",
     "login": "登录",
     "signup": "注册",
@@ -50,7 +50,7 @@
     "sponsored": "推广"
   },
   "watchSection": {
-    "title": "视频发现",
+    "title": "K-内容",
     "subtitle": "YouTube热门视频评测",
     "viewAll": "查看所有视频"
   },

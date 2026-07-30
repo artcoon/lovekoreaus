@@ -61,6 +61,7 @@ export async function getProducts(options?: { category?: string; sellerId?: stri
         brand: seller?.company_name_en || p.name_en?.split(' ')[0] || 'Korean Brand',
         brandSlug: seller?.slug || '',
         hasVideo: false,
+        youtube_id: null,
         certs: [] as string[],
         image_url: p.image_url || getProductImage(p.slug),
       }
@@ -84,6 +85,7 @@ export async function getProductBySlug(slug: string) {
       brand: seller?.company_name_en || d.name_en?.split(' ')[0] || 'Korean Brand',
       brandSlug: seller?.slug || '',
       hasVideo: false,
+      youtube_id: null,
       certs: [] as string[],
       image_url: d.image_url || getProductImage(slug),
     }
@@ -103,14 +105,46 @@ export async function getVideos(options?: { category?: string; featured?: boolea
     if (error) console.error('getVideos error:', error)
     return (data ?? []).map((v: any) => {
       const override = VIDEO_OVERRIDES[v.id]
-      return override ? { ...v, ...override } : v
+      const video = override ? { ...v, ...override } : v
+      return {
+        ...video,
+        id: video.id,
+        youtube_id: video.youtube_id || video.youtubeId,
+        title: video.title,
+        channel: video.channel_name || video.channel || '',
+        views: formatViews(video.view_count ?? video.views ?? 0),
+        duration: formatDuration(video.duration ?? 0),
+      }
     })
   }
   let videos = mockVideos
   if (options?.category) videos = videos.filter((v) => v.category === options.category)
   if (options?.featured) videos = videos.filter((v) => v.is_featured)
   if (options?.limit) videos = videos.slice(0, options.limit)
-  return videos
+  return videos.map((video) => ({
+    ...video,
+    id: video.id,
+    youtube_id: video.youtube_id || (video as any).youtubeId,
+    title: video.title,
+    channel: video.channel_name || (video as any).channel || '',
+    views: formatViews(video.view_count ?? (video as any).views ?? 0),
+    duration: formatDuration(video.duration ?? 0),
+  }))
+}
+
+function formatViews(v: number | string): string {
+  if (typeof v === 'string') return v
+  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1).replace(/\.0$/, '')}B`
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(1).replace(/\.0$/, '')}M`
+  if (v >= 1_000) return `${Math.round(v / 1_000)}K`
+  return String(v)
+}
+
+function formatDuration(d: number | string): string {
+  if (typeof d === 'string') return d
+  const m = Math.floor(d / 60)
+  const s = d % 60
+  return `${m}:${s.toString().padStart(2, '0')}`
 }
 
 // ── Categories ────────────────────────────────────────────

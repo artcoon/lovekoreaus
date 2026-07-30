@@ -5,7 +5,7 @@ import { DirectoryPageClient } from '@/components/directory/directory-page-clien
 import { createMetadata } from '@/lib/seo/metadata'
 
 export const metadata: Metadata = createMetadata({
-  title: 'Korean Business Directory — Verified Manufacturers & Brands',
+  title: 'Company Profiles — Verified Korean Manufacturers & Brands',
   description: 'Browse verified Korean manufacturers, brands, and service providers. Filter by category, target market, and certification.',
   path: '/directory',
 })

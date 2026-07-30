@@ -6,8 +6,6 @@ import {
   Shirt,
   Music,
   Heart,
-  Cpu,
-  Home,
   Gift,
   Baby,
   PawPrint,
@@ -21,13 +19,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
   fashion: '/images/landscapes/hanok-village-3.jpg',
   kpop: '/images/landscapes/hanok-village-4.jpg',
   health: '/images/landscapes/hanok-village-5.jpg',
-  tech: '/images/landscapes/hanok-village-6.jpg',
-  home: '/images/landscapes/hanok-village-7.jpg',
-  stationery: '/images/landscapes/hanok-village-8.jpg',
-  baby: '/images/landscapes/hanok-village-9.jpg',
-  pets: '/images/landscapes/hanok-village-10.jpg',
-  traditional: '/images/landscapes/hanok-village-11.jpg',
-  automotive: '/images/landscapes/hanok-village-1.jpg',
+  stationery: '/images/landscapes/hanok-village-6.jpg',
+  baby: '/images/landscapes/hanok-village-7.jpg',
+  pets: '/images/landscapes/hanok-village-8.jpg',
+  traditional: '/images/landscapes/hanok-village-9.jpg',
+  automotive: '/images/landscapes/hanok-village-10.jpg',
 }
 
 const categories = [
@@ -36,8 +32,6 @@ const categories = [
   { key: 'fashion', icon: Shirt, href: '/categories/k-fashion', color: 'bg-purple-200 text-purple-800 shadow-sm shadow-purple-300/50', label: 'K-Fashion & Apparel' },
   { key: 'kpop', icon: Music, href: '/categories/k-pop', color: 'bg-blue-200 text-blue-800 shadow-sm shadow-blue-300/50', label: 'K-Pop & Entertainment' },
   { key: 'health', icon: Heart, href: '/categories/k-health', color: 'bg-emerald-200 text-emerald-800 shadow-sm shadow-emerald-300/50', label: 'K-Health & Wellness' },
-  { key: 'tech', icon: Cpu, href: '/categories/k-tech', color: 'bg-cyan-200 text-cyan-800 shadow-sm shadow-cyan-300/50', label: 'K-Technology' },
-  { key: 'home', icon: Home, href: '/categories/k-home', color: 'bg-amber-200 text-amber-800 shadow-sm shadow-amber-300/50', label: 'K-Home & Living' },
   { key: 'stationery', icon: Gift, href: '/categories/k-stationery', color: 'bg-violet-200 text-violet-800 shadow-sm shadow-violet-300/50', label: 'K-Stationery & Gifts' },
   { key: 'baby', icon: Baby, href: '/categories/k-baby', color: 'bg-rose-200 text-rose-800 shadow-sm shadow-rose-300/50', label: 'K-Baby & Kids' },
   { key: 'pets', icon: PawPrint, href: '/categories/k-pets', color: 'bg-lime-200 text-lime-800 shadow-sm shadow-lime-300/50', label: 'K-Pets' },
@@ -54,7 +48,7 @@ export function CategoryGrid() {
         <h2 className="text-2xl sm:text-3xl font-bold text-navy">
           {t('categories.title')}
         </h2>
-        <p className="mt-2 text-gray-500 text-sm">Browse products across 12 categories</p>
+        <p className="mt-2 text-gray-500 text-sm">Browse products across 10 categories</p>
         <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {categories.map((cat) => (
             <Link

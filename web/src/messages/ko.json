@@ -12,9 +12,9 @@
     "health": "K-건강",
     "tech": "K-테크",
     "home": "K-홈리빙",
-    "directory": "업소록",
-    "watch": "영상",
-    "deals": "딜",
+    "directory": "기업소개",
+    "watch": "K-콘텐츠",
+    "deals": "세일",
     "forSellers": "셀러 등록",
     "login": "로그인",
     "signup": "회원가입",
@@ -50,7 +50,7 @@
     "sponsored": "스폰서"
   },
   "watchSection": {
-    "title": "영상으로 만나다",
+    "title": "K-콘텐츠",
     "subtitle": "YouTube 인기 영상 리뷰",
     "viewAll": "전체 영상 보기"
   },

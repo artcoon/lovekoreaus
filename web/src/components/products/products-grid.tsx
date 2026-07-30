@@ -5,8 +5,8 @@ import { Link } from '@/i18n/navigation'
 import {
   Star, Play, SlidersHorizontal, Grid3X3, LayoutList,
   ChevronDown, ShieldCheck, ImageIcon, ArrowUpDown, X,
-  Sparkles, UtensilsCrossed, Shirt, Music, Heart, Cpu,
-  Home, Gift, Baby, PawPrint, Amphora, Car, Package
+  Sparkles, UtensilsCrossed, Shirt, Music, Heart,
+  Gift, Baby, PawPrint, Amphora, Car, Package
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -18,13 +18,11 @@ const CATEGORY_MAP: Record<string, { label: string; icon: typeof Sparkles; slug:
   c3: { label: 'Fashion & Apparel', icon: Shirt, slug: 'fashion' },
   c4: { label: 'K-Pop & Entertainment', icon: Music, slug: 'kpop' },
   c5: { label: 'Health & Wellness', icon: Heart, slug: 'health' },
-  c6: { label: 'Technology & Electronics', icon: Cpu, slug: 'tech' },
-  c7: { label: 'Home & Living', icon: Home, slug: 'home' },
-  c8: { label: 'Stationery & Gifts', icon: Gift, slug: 'stationery' },
-  c9: { label: 'Baby & Kids', icon: Baby, slug: 'baby' },
-  c10: { label: 'Pets', icon: PawPrint, slug: 'pets' },
-  c11: { label: 'Traditional & Artisan', icon: Amphora, slug: 'traditional' },
-  c12: { label: 'Automotive & Industrial', icon: Car, slug: 'automotive' },
+  c6: { label: 'Stationery & Gifts', icon: Gift, slug: 'stationery' },
+  c7: { label: 'Baby & Kids', icon: Baby, slug: 'baby' },
+  c8: { label: 'Pets', icon: PawPrint, slug: 'pets' },
+  c9: { label: 'Traditional & Artisan', icon: Amphora, slug: 'traditional' },
+  c10: { label: 'Automotive & Industrial', icon: Car, slug: 'automotive' },
 }
 
 type SortOption = 'popular' | 'newest' | 'price-low' | 'price-high' | 'rating'

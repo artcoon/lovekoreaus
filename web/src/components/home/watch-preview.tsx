@@ -2,8 +2,9 @@
 
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Play, Eye, Clock } from 'lucide-react'
+import { Eye, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { YouTubeEmbed } from '@/components/shared/youtube-embed'
 import { trackVideoPlay } from '@/lib/analytics'
 
 export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; title?: string; subtitle?: string }) {
@@ -16,14 +17,13 @@ export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; titl
     category: v.category || 'K-Pop',
     views: formatViews(v.view_count ?? v.views ?? 0),
     duration: formatDuration(v.duration ?? 0),
-    thumbnail: v.thumbnail_url || v.thumbnail || `https://img.youtube.com/vi/${v.youtube_id || v.youtubeId}/maxresdefault.jpg`,
   })) : [
-    { id: 'v-kpop-1', youtubeId: '9bZkp7q19f0', title: 'PSY - GANGNAM STYLE', channel: 'officialpsy', category: 'K-Pop', views: '5.3B', duration: '4:12', thumbnail: 'https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg' },
-    { id: 'v-kpop-2', youtubeId: 'IHNzOHi8sJg', title: 'BLACKPINK - DDU-DU DDU-DU', channel: 'BLACKPINK', category: 'K-Pop', views: '2.2B', duration: '3:29', thumbnail: 'https://img.youtube.com/vi/IHNzOHi8sJg/maxresdefault.jpg' },
-    { id: 'v-kpop-3', youtubeId: 'gdZLi9oWNZg', title: 'BTS - Dynamite', channel: 'HYBE LABELS', category: 'K-Pop', views: '1.8B', duration: '3:43', thumbnail: 'https://img.youtube.com/vi/gdZLi9oWNZg/maxresdefault.jpg' },
-    { id: 'v-kpop-4', youtubeId: 'ioNng3aEcAA', title: 'BLACKPINK - How You Like That', channel: 'BLACKPINK', category: 'K-Pop', views: '1.3B', duration: '3:01', thumbnail: 'https://img.youtube.com/vi/ioNng3aEcAA/maxresdefault.jpg' },
-    { id: 'v-kpop-5', youtubeId: 'WMweEpGlu_U', title: 'BTS - Butter', channel: 'HYBE LABELS', category: 'K-Pop', views: '900M', duration: '3:23', thumbnail: 'https://img.youtube.com/vi/WMweEpGlu_U/maxresdefault.jpg' },
-    { id: 'v-kpop-6', youtubeId: '11cta61wiQ8', title: 'NewJeans - Hype Boy', channel: 'HYBE LABELS', category: 'K-Pop', views: '250M', duration: '2:59', thumbnail: 'https://img.youtube.com/vi/11cta61wiQ8/maxresdefault.jpg' },
+    { id: 'v-kpop-1', youtubeId: '9bZkp7q19f0', title: 'PSY - GANGNAM STYLE', channel: 'officialpsy', category: 'K-Pop', views: '5.3B', duration: '4:12' },
+    { id: 'v-kpop-2', youtubeId: 'IHNzOHi8sJg', title: 'BLACKPINK - DDU-DU DDU-DU', channel: 'BLACKPINK', category: 'K-Pop', views: '2.2B', duration: '3:29' },
+    { id: 'v-kpop-3', youtubeId: 'gdZLi9oWNZg', title: 'BTS - Dynamite', channel: 'HYBE LABELS', category: 'K-Pop', views: '1.8B', duration: '3:43' },
+    { id: 'v-kpop-4', youtubeId: 'ioNng3aEcAA', title: 'BLACKPINK - How You Like That', channel: 'BLACKPINK', category: 'K-Pop', views: '1.3B', duration: '3:01' },
+    { id: 'v-kpop-5', youtubeId: 'WMweEpGlu_U', title: 'BTS - Butter', channel: 'HYBE LABELS', category: 'K-Pop', views: '900M', duration: '3:23' },
+    { id: 'v-kpop-6', youtubeId: '11cta61wiQ8', title: 'NewJeans - Hype Boy', channel: 'HYBE LABELS', category: 'K-Pop', views: '250M', duration: '2:59' },
   ]
 
   return (
@@ -34,7 +34,7 @@ export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; titl
             {title || t('watch.sectionTitle')}
           </h2>
           <Link
-            href="/watch"
+            href="/k-contents"
             className="text-sm text-navy hover:text-accent-red font-medium transition-colors"
           >
             {t('common.viewAll')} →
@@ -48,26 +48,14 @@ export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; titl
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((video) => (
-            <a
+            <div
               key={video.id}
-              href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-              target="_blank"
-              rel="noopener noreferrer"
               onClick={() => trackVideoPlay(video.youtubeId, video.title, video.category)}
               className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-gray-100"
             >
               <div className="relative aspect-video bg-gray-200 overflow-hidden">
-                <img
-                  src={video.thumbnail}
-                  alt={video.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
-                  <div className="w-14 h-14 rounded-full bg-accent-red flex items-center justify-center shadow-lg">
-                    <Play className="h-6 w-6 text-white fill-white ml-0.5" />
-                  </div>
-                </div>
-                <div className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2 py-0.5 rounded font-mono flex items-center gap-1">
+                <YouTubeEmbed youtubeId={video.youtubeId} title={video.title} className="rounded-none" />
+                <div className="absolute bottom-2 right-2 bg-black/75 text-white text-xs px-2 py-0.5 rounded font-mono flex items-center gap-1 pointer-events-none">
                   <Clock className="h-3 w-3" />
                   {video.duration}
                 </div>
@@ -87,7 +75,7 @@ export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; titl
                   {video.category}
                 </Badge>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>

@@ -20,10 +20,13 @@ const urlToDbSlug: Record<string, string> = {
   'k-beauty': 'beauty',
   'k-food': 'food',
   'k-fashion': 'fashion',
-  'k-pop': 'k-culture',
+  'k-pop': 'kpop',
   'k-health': 'health',
-  'k-tech': 'electronics',
-  'k-home': 'home-living',
+  'k-stationery': 'stationery',
+  'k-baby': 'baby',
+  'k-pets': 'pets',
+  'k-traditional': 'traditional',
+  'k-automotive': 'automotive',
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {

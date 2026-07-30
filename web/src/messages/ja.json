@@ -12,9 +12,9 @@
     "health": "K-ヘルス",
     "tech": "K-テック",
     "home": "K-ホーム",
-    "directory": "ディレクトリ",
-    "watch": "動画",
-    "deals": "ディール",
+    "directory": "企業紹介",
+    "watch": "K-コンテンツ",
+    "deals": "セール",
     "forSellers": "出品者登録",
     "login": "ログイン",
     "signup": "新規登録",
@@ -50,7 +50,7 @@
     "sponsored": "スポンサー"
   },
   "watchSection": {
-    "title": "動画で発見",
+    "title": "K-コンテンツ",
     "subtitle": "YouTubeの人気動画レビュー",
     "viewAll": "すべての動画を見る"
   },

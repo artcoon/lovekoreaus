@@ -29,6 +29,13 @@ export async function middleware(request: NextRequest) {
   const intlResponse = intlMiddleware(request)
   const response = intlResponse || NextResponse.next({ request })
 
+  // Disable Edge Network cache for content pages that depend on DB video categories
+  if (pathname.includes('/k-contents') || pathname.includes('/categories/k-pop')) {
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+  }
+
   // If Supabase is not configured, skip auth
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
     return response

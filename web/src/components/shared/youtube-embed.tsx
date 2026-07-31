@@ -24,6 +24,13 @@ export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '
     }
   }
 
+  const handleThumbLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    // YouTube returns a tiny 120x90 placeholder for missing maxresdefault thumbnails.
+    if (thumbSrc.includes('/maxresdefault.jpg') && e.currentTarget.naturalWidth <= 120) {
+      setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`)
+    }
+  }
+
   return (
     <div className={`relative w-full bg-gray-900 rounded-2xl overflow-hidden ${className}`}>
       {active ? (
@@ -52,6 +59,7 @@ export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '
           <img
             src={thumbSrc}
             alt={title}
+            onLoad={handleThumbLoad}
             onError={handleThumbError}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"

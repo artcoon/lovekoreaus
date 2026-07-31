@@ -12,8 +12,17 @@ interface YouTubeEmbedProps {
 
 export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '', autoplay = false }: YouTubeEmbedProps) {
   const [active, setActive] = useState(autoplay)
+  const [thumbSrc, setThumbSrc] = useState(`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`)
 
   if (!youtubeId) return null
+
+  const handleThumbError = () => {
+    if (thumbSrc.includes('/maxresdefault.jpg')) {
+      setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`)
+    } else if (thumbSrc.includes('/hqdefault.jpg')) {
+      setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`)
+    }
+  }
 
   return (
     <div className={`relative w-full bg-gray-900 rounded-2xl overflow-hidden ${className}`}>
@@ -41,8 +50,9 @@ export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '
           aria-label={`Play ${title}`}
         >
           <img
-            src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+            src={thumbSrc}
             alt={title}
+            onError={handleThumbError}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />

@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   const kpopVideos = mockVideos
     .filter((v) => v.category === 'K-Pop' && v.is_featured)
-    .slice(0, 6)
+    .slice(0, 10)
 
   return (
     <>

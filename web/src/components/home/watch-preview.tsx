@@ -9,7 +9,7 @@ import { trackVideoPlay } from '@/lib/analytics'
 
 export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; title?: string; subtitle?: string }) {
   const t = useTranslations()
-  const items = videos?.length ? videos.slice(0, 6).map((v: any) => ({
+  const items = videos?.length ? videos.slice(0, 10).map((v: any) => ({
     id: v.id,
     youtubeId: v.youtube_id || v.youtubeId || '',
     title: v.title || '',
@@ -19,11 +19,11 @@ export function WatchPreview({ videos, title, subtitle }: { videos?: any[]; titl
     duration: formatDuration(v.duration ?? 0),
   })) : [
     { id: 'v-kpop-1', youtubeId: '9bZkp7q19f0', title: 'PSY - GANGNAM STYLE', channel: 'officialpsy', category: 'K-Pop', views: '5.3B', duration: '4:12' },
-    { id: 'v-kpop-2', youtubeId: 'IHNzOHi8sJg', title: 'BLACKPINK - DDU-DU DDU-DU', channel: 'BLACKPINK', category: 'K-Pop', views: '2.2B', duration: '3:29' },
+    { id: 'v-kpop-2', youtubeId: 'IHNzOHi8sJs', title: 'BLACKPINK - DDU-DU DDU-DU', channel: 'BLACKPINK', category: 'K-Pop', views: '2.2B', duration: '3:29' },
     { id: 'v-kpop-3', youtubeId: 'gdZLi9oWNZg', title: 'BTS - Dynamite', channel: 'HYBE LABELS', category: 'K-Pop', views: '1.8B', duration: '3:43' },
-    { id: 'v-kpop-4', youtubeId: 'ioNng3aEcAA', title: 'BLACKPINK - How You Like That', channel: 'BLACKPINK', category: 'K-Pop', views: '1.3B', duration: '3:01' },
+    { id: 'v-kpop-4', youtubeId: 'ioNng23DkIM', title: 'BLACKPINK - How You Like That', channel: 'BLACKPINK', category: 'K-Pop', views: '1.3B', duration: '3:01' },
     { id: 'v-kpop-5', youtubeId: 'WMweEpGlu_U', title: 'BTS - Butter', channel: 'HYBE LABELS', category: 'K-Pop', views: '900M', duration: '3:23' },
-    { id: 'v-kpop-6', youtubeId: '11cta61wiQ8', title: 'NewJeans - Hype Boy', channel: 'HYBE LABELS', category: 'K-Pop', views: '250M', duration: '2:59' },
+    { id: 'v-kpop-6', youtubeId: '11cta61wi0g', title: 'NewJeans - Hype Boy', channel: 'HYBE LABELS', category: 'K-Pop', views: '250M', duration: '2:59' },
   ]
 
   return (

@@ -98,7 +98,7 @@ export function GlobalFooter() {
           {/* Legal */}
           <div>
             <h3 className="text-sm font-semibold mb-3 text-white/80">
-              {t('footer.about')}
+              Company
             </h3>
             <ul className="space-y-2">
               {footerLinks.map((link) => (

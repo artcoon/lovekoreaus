@@ -29,8 +29,8 @@ export async function middleware(request: NextRequest) {
   const intlResponse = intlMiddleware(request)
   const response = intlResponse || NextResponse.next({ request })
 
-  // Disable Edge Network cache for content pages that depend on DB video categories
-  if (pathname.includes('/k-contents') || pathname.includes('/categories/k-pop')) {
+  // Disable Edge Network cache for content pages that depend on DB data
+  if (pathname.includes('/k-contents') || pathname.includes('/categories/')) {
     response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
     response.headers.set('Pragma', 'no-cache')
     response.headers.set('Expires', '0')

@@ -17,11 +17,11 @@ export function SellerHero() {
   return (
     <section className="relative bg-navy overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-75"
         style={{ backgroundImage: "url('/images/landscapes/hanok-village-6.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-80" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(200,32,47,0.2),transparent_60%)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-navy/55 via-navy-light/30 to-navy/25" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(200,32,47,0.12),transparent_60%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
         <div className="max-w-3xl">

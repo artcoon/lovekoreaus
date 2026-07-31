@@ -25,9 +25,10 @@ export function GlobalFooter() {
   return (
     <footer className="relative bg-navy text-white overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center opacity-35 pointer-events-none"
         style={{ backgroundImage: "url('/images/landscapes/hanok-village-4.jpg')" }}
       />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/75 to-navy/60" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}

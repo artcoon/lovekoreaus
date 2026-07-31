@@ -17,16 +17,15 @@ export function HeroSection() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: "url('/images/landscapes/hanok-village-1.jpg')" }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/85 to-navy/60" />
-      <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-navy opacity-60" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(200,32,47,0.2),transparent_50%)]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-navy/60 via-navy/35 to-navy/20" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(200,32,47,0.15),transparent_50%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
         <div className="max-w-2xl">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight drop-shadow-lg">
             {t('headline')}
           </h1>
-          <p className="mt-6 text-lg text-white/70 leading-relaxed max-w-xl">
+          <p className="mt-6 text-lg text-white/80 leading-relaxed max-w-xl drop-shadow-md">
             {t('subtext')}
           </p>
 

@@ -64,10 +64,10 @@ export function ProductDetail({ slug, product, reviews }: { slug: string; produc
       {/* Korean cultural accent banner */}
       <div className="mb-6 relative rounded-2xl overflow-hidden h-24 sm:h-32">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-40"
+          className="absolute inset-0 bg-cover bg-center opacity-70"
           style={{ backgroundImage: "url('/images/landscapes/hanok-village-2.jpg')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-navy/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/50 to-transparent" />
         <div className="relative z-10 flex items-center h-full px-6 sm:px-8">
           <div>
             <p className="text-xs font-medium text-white/70 uppercase tracking-wider">Verified Korean Product</p>

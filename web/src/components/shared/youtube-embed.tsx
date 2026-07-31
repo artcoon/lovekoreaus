@@ -12,22 +12,14 @@ interface YouTubeEmbedProps {
 
 export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '', autoplay = false }: YouTubeEmbedProps) {
   const [active, setActive] = useState(autoplay)
-  const [thumbSrc, setThumbSrc] = useState(`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`)
+  // Start with hqdefault because maxresdefault often returns a tiny placeholder for many videos.
+  const [thumbSrc, setThumbSrc] = useState(`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`)
 
   if (!youtubeId) return null
 
   const handleThumbError = () => {
-    if (thumbSrc.includes('/maxresdefault.jpg')) {
-      setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`)
-    } else if (thumbSrc.includes('/hqdefault.jpg')) {
+    if (thumbSrc.includes('/hqdefault.jpg')) {
       setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`)
-    }
-  }
-
-  const handleThumbLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    // YouTube returns a tiny 120x90 placeholder for missing maxresdefault thumbnails.
-    if (thumbSrc.includes('/maxresdefault.jpg') && e.currentTarget.naturalWidth <= 120) {
-      setThumbSrc(`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`)
     }
   }
 
@@ -59,7 +51,6 @@ export function YouTubeEmbed({ youtubeId, title = 'YouTube video', className = '
           <img
             src={thumbSrc}
             alt={title}
-            onLoad={handleThumbLoad}
             onError={handleThumbError}
             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"

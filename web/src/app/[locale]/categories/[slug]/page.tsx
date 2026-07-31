@@ -1,19 +1,11 @@
 import type { Metadata } from 'next'
+import { unstable_noStore } from 'next/cache'
 import { GlobalHeader } from '@/components/layout/global-header'
 import { GlobalFooter } from '@/components/layout/global-footer'
 import { ProductsPageClient } from '@/components/products/products-page-client'
 
 interface CategoryPageProps {
   params: Promise<{ locale: string; slug: string }>
-}
-
-export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
-  const { slug } = await params
-  const title = slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-  return {
-    title: `${title} — Korean Products Marketplace | LoveKorea.us`,
-    description: `Browse verified Korean ${slug.replace(/-/g, ' ')} products. Compare prices, read reviews, and connect with sellers.`,
-  }
 }
 
 const urlToDbSlug: Record<string, string> = {
@@ -23,13 +15,34 @@ const urlToDbSlug: Record<string, string> = {
   'k-pop': 'kpop',
   'k-health': 'health',
   'k-stationery': 'stationery',
-  'k-baby': 'baby',
-  'k-pets': 'pets',
+  'k-culture': 'traditional',
   'k-traditional': 'traditional',
-  'k-automotive': 'automotive',
 }
 
+const displayNames: Record<string, string> = {
+  beauty: 'K-Beauty & Skincare',
+  food: 'K-Food & Beverage',
+  fashion: 'K-Fashion & Apparel',
+  kpop: 'K-Pop & Entertainment',
+  health: 'K-Health & Wellness',
+  stationery: 'K-Stationery & Gifts',
+  traditional: 'K-Culture & Heritage',
+}
+
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
+  const { slug } = await params
+  const dbSlug = urlToDbSlug[slug.toLowerCase()] || slug
+  const title = displayNames[dbSlug] || slug.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+  return {
+    title: `${title} — Korean Products Marketplace | LoveKorea.us`,
+    description: `Browse verified Korean ${title} products. Compare prices, read reviews, and connect with sellers.`,
+  }
+}
+
+export const dynamic = 'force-dynamic'
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
+  unstable_noStore()
   const { slug } = await params
   const { getProducts, getCategories } = await import('@/lib/queries')
 
@@ -60,7 +73,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <main className="flex-1 bg-gray-50">
         <ProductsPageClient
           products={filteredProducts as any}
-          categoryTitle={category?.name_en || category?.name || slug.replace(/-/g, ' ')}
+          categoryTitle={displayNames[category?.slug || dbSlug] || category?.name_en || category?.name || slug.replace(/-/g, ' ')}
         />
       </main>
       <GlobalFooter />

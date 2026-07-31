@@ -27,7 +27,7 @@ const categories = [
   { key: 'kpop', icon: Music, href: '/categories/k-pop', color: 'bg-blue-200 text-blue-800 shadow-sm shadow-blue-300/50', label: 'K-Pop & Entertainment' },
   { key: 'health', icon: Heart, href: '/categories/k-health', color: 'bg-emerald-200 text-emerald-800 shadow-sm shadow-emerald-300/50', label: 'K-Health & Wellness' },
   { key: 'stationery', icon: Gift, href: '/categories/k-stationery', color: 'bg-violet-200 text-violet-800 shadow-sm shadow-violet-300/50', label: 'K-Stationery & Gifts' },
-  { key: 'traditional', icon: Amphora, href: '/categories/k-traditional', color: 'bg-teal-200 text-teal-800 shadow-sm shadow-teal-300/50', label: 'K-Culture & Heritage' },
+  { key: 'traditional', icon: Amphora, href: '/categories/k-culture', color: 'bg-teal-200 text-teal-800 shadow-sm shadow-teal-300/50', label: 'K-Culture & Heritage' },
 ]
 
 export function CategoryGrid() {

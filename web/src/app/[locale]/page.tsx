@@ -8,8 +8,7 @@ import { FeaturedProducts } from '@/components/home/featured-products'
 import { WatchPreview } from '@/components/home/watch-preview'
 import { FeaturedBrands } from '@/components/home/featured-brands'
 import { SellerCta } from '@/components/home/seller-cta'
-import { getFeaturedProducts, getFeaturedSellers } from '@/lib/queries'
-import { mockVideos } from '@/lib/data/mock-data'
+import { getFeaturedProducts, getFeaturedSellers, getVideos } from '@/lib/queries'
 import { createMetadata } from '@/lib/seo/metadata'
 import { JsonLd } from '@/components/seo/json-ld'
 import { organizationJsonLd, websiteJsonLd } from '@/lib/seo/json-ld'
@@ -23,13 +22,14 @@ export const metadata = createMetadata({
 })
 
 export default async function HomePage() {
-  const [products, sellers] = await Promise.all([
+  const [products, sellers, videos] = await Promise.all([
     getFeaturedProducts(4),
     getFeaturedSellers(4),
+    getVideos({ limit: 50 }),
   ])
 
-  const kpopVideos = mockVideos
-    .filter((v) => v.category === 'K-Pop' && v.is_featured)
+  const kpopVideos = videos
+    .filter((v: any) => v.category === 'K-Pop')
     .slice(0, 10)
 
   return (

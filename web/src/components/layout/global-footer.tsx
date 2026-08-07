@@ -2,11 +2,11 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 
 const footerCategories = [
-  { key: 'beauty', href: '/products?category=beauty' },
-  { key: 'food', href: '/products?category=food' },
-  { key: 'fashion', href: '/products?category=fashion' },
-  { key: 'kpop', href: '/products?category=kpop' },
-  { key: 'health', href: '/products?category=health' },
+  { key: 'beauty', href: '/categories/k-beauty' },
+  { key: 'food', href: '/categories/k-food' },
+  { key: 'fashion', href: '/categories/k-fashion' },
+  { key: 'kpop', href: '/categories/k-pop' },
+  { key: 'health', href: '/categories/k-health' },
   { key: 'kculture', href: '/categories/k-culture' },
   { key: 'directory', href: '/directory' },
 ] as const

@@ -98,7 +98,7 @@ export async function getProductBySlug(slug: string) {
 export async function getVideos(options?: { category?: string; featured?: boolean; limit?: number }) {
   const supabase = await getSupabase()
   if (supabase) {
-    let query = supabase.from('videos').select('*, categories!left(slug)')
+    let query = supabase.from('videos').select('*, categories!left(slug)').order('view_count', { ascending: false })
     if (options?.featured) query = query.eq('is_featured', true)
     if (options?.limit) query = query.limit(options.limit)
     const { data, error } = await query
@@ -136,13 +136,13 @@ export async function getVideos(options?: { category?: string; featured?: boolea
 
 function getCategoryDisplay(slug: string): string {
   const map: Record<string, string> = {
-    beauty: 'Beauty',
-    food: 'Food',
-    fashion: 'Fashion',
-    'k-culture': 'K-Pop',
+    beauty: 'K-Beauty',
+    food: 'K-Food',
+    fashion: 'K-Fashion',
+    'k-culture': 'K-Culture',
     kpop: 'K-Pop',
-    health: 'Health',
-    stationery: 'Stationery',
+    health: 'K-Health',
+    stationery: 'K-Stationery',
     baby: 'Baby',
     pets: 'Pets',
     traditional: 'K-Culture',

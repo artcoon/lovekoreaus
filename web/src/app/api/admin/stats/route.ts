@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { requireAdmin } from '@/lib/auth/admin'
 
 // Mock admin stats for testing when DB is unreachable
 function mockStats() {
@@ -24,6 +25,9 @@ function mockStats() {
 }
 
 export async function GET() {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json(mockStats())
   }

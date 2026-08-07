@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { requireAdmin } from '@/lib/auth/admin'
 
 const mockLeads = [
   { id: 'l1', type: 'quote', status: 'new', buyer_name: 'John Doe', buyer_email: 'john@example.com', buyer_company: 'Global Beauty Inc', buyer_country: 'US', message: 'Interested in 500 units for US distribution. Please quote.', quantity: 500, created_at: new Date().toISOString(), replied_at: null, products: { name_en: 'Snail Essence' }, seller_profiles: { company_name_en: 'Hana Cosmetics Co.' } },
@@ -8,6 +9,9 @@ const mockLeads = [
 ]
 
 export async function GET() {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json(mockLeads)
 
   try {
@@ -26,6 +30,9 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json({ success: true })
 
   try {
@@ -48,6 +55,9 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json({ success: true })
 
   try {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
+import { requireAdmin } from '@/lib/auth/admin'
 
 const mockReviews = [
   { id: 'r1', rating: 5, status: 'active', reviewer_name: 'Mike Brown', reviewer_country: 'US', comment: 'Great product! Fast shipping and excellent quality.', created_at: new Date().toISOString(), products: { name_en: 'Snail Mucin Essence' }, seller_profiles: null },
@@ -8,6 +9,9 @@ const mockReviews = [
 ]
 
 export async function GET() {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json(mockReviews)
 
   try {
@@ -26,6 +30,9 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json({ success: true })
 
   try {
@@ -48,6 +55,9 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) return NextResponse.json({ success: true })
 
   try {

@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isSupabaseConfigured } from '@/lib/supabase/config'
 import { mockProducts } from '@/lib/data/mock-data'
+import { requireAdmin } from '@/lib/auth/admin'
 
 export async function GET() {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json(mockProducts)
   }
@@ -22,6 +26,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ success: true }, { status: 201 })
   }
@@ -39,6 +46,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ success: true })
   }
@@ -57,6 +67,9 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const adminError = await requireAdmin()
+  if (adminError) return adminError
+
   if (!isSupabaseConfigured()) {
     return NextResponse.json({ success: true })
   }

@@ -8,11 +8,11 @@ import { trackVideoPlay } from '@/lib/analytics'
 
 const categories = [
   { value: 'All', label: 'All' },
-  { value: 'Beauty', label: 'K-Beauty' },
-  { value: 'Food', label: 'K-Food' },
-  { value: 'Fashion', label: 'K-Fashion' },
+  { value: 'K-Beauty', label: 'K-Beauty' },
+  { value: 'K-Food', label: 'K-Food' },
+  { value: 'K-Fashion', label: 'K-Fashion' },
   { value: 'K-Pop', label: 'K-Pop' },
-  { value: 'Health', label: 'K-Health' },
+  { value: 'K-Health', label: 'K-Health' },
   { value: 'K-Culture', label: 'K-Culture' },
 ]
 
